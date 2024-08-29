@@ -2,11 +2,11 @@ const apiKey = "37d7e055234a0531d45416a1d56745eb";
 const imgApi = "https://image.tmdb.org/t/p/w1280";
 const searchUrl = `https://api.themoviedb.org/3/search/multi?api_key=${apiKey}&query=`;
 
-const form = document.getElementById("search-form");
-const query = document.getElementById("search-input");
+const form = document.getElementById("searchForm");
+const query = document.getElementById("searchInput");
 const movieResult = document.getElementById("movies");
 const tvResult = document.getElementById("tvShows");
-const searchResult = document.getElementById("search-result");
+const searchResult = document.getElementById("searchResult");
 const loadMoreBtn = document.getElementById("loadMoreBtn");
 let page = 1;
 let isSearching = false;
@@ -62,9 +62,6 @@ function createMovieCard(movie) {
               <div class="movie-card card" data-id="${id}">
               <img src="${imagePath}" alt="" />
             </div>
-  
- 
-  
     `;
 
   console.log(media_type);
@@ -97,6 +94,104 @@ function createTvCard(tv) {
   return cardTemplate;
 }
 
+function createSearchCard(movie) {
+  const {
+    backdrop_path,
+    poster_path,
+    original_title,
+    release_date,
+    overview,
+    id,
+    media_type,
+  } = movie;
+
+  const backDrop = backdrop_path ? imgApi + backdrop_path : "./img-01.jpeg";
+  const imagePath = poster_path ? imgApi + poster_path : "./img-01.jpeg";
+
+  const searchTitle =
+    original_title.length > 25
+      ? original_title.slice(0, 25) + "..."
+      : original_title;
+  const formattedDate =
+    release_date.length > 4
+      ? release_date.slice(0, 4)
+      : release_date || "No release date";
+  const year = formattedDate.slice(0, 4);
+  const escapedOverview = overview.replace(/['"]/g, "&apos;");
+  const description =
+    escapedOverview.length > 110
+      ? escapedOverview.slice(0, 110) + "... "
+      : escapedOverview;
+
+  //   const mediaType =
+  //     media_type.charAt(0).toUpperCase() + media_type.slice(1).toLowerCase();
+
+  const cardTemplate = `
+            <div class="search-card" data-id="${id}">
+              <img src="${imagePath}" alt="" />
+              <div class="search-card-text">
+                <h3 class="search-card-title">${searchTitle}</h3>
+                <p class="search-card-info">${year} ‧ Action/Crime ‧ 2h 56m</p>
+                <p class="search-card-overview">
+                    ${description}
+                </p>
+              </div>
+            </div>
+      `;
+  console.log(media_type);
+  return cardTemplate;
+}
+
+function createSearchCardTv(tv) {
+  const {
+    backdrop_path,
+    poster_path,
+    original_name,
+    first_air_date,
+    overview,
+    id,
+    media_type,
+  } = tv;
+
+  const backDrop = backdrop_path ? imgApi + backdrop_path : "./img-01.jpeg";
+  const imagePath = poster_path ? imgApi + poster_path : "./img-01.jpeg";
+
+  const searchTitle =
+    original_name.length > 31
+      ? original_name.slice(0, 29) + "..."
+      : original_name;
+  const formattedDate =
+    first_air_date.length > 4
+      ? first_air_date.slice(0, 4)
+      : first_air_date || "No release date";
+  const year = formattedDate.slice(0, 4);
+  const escapedOverview = overview.replace(/['"]/g, "&apos;");
+  const description =
+    escapedOverview.length > 110
+      ? escapedOverview.slice(0, 110) + "... "
+      : escapedOverview;
+
+  //   const mediaType =
+  //     media_type.charAt(0).toUpperCase() + media_type.slice(1).toLowerCase();
+
+  const cardTemplate = `
+<div class="search-card" data-id="${id}">
+<span class="tv-label">TV</span>
+  <img src="${imagePath}" alt="" />
+  <div class="search-card-text">
+    <h3 class="search-card-title">${searchTitle}</h3>
+    <p class="search-card-info">${year} ‧ Action/Crime ‧ 2h 56m</p>
+    <p class="search-card-overview">
+        ${description}
+    </p>
+  </div>
+</div>
+
+`;
+  console.log(media_type);
+  return cardTemplate;
+}
+
 // Clear result element for search
 function clearResults() {
   const currentPagePath = document.location.pathname;
@@ -112,26 +207,50 @@ function showResults(item, mediaType) {
   const newContent = item
     .map(mediaType === "movie" ? createMovieCard : createTvCard)
     .join("");
-  if (isSearching) {
-    searchResult.innerHTML += newContent || "<p>No results found.</p>";
-  } else {
-    if (mediaType === "movie") {
-      movieResult.innerHTML += newContent || "<p>No results found.</p>";
-    } else if (mediaType === "tv") {
-      tvResult.innerHTML += newContent || "<p>No results found.</p>";
-    }
+
+  if (mediaType === "movie") {
+    movieResult.innerHTML += newContent || "<p>No results found.</p>";
+  } else if (mediaType === "tv") {
+    tvResult.innerHTML += newContent || "<p>No results found.</p>";
   }
 }
-// Load more results
-async function loadMoreResults() {
-  if (isSearching) {
-    if (searchTerm) {
-      page++;
-      const newUrl = `${searchUrl}${searchTerm}&page=${page}`;
-      await fetchAndShowMovies(newUrl);
-      await fetchAndShowTvShows(newUrl);
+
+/***********Searching************/
+// Fetch JSON data from url
+async function fetchDataSearch(url) {
+  try {
+    const response = await fetch(url);
+    if (!response.ok) {
+      throw new Error("Network response was not ok.");
     }
+    return await response.json();
+  } catch (error) {
+    console.error("Error fetching data:", error);
+    // Display an error message to the user
+    searchResult.innerHTML =
+      "<p>Error fetching data. Please try again later.</p>";
   }
+}
+
+// Fetch and show results based on url for searching
+async function fetchAndShowSearch(url) {
+  const data = await fetchDataSearch(url);
+  if (data && data.results) {
+    showSearchResults(data.results);
+  }
+}
+
+function showSearchResults(item) {
+  const searchContent = item
+    .map((media) => {
+      if (media.media_type === "movie") {
+        return createSearchCard(media);
+      } else if (media.media_type === "tv") {
+        return createSearchCardTv(media);
+      }
+    })
+    .join("");
+  searchResult.innerHTML += searchContent || "<p>No results found.</p>";
 }
 
 // Handle search
@@ -145,32 +264,36 @@ async function handleSearch(e) {
     searchTerm = searchTermInput;
 
     const newUrl = `${searchUrl}${searchTerm}`;
-    const trendingH1 = document.querySelectorAll(".trending-h1");
+    const trendingH1 = document.querySelectorAll("#trendingText");
     trendingH1.forEach((heading) => {
       heading.classList.add("hide-element");
     });
-    const resultsText = document.querySelector(".search-results-heading");
+    const resultsText = document.getElementById("resultsText");
     movieResult.classList.add("hide-element");
     tvResult.classList.add("hide-element");
+
     searchResult.classList.remove("hide-element");
-    loadMoreBtn.style.display = "block";
-    resultsText.style.display = "block";
+    // loadMoreBtn.style.display = "block";
+    resultsText.classList.remove("hide-element");
     resultsText.innerText = "Showing results for: " + query.value;
     query.value = "";
-    await fetchAndShowMovies(newUrl);
-    await fetchAndShowTvShows(newUrl);
+    await fetchAndShowSearch(newUrl);
+  }
+}
+
+// Load more results
+async function loadMoreResults() {
+  if (isSearching) {
+    if (searchTerm) {
+      page++;
+      const newUrl = `${searchUrl}${searchTerm}&page=${page}`;
+      await fetchAndShowSearch(newUrl);
+    }
   }
 }
 
 // Event listeners
-// code to run only on the main page
-if (document.body.id === "main-page") {
-  form.addEventListener("submit", handleSearch);
-
-  loadMoreBtn.addEventListener("click", () => {
-    loadMoreResults();
-  });
-}
+form.addEventListener("submit", handleSearch);
 
 // Initialize the page
 async function init() {

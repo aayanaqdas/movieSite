@@ -4,28 +4,30 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="style.css" />
-    <title>Document</title>
+    <title>MovieSite</title>
   </head>
   <body>
     <div class="landing-page-container">
       <nav class="navbar-container">
         <div class="nav_sitename">
           <i class="nav-icon fa-solid fa-bars"></i>
-          <h2 class="site-name">JustWatch</h2>
+        <a href="index.html"><h2 class="site-name">JustWatch</h2></a>
           <i class="nav-icon fa-solid fa-user"></i>
         </div>
-        <div class="searchbar">
-          <i class="fa-solid fa-magnifying-glass" id="searchIcon"></i>
-          <input type="text" id="searchInput" placeholder="Search" />
-        </div>
+        <form id="searchForm">
+          <div class="searchbar">
+            <i class="fa-solid fa-magnifying-glass" id="searchIcon"></i>
+            <input type="text" id="searchInput" placeholder="Search" />
+          </div>
+        </form>
       </nav>
 
       <div class="content-container">
         <div class="content">
-          <h2>Trending</h2>
-          <h5>Movies:</h5>
+        <h4 id="resultsText" class="hide-element"></h4>
+          <div id="searchResult" class="hide-element"></div>
+          <h2 id="trendingText">Trending</h2>
           <div id="movies"></div>
-          <h5>Tv-Shows:</h5>
           <div id="tvShows"></div>
         </div>
       </div>
@@ -36,5 +38,7 @@
       src="https://kit.fontawesome.com/c385798621.js"
       crossorigin="anonymous"
     ></script>
+
+    
   </body>
 </html>
