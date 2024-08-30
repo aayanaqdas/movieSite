@@ -11,7 +11,7 @@
       <nav class="navbar-container">
         <div class="nav_sitename">
           <i class="nav-icon fa-solid fa-bars"></i>
-        <a href="index.html"><h2 class="site-name">JustWatch</h2></a>
+          <a href="index.html"><h2 class="site-name">JustWatch</h2></a>
           <i class="nav-icon fa-solid fa-user"></i>
         </div>
         <form id="searchForm">
@@ -24,8 +24,10 @@
 
       <div class="content-container">
         <div class="content">
-        <h4 id="resultsText" class="hide-element"></h4>
-          <div id="searchResult" class="hide-element"></div>
+          <h4 id="resultsText" class="hide-element"></h4>
+          <div id="searchResult" class="hide-element">
+            <button id="loadMoreBtn">Load More</button>
+          </div>
           <h2 id="trendingText">Trending</h2>
           <div id="movies"></div>
           <div id="tvShows"></div>
@@ -33,12 +35,11 @@
       </div>
     </div>
 
-    <script src="main.js"></script>
+    <script type="module" src="genres.js"></script>
+    <script type="module" src="main.js"></script>
     <script
       src="https://kit.fontawesome.com/c385798621.js"
       crossorigin="anonymous"
     ></script>
-
-    
   </body>
 </html>

@@ -1,3 +1,4 @@
+
 const apiKey = "37d7e055234a0531d45416a1d56745eb";
 const imgApi = "https://image.tmdb.org/t/p/w1280";
 const searchUrl = `https://api.themoviedb.org/3/search/multi?api_key=${apiKey}&query=`;
@@ -94,6 +95,10 @@ function createTvCard(tv) {
   return cardTemplate;
 }
 
+
+/******Importing genres from genres.js ******/
+import { movieGenres, tvGenres } from './genres.js';
+
 function createSearchCard(movie) {
   const {
     backdrop_path,
@@ -103,6 +108,7 @@ function createSearchCard(movie) {
     overview,
     id,
     media_type,
+    genre_ids
   } = movie;
 
   const backDrop = backdrop_path ? imgApi + backdrop_path : "./img-01.jpeg";
@@ -123,15 +129,19 @@ function createSearchCard(movie) {
       ? escapedOverview.slice(0, 110) + "... "
       : escapedOverview;
 
-  //   const mediaType =
-  //     media_type.charAt(0).toUpperCase() + media_type.slice(1).toLowerCase();
 
+  // Get genre_ids from api and Map genre IDs to their names which is located in genres.js
+  const genreNames = genre_ids.map(genreId => {
+    const genre = movieGenres.find(genre => genre.id === genreId);
+    return genre ? genre.name : '';
+  }).join(', ');
+      
   const cardTemplate = `
             <div class="search-card" data-id="${id}">
               <img src="${imagePath}" alt="" />
               <div class="search-card-text">
                 <h3 class="search-card-title">${searchTitle}</h3>
-                <p class="search-card-info">${year} ‧ Action/Crime ‧ 2h 56m</p>
+                <p class="search-card-info">${year} ${"‧ " + genreNames}</p>
                 <p class="search-card-overview">
                     ${description}
                 </p>
@@ -151,6 +161,7 @@ function createSearchCardTv(tv) {
     overview,
     id,
     media_type,
+    genre_ids
   } = tv;
 
   const backDrop = backdrop_path ? imgApi + backdrop_path : "./img-01.jpeg";
@@ -171,8 +182,12 @@ function createSearchCardTv(tv) {
       ? escapedOverview.slice(0, 110) + "... "
       : escapedOverview;
 
-  //   const mediaType =
-  //     media_type.charAt(0).toUpperCase() + media_type.slice(1).toLowerCase();
+  // Get genre_id from api and Map genre IDs to their names which is located in genres.js
+  const genreNames = genre_ids.map(genreId => {
+    const genre = tvGenres.find(genre => genre.id === genreId);
+    return genre ? genre.name : '';
+  }).join(', ');
+
 
   const cardTemplate = `
 <div class="search-card" data-id="${id}">
@@ -180,7 +195,7 @@ function createSearchCardTv(tv) {
   <img src="${imagePath}" alt="" />
   <div class="search-card-text">
     <h3 class="search-card-title">${searchTitle}</h3>
-    <p class="search-card-info">${year} ‧ Action/Crime ‧ 2h 56m</p>
+    <p class="search-card-info">${year} ${"‧ " + genreNames}</p>
     <p class="search-card-overview">
         ${description}
     </p>
@@ -192,14 +207,14 @@ function createSearchCardTv(tv) {
   return cardTemplate;
 }
 
+
+
 // Clear result element for search
 function clearResults() {
-  const currentPagePath = document.location.pathname;
-  if (currentPagePath.includes("index.html")) {
     movieResult.innerHTML = "";
     tvResult.innerHTML = "";
     searchResult.innerHTML = "";
-  }
+
 }
 
 // Show results in page
@@ -214,6 +229,8 @@ function showResults(item, mediaType) {
     tvResult.innerHTML += newContent || "<p>No results found.</p>";
   }
 }
+
+
 
 /***********Searching************/
 // Fetch JSON data from url

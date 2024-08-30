@@ -45,10 +45,9 @@ body {
 .site-name {
   color: var(--yellow);
   cursor: pointer;
- 
 }
 
-a{
+a {
   text-decoration: none;
 }
 
