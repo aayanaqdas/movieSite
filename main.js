@@ -270,7 +270,7 @@ function clearResults() {
     movieResult.innerHTML = "";
     tvResult.innerHTML = "";
     searchResult.innerHTML = "";
-
+    page = 1;
 }
 
 // Handle search
