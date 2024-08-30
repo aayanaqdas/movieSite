@@ -3,9 +3,9 @@
 :root {
   --background: #060d17;
   --black: #000;
-  --black-opacity: #00000062;
+  --black-opacity: #000000a7;
   --white: #fff;
-  --yellow: #fbc500;
+  --yellow: #ffae00;
   --grey: #999c9f;
   --input-background: #131a22;
 }
@@ -73,7 +73,7 @@ a {
   border-radius: 7px;
   outline: none;
   text-indent: 33px;
-  font-size: 13px;
+  font-size: 16px;
 }
 
 #searchIcon {
@@ -100,6 +100,7 @@ a {
   flex-direction: column;
   gap: 20px;
   padding: 15px;
+  margin-bottom: 100px;
 }
 
 #searchResult {
@@ -124,14 +125,17 @@ a {
   flex-direction: column;
   gap: 5px;
   margin-top: 5px;
+  padding-right: 5px;
+  padding-bottom: 5px;
 }
 
 .search-card-title {
-  color: var(--white);
+  color: var(--yellow);
   font-size: medium;
 }
 
 .search-card-info {
+  color: var(--white);
   font-size: small;
 }
 
@@ -144,6 +148,18 @@ a {
   max-width: 100px;
   border-radius: 10px;
 }
+
+#loadMoreBtn{
+  padding: 15px 20px;
+  background-color: var(--yellow);
+  color: var(--input-background);
+  border: none;
+  border-radius: 7px;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 15px;
+}
+
 #movies {
   width: 100%;
   display: flex;

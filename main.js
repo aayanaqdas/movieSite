@@ -96,6 +96,62 @@ function createTvCard(tv) {
 }
 
 
+
+
+// Show results in page
+function showResults(item, mediaType) {
+  const newContent = item
+    .map(mediaType === "movie" ? createMovieCard : createTvCard)
+    .join("");
+
+  if (mediaType === "movie") {
+    movieResult.innerHTML += newContent || "<p>No results found.</p>";
+  } else if (mediaType === "tv") {
+    tvResult.innerHTML += newContent || "<p>No results found.</p>";
+  }
+}
+
+
+
+/***********Searching************/
+// Fetch JSON data from url
+async function fetchDataSearch(url) {
+  try {
+    const response = await fetch(url);
+    if (!response.ok) {
+      throw new Error("Network response was not ok.");
+    }
+    return await response.json();
+  } catch (error) {
+    console.error("Error fetching data:", error);
+    // Display an error message to the user
+    searchResult.innerHTML =
+      "<p>Error fetching data. Please try again later.</p>";
+  }
+}
+
+// Fetch and show results based on url for searching
+async function fetchAndShowSearch(url) {
+  const data = await fetchDataSearch(url);
+  if (data && data.results) {
+    showSearchResults(data.results);
+  }
+}
+
+function showSearchResults(item) {
+  const searchContent = item
+    .map((media) => {
+      if (media.media_type === "movie") {
+        return createSearchCard(media);
+      } else if (media.media_type === "tv") {
+        return createSearchCardTv(media);
+      }
+    })
+    .join("");
+  searchResult.innerHTML += searchContent || "<p>No results found.</p>";
+}
+
+
 /******Importing genres from genres.js ******/
 import { movieGenres, tvGenres } from './genres.js';
 
@@ -217,59 +273,6 @@ function clearResults() {
 
 }
 
-// Show results in page
-function showResults(item, mediaType) {
-  const newContent = item
-    .map(mediaType === "movie" ? createMovieCard : createTvCard)
-    .join("");
-
-  if (mediaType === "movie") {
-    movieResult.innerHTML += newContent || "<p>No results found.</p>";
-  } else if (mediaType === "tv") {
-    tvResult.innerHTML += newContent || "<p>No results found.</p>";
-  }
-}
-
-
-
-/***********Searching************/
-// Fetch JSON data from url
-async function fetchDataSearch(url) {
-  try {
-    const response = await fetch(url);
-    if (!response.ok) {
-      throw new Error("Network response was not ok.");
-    }
-    return await response.json();
-  } catch (error) {
-    console.error("Error fetching data:", error);
-    // Display an error message to the user
-    searchResult.innerHTML =
-      "<p>Error fetching data. Please try again later.</p>";
-  }
-}
-
-// Fetch and show results based on url for searching
-async function fetchAndShowSearch(url) {
-  const data = await fetchDataSearch(url);
-  if (data && data.results) {
-    showSearchResults(data.results);
-  }
-}
-
-function showSearchResults(item) {
-  const searchContent = item
-    .map((media) => {
-      if (media.media_type === "movie") {
-        return createSearchCard(media);
-      } else if (media.media_type === "tv") {
-        return createSearchCardTv(media);
-      }
-    })
-    .join("");
-  searchResult.innerHTML += searchContent || "<p>No results found.</p>";
-}
-
 // Handle search
 async function handleSearch(e) {
   e.preventDefault();
@@ -290,7 +293,7 @@ async function handleSearch(e) {
     tvResult.classList.add("hide-element");
 
     searchResult.classList.remove("hide-element");
-    // loadMoreBtn.style.display = "block";
+    loadMoreBtn.classList.remove("hide-element");
     resultsText.classList.remove("hide-element");
     resultsText.innerText = "Showing results for: " + query.value;
     query.value = "";
@@ -299,18 +302,29 @@ async function handleSearch(e) {
 }
 
 // Load more results
-async function loadMoreResults() {
+function loadMoreResults() {
   if (isSearching) {
     if (searchTerm) {
       page++;
       const newUrl = `${searchUrl}${searchTerm}&page=${page}`;
-      await fetchAndShowSearch(newUrl);
+      fetchAndShowSearch(newUrl);
     }
   }
 }
 
+// Detect end of page and load more results
+// function detectEnd() {
+//   const { scrollTop, clientHeight, scrollHeight } = document.documentElement;
+//   if (scrollTop + clientHeight >= scrollHeight - 20) {
+//       loadMoreResults();
+//   }
+// }
+
 // Event listeners
 form.addEventListener("submit", handleSearch);
+loadMoreBtn.addEventListener("click", loadMoreResults)
+// window.addEventListener('scroll', detectEnd);
+// window.addEventListener('resize', detectEnd);
 
 // Initialize the page
 async function init() {
