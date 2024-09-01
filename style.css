@@ -160,19 +160,13 @@ a {
   font-size: 15px;
 }
 
-#trendingSection {
+.contentSections {
   width: 100%;
   display: flex;
   gap: 10px;
   overflow-x: auto;
 }
 
-#trendingTvShows {
-  width: 100%;
-  display: flex;
-  gap: 10px;
-  overflow-x: auto;
-}
 
 .tv-label {
   position: absolute;

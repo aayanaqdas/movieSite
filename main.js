@@ -7,7 +7,7 @@ const form = document.getElementById("searchForm");
 const query = document.getElementById("searchInput");
 
 const trendingResult = document.getElementById("trendingSection");
-const trendingTvResult = document.getElementById("trendingTvShows");
+const upcomingMoviesResult = document.getElementById("upcomingSection");
 
 const searchResult = document.getElementById("searchResult");
 const loadMoreBtn = document.getElementById("loadMoreBtn");
@@ -18,7 +18,7 @@ let searchTerm;
 
 // Fetch JSON data from url
 
-async function fetchData(url) {
+async function fetchTrendingData(url) {
   try {
     const response = await fetch(url);
     console.log(url);
@@ -28,7 +28,24 @@ async function fetchData(url) {
     const data = await response.json();
     console.log(data);
     if (data && data.results) {
-      showResults(data.results);
+      showResults(data.results, "trendingData");
+    }
+  } catch (error) {
+    return null;
+  }
+}
+
+async function fetchUpcomingData(url) {
+  try {
+    const response = await fetch(url);
+    console.log(url);
+    if (!response.ok) {
+      throw new Error("Network response was not ok.");
+    }
+    const data = await response.json();
+    console.log(data);
+    if (data && data.results) {
+      showResults(data.results, "upcomingMoviesData");
     }
   } catch (error) {
     return null;
@@ -36,21 +53,17 @@ async function fetchData(url) {
 }
 
 async function fetchTrendingAll(url){
-  await fetchData(url);
+  await fetchTrendingData(url);
 }
 
-// Fetch and show results based on url
-// async function fetchAndShowMovies(movieUrl) {
-//   await fetchData(movieUrl);
-// }
-
-// async function fetchAndShowTvShows(tvUrl) {
-//   await fetchData(tvUrl);
-// }
+async function fetchUpcomingMovies(url){
+  await fetchUpcomingData(url);
+}
 
 // Show results in page
-function showResults(items) {
-  const newContent = items
+function showResults(items, type) {
+  if (type === "trendingData") {
+    const newContent = items
     .map((media) => {
       if (media.media_type === "movie") {
         return createMovieCard(media);
@@ -59,52 +72,14 @@ function showResults(items) {
       }
     })
     .join("");
-
   trendingResult.innerHTML += newContent || "<p>No results found.</p>";
 }
+else if(type === "upcomingMoviesData"){
+  const newContent = items.map(createMovieCard).join("");
+  upcomingMoviesResult.innerHTML += newContent || "<p>No results found.</p>";
+}
+}
 
-
-// async function fetchData(url, mediaType) {
-//   try {
-//     const response = await fetch(url);
-//     console.log(url);
-//     if (!response.ok) {
-//       throw new Error("Network response was not ok.");
-//     }
-//     const data = await response.json();
-//     console.log(data);
-//     if (data && data.results) {
-//       const filteredResults = data.results.filter(
-//         (result) => result.media_type === mediaType
-//       );
-//       showResults(filteredResults, mediaType);
-//     }
-//   } catch (error) {
-//     return null;
-//   }
-// }
-
-// // Fetch and show results based on url
-// async function fetchAndShowMovies(movieUrl) {
-//   await fetchData(movieUrl, "movie");
-// }
-
-// async function fetchAndShowTvShows(tvUrl) {
-//   await fetchData(tvUrl, "tv");
-// }
-
-// // Show results in page
-// function showResults(item, mediaType) {
-  // const newContent = item
-  //   .map(mediaType === "movie" ? createMovieCard : createTvCard)
-  //   .join("");
-
-//   if (mediaType === "movie") {
-//     trendingMovieResult.innerHTML += newContent || "<p>No results found.</p>";
-//   } else if (mediaType === "tv") {
-//     trendingTvResult.innerHTML += newContent || "<p>No results found.</p>";
-//   }
-// }
 
 // Create movie card html template
 function createMovieCard(movie) {
@@ -323,7 +298,7 @@ function createSearchCardTv(tv) {
 // Clear result element for search
 function clearResults() {
     trendingResult.innerHTML = "";
-    trendingTvResult.innerHTML = "";
+    upcomingMoviesResult.innerHTML = "";
     searchResult.innerHTML = "";
     page = 1;
 }
@@ -345,7 +320,7 @@ async function handleSearch(e) {
     });
     const resultsText = document.getElementById("resultsText");
     trendingResult.classList.add("hide-element");
-    trendingTvResult.classList.add("hide-element");
+    upcomingMoviesUrl.classList.add("hide-element");
 
     searchResult.classList.remove("hide-element");
     // loadMoreBtn.classList.remove("hide-element");
@@ -384,14 +359,17 @@ window.addEventListener('resize', detectEnd);
 // Initialize the page
 async function init() {
   clearResults();
-  // const trendingMovieUrl = `https://api.themoviedb.org/3/trending/movie/day?language=en-US&api_key=${apiKey}&page=${page}`;
-  // const trendingTvUrl = `https://api.themoviedb.org/3/trending/tv/day?language=en-US&api_key=${apiKey}&page=${page}`;
   isSearching = false;
+
   const trendingAllUrl = `https://api.themoviedb.org/3/trending/all/day?language=en-US&api_key=${apiKey}&page=${page}`;
   await fetchTrendingAll(trendingAllUrl);
-  // await fetchAndShowMovies(trendingMovieUrl);
-  // await fetchAndShowTvShows(trendingTvUrl);
+
+  const upcomingMoviesUrl = `https://api.themoviedb.org/3/movie/upcoming?language=en-US&api_key=${apiKey}&page=${page}`
+  await fetchUpcomingMovies(upcomingMoviesUrl);
+
+
 }
+
 
 init();
 
