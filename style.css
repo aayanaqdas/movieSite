@@ -149,7 +149,7 @@ a {
   border-radius: 10px;
 }
 
-#loadMoreBtn{
+#loadMoreBtn {
   padding: 15px 20px;
   background-color: var(--yellow);
   color: var(--input-background);
@@ -166,7 +166,6 @@ a {
   gap: 10px;
   overflow-x: auto;
 }
-
 
 .tv-label {
   position: absolute;

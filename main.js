@@ -1,4 +1,3 @@
-
 const apiKey = "37d7e055234a0531d45416a1d56745eb";
 const imgApi = "https://image.tmdb.org/t/p/w1280";
 const searchUrl = `https://api.themoviedb.org/3/search/multi?api_key=${apiKey}&query=`;
@@ -18,7 +17,6 @@ let isSearching = false;
 let searchTerm;
 
 // Fetch JSON data from url
-
 async function fetchTrendingData(url) {
   try {
     const response = await fetch(url);
@@ -70,15 +68,15 @@ async function fetchUpcomingData(url) {
   }
 }
 
-async function fetchTrendingAll(url){
+async function fetchTrendingAll(url) {
   await fetchTrendingData(url);
 }
 
-async function fetchTopRatedTv(url){
+async function fetchTopRatedTv(url) {
   await fetchTopRatedTvData(url);
 }
 
-async function fetchUpcomingMovies(url){
+async function fetchUpcomingMovies(url) {
   await fetchUpcomingData(url);
 }
 
@@ -86,28 +84,23 @@ async function fetchUpcomingMovies(url){
 function showResults(items, type) {
   if (type === "trendingData") {
     const newContent = items
-    .map((media) => {
-      if (media.media_type === "movie") {
-        return createMovieCard(media);
-      } else if (media.media_type === "tv") {
-        return createTvCard(media);
-      }
-    })
-    .join("");
-  trendingResult.innerHTML += newContent || "<p>No results found.</p>";
+      .map((media) => {
+        if (media.media_type === "movie") {
+          return createMovieCard(media);
+        } else if (media.media_type === "tv") {
+          return createTvCard(media);
+        }
+      })
+      .join("");
+    trendingResult.innerHTML += newContent || "<p>No results found.</p>";
+  } else if (type === "topRatedTvData") {
+    const newContent = items.map(createTvCard).join("");
+    topRatedTvResult.innerHTML += newContent || "<p>No results found.</p>";
+  } else if (type === "upcomingMoviesData") {
+    const newContent = items.map(createMovieCard).join("");
+    upcomingMoviesResult.innerHTML += newContent || "<p>No results found.</p>";
+  }
 }
-else if(type === "topRatedTvData"){
-  const newContent = items.map(createMovieCard).join("");
-  topRatedTvResult.innerHTML += newContent || "<p>No results found.</p>";
-}
-
-else if(type === "upcomingMoviesData"){
-  const newContent = items.map(createMovieCard).join("");
-  upcomingMoviesResult.innerHTML += newContent || "<p>No results found.</p>";
-}
-
-}
-
 
 // Create movie card html template
 function createMovieCard(movie) {
@@ -160,7 +153,6 @@ function createTvCard(tv) {
   return cardTemplate;
 }
 
-
 /***********Searching************/
 // Fetch JSON data from url
 async function fetchDataSearch(url) {
@@ -197,21 +189,18 @@ function showSearchResults(item) {
     })
     .join("");
 
-    /*Check if "No results found" already exists so it doesnt show multiple times*/
-    if(searchContent == ""){
-      if(!searchResult.innerHTML.includes("No results found.")){
-        searchResult.innerHTML += "<p>No results found.</p>";
-      }
+  /*Check if "No results found" already exists so it doesnt show multiple times*/
+  if (searchContent == "") {
+    if (!searchResult.innerHTML.includes("No results found.")) {
+      searchResult.innerHTML += "<p>No results found.</p>";
     }
-    else{
-      searchResult.innerHTML += searchContent;
-    }
-
+  } else {
+    searchResult.innerHTML += searchContent;
+  }
 }
 
-
 /******Importing genres from genres.js ******/
-import { movieGenres, tvGenres } from './genres.js';
+import { movieGenres, tvGenres } from "./genres.js";
 
 function createSearchCard(movie) {
   const {
@@ -222,7 +211,7 @@ function createSearchCard(movie) {
     overview,
     id,
     media_type,
-    genre_ids
+    genre_ids,
   } = movie;
 
   const backDrop = backdrop_path ? imgApi + backdrop_path : "./img-01.jpeg";
@@ -243,13 +232,14 @@ function createSearchCard(movie) {
       ? escapedOverview.slice(0, 110) + "... "
       : escapedOverview;
 
-
   // Get genre_ids from api and Map genre IDs to their names which is located in genres.js
-  const genreNames = genre_ids.map(genreId => {
-    const genre = movieGenres.find(genre => genre.id === genreId);
-    return genre ? genre.name : '';
-  }).join(', ');
-      
+  const genreNames = genre_ids
+    .map((genreId) => {
+      const genre = movieGenres.find((genre) => genre.id === genreId);
+      return genre ? genre.name : "";
+    })
+    .join(", ");
+
   const cardTemplate = `
             <div class="search-card" data-id="${id}">
               <img src="${imagePath}" alt="" />
@@ -275,7 +265,7 @@ function createSearchCardTv(tv) {
     overview,
     id,
     media_type,
-    genre_ids
+    genre_ids,
   } = tv;
 
   const backDrop = backdrop_path ? imgApi + backdrop_path : "./img-01.jpeg";
@@ -297,11 +287,12 @@ function createSearchCardTv(tv) {
       : escapedOverview;
 
   // Get genre_id from api and Map genre IDs to their names which is located in genres.js
-  const genreNames = genre_ids.map(genreId => {
-    const genre = tvGenres.find(genre => genre.id === genreId);
-    return genre ? genre.name : '';
-  }).join(', ');
-
+  const genreNames = genre_ids
+    .map((genreId) => {
+      const genre = tvGenres.find((genre) => genre.id === genreId);
+      return genre ? genre.name : "";
+    })
+    .join(", ");
 
   const cardTemplate = `
 <div class="search-card" data-id="${id}">
@@ -321,15 +312,13 @@ function createSearchCardTv(tv) {
   return cardTemplate;
 }
 
-
-
 // Clear result element for search
 function clearResults() {
-    trendingResult.innerHTML = "";
-    topRatedTvResult.innerHTML = "";
-    upcomingMoviesResult.innerHTML = "";
-    searchResult.innerHTML = "";
-    page = 1;
+  trendingResult.innerHTML = "";
+  topRatedTvResult.innerHTML = "";
+  upcomingMoviesResult.innerHTML = "";
+  searchResult.innerHTML = "";
+  page = 1;
 }
 
 // Handle search
@@ -375,16 +364,16 @@ function loadMoreResults() {
 // Detect end of page and load more results
 function detectEnd() {
   const { scrollTop, clientHeight, scrollHeight } = document.documentElement;
-  if (scrollTop + clientHeight >= scrollHeight - 20) {
-      loadMoreResults();
+  if (scrollTop + clientHeight >= scrollHeight - 200) {
+    loadMoreResults();
   }
 }
 
 // Event listeners
 form.addEventListener("submit", handleSearch);
 // loadMoreBtn.addEventListener("click", loadMoreResults)
-window.addEventListener('scroll', detectEnd);
-window.addEventListener('resize', detectEnd);
+window.addEventListener("scroll", detectEnd);
+window.addEventListener("resize", detectEnd);
 
 // Initialize the page
 async function init() {
@@ -394,13 +383,11 @@ async function init() {
   const trendingAllUrl = `https://api.themoviedb.org/3/trending/all/day?language=en-US&api_key=${apiKey}&page=${page}`;
   await fetchTrendingAll(trendingAllUrl);
 
-  const topRatedTvUrl = `https://api.themoviedb.org/3/tv/top_rated?language=en-US&api_key=${apiKey}&page=${page}`
+  const topRatedTvUrl = `https://api.themoviedb.org/3/tv/top_rated?language=en-US&api_key=${apiKey}&page=${page}`;
   await fetchTopRatedTv(topRatedTvUrl);
 
-  const upcomingMoviesUrl = `https://api.themoviedb.org/3/movie/upcoming?language=en-US&api_key=${apiKey}&page=${page}`
+  const upcomingMoviesUrl = `https://api.themoviedb.org/3/movie/upcoming?language=en-US&api_key=${apiKey}&page=${page}`;
   await fetchUpcomingMovies(upcomingMoviesUrl);
 }
 
-
 init();
-
