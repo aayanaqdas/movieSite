@@ -5,8 +5,10 @@ const searchUrl = `https://api.themoviedb.org/3/search/multi?api_key=${apiKey}&q
 
 const form = document.getElementById("searchForm");
 const query = document.getElementById("searchInput");
-const movieResult = document.getElementById("movies");
-const tvResult = document.getElementById("tvShows");
+
+const trendingResult = document.getElementById("trendingSection");
+const trendingTvResult = document.getElementById("trendingTvShows");
+
 const searchResult = document.getElementById("searchResult");
 const loadMoreBtn = document.getElementById("loadMoreBtn");
 let page = 1;
@@ -15,7 +17,8 @@ let isSearching = false;
 let searchTerm;
 
 // Fetch JSON data from url
-async function fetchData(url, mediaType) {
+
+async function fetchData(url) {
   try {
     const response = await fetch(url);
     console.log(url);
@@ -25,24 +28,83 @@ async function fetchData(url, mediaType) {
     const data = await response.json();
     console.log(data);
     if (data && data.results) {
-      const filteredResults = data.results.filter(
-        (result) => result.media_type === mediaType
-      );
-      showResults(filteredResults, mediaType);
+      showResults(data.results);
     }
   } catch (error) {
     return null;
   }
 }
 
-// Fetch and show results based on url
-async function fetchAndShowMovies(movieUrl) {
-  await fetchData(movieUrl, "movie");
+async function fetchTrendingAll(url){
+  await fetchData(url);
 }
 
-async function fetchAndShowTvShows(tvUrl) {
-  await fetchData(tvUrl, "tv");
+// Fetch and show results based on url
+// async function fetchAndShowMovies(movieUrl) {
+//   await fetchData(movieUrl);
+// }
+
+// async function fetchAndShowTvShows(tvUrl) {
+//   await fetchData(tvUrl);
+// }
+
+// Show results in page
+function showResults(items) {
+  const newContent = items
+    .map((media) => {
+      if (media.media_type === "movie") {
+        return createMovieCard(media);
+      } else if (media.media_type === "tv") {
+        return createTvCard(media);
+      }
+    })
+    .join("");
+
+  trendingResult.innerHTML += newContent || "<p>No results found.</p>";
 }
+
+
+// async function fetchData(url, mediaType) {
+//   try {
+//     const response = await fetch(url);
+//     console.log(url);
+//     if (!response.ok) {
+//       throw new Error("Network response was not ok.");
+//     }
+//     const data = await response.json();
+//     console.log(data);
+//     if (data && data.results) {
+//       const filteredResults = data.results.filter(
+//         (result) => result.media_type === mediaType
+//       );
+//       showResults(filteredResults, mediaType);
+//     }
+//   } catch (error) {
+//     return null;
+//   }
+// }
+
+// // Fetch and show results based on url
+// async function fetchAndShowMovies(movieUrl) {
+//   await fetchData(movieUrl, "movie");
+// }
+
+// async function fetchAndShowTvShows(tvUrl) {
+//   await fetchData(tvUrl, "tv");
+// }
+
+// // Show results in page
+// function showResults(item, mediaType) {
+  // const newContent = item
+  //   .map(mediaType === "movie" ? createMovieCard : createTvCard)
+  //   .join("");
+
+//   if (mediaType === "movie") {
+//     trendingMovieResult.innerHTML += newContent || "<p>No results found.</p>";
+//   } else if (mediaType === "tv") {
+//     trendingTvResult.innerHTML += newContent || "<p>No results found.</p>";
+//   }
+// }
 
 // Create movie card html template
 function createMovieCard(movie) {
@@ -96,23 +158,6 @@ function createTvCard(tv) {
 }
 
 
-
-
-// Show results in page
-function showResults(item, mediaType) {
-  const newContent = item
-    .map(mediaType === "movie" ? createMovieCard : createTvCard)
-    .join("");
-
-  if (mediaType === "movie") {
-    movieResult.innerHTML += newContent || "<p>No results found.</p>";
-  } else if (mediaType === "tv") {
-    tvResult.innerHTML += newContent || "<p>No results found.</p>";
-  }
-}
-
-
-
 /***********Searching************/
 // Fetch JSON data from url
 async function fetchDataSearch(url) {
@@ -148,7 +193,17 @@ function showSearchResults(item) {
       }
     })
     .join("");
-  searchResult.innerHTML += searchContent || "<p>No results found.</p>";
+
+    /*Check if "No results found" already exists so it doesnt show multiple times*/
+    if(searchContent == ""){
+      if(!searchResult.innerHTML.includes("No results found.")){
+        searchResult.innerHTML += "<p>No results found.</p>";
+      }
+    }
+    else{
+      searchResult.innerHTML += searchContent;
+    }
+
 }
 
 
@@ -267,8 +322,8 @@ function createSearchCardTv(tv) {
 
 // Clear result element for search
 function clearResults() {
-    movieResult.innerHTML = "";
-    tvResult.innerHTML = "";
+    trendingResult.innerHTML = "";
+    trendingTvResult.innerHTML = "";
     searchResult.innerHTML = "";
     page = 1;
 }
@@ -284,16 +339,16 @@ async function handleSearch(e) {
     searchTerm = searchTermInput;
 
     const newUrl = `${searchUrl}${searchTerm}`;
-    const trendingH1 = document.querySelectorAll("#trendingText");
-    trendingH1.forEach((heading) => {
-      heading.classList.add("hide-element");
+    const sectionHeadline = document.querySelectorAll(".sectionHeadline");
+    sectionHeadline.forEach((headline) => {
+      headline.classList.add("hide-element");
     });
     const resultsText = document.getElementById("resultsText");
-    movieResult.classList.add("hide-element");
-    tvResult.classList.add("hide-element");
+    trendingResult.classList.add("hide-element");
+    trendingTvResult.classList.add("hide-element");
 
     searchResult.classList.remove("hide-element");
-    loadMoreBtn.classList.remove("hide-element");
+    // loadMoreBtn.classList.remove("hide-element");
     resultsText.classList.remove("hide-element");
     resultsText.innerText = "Showing results for: " + query.value;
     query.value = "";
@@ -313,106 +368,30 @@ function loadMoreResults() {
 }
 
 // Detect end of page and load more results
-// function detectEnd() {
-//   const { scrollTop, clientHeight, scrollHeight } = document.documentElement;
-//   if (scrollTop + clientHeight >= scrollHeight - 20) {
-//       loadMoreResults();
-//   }
-// }
+function detectEnd() {
+  const { scrollTop, clientHeight, scrollHeight } = document.documentElement;
+  if (scrollTop + clientHeight >= scrollHeight - 20) {
+      loadMoreResults();
+  }
+}
 
 // Event listeners
 form.addEventListener("submit", handleSearch);
-loadMoreBtn.addEventListener("click", loadMoreResults)
-// window.addEventListener('scroll', detectEnd);
-// window.addEventListener('resize', detectEnd);
+// loadMoreBtn.addEventListener("click", loadMoreResults)
+window.addEventListener('scroll', detectEnd);
+window.addEventListener('resize', detectEnd);
 
 // Initialize the page
 async function init() {
   clearResults();
-  const movieUrl = `https://api.themoviedb.org/3/trending/movie/day?language=en-US&api_key=${apiKey}&page=${page}`;
-  const tvUrl = `https://api.themoviedb.org/3/trending/tv/day?language=en-US&api_key=${apiKey}&page=${page}`;
+  // const trendingMovieUrl = `https://api.themoviedb.org/3/trending/movie/day?language=en-US&api_key=${apiKey}&page=${page}`;
+  // const trendingTvUrl = `https://api.themoviedb.org/3/trending/tv/day?language=en-US&api_key=${apiKey}&page=${page}`;
   isSearching = false;
-
-  await fetchAndShowMovies(movieUrl);
-  await fetchAndShowTvShows(tvUrl);
+  const trendingAllUrl = `https://api.themoviedb.org/3/trending/all/day?language=en-US&api_key=${apiKey}&page=${page}`;
+  await fetchTrendingAll(trendingAllUrl);
+  // await fetchAndShowMovies(trendingMovieUrl);
+  // await fetchAndShowTvShows(trendingTvUrl);
 }
 
 init();
 
-// // Fetch JSON data from url
-// async function fetchData(url) {
-//     try {
-//       const response = await fetch(url);
-//       console.log(response)
-//       if (!response.ok) {
-//         throw new Error("Network response was not ok.");
-//       }
-//       return await response.json();
-//     } catch (error) {
-//       throw error; // Instead of returning null
-//     }
-//   }
-
-// // Fetch and show results based on url
-// async function fetchAndShowMovies(movieUrl) {
-//     const data = await fetchData(movieUrl);
-//     if (data && data.results) {
-//       showResults(data.results);
-//     }
-//   }
-
-// // Fetch and show results based on url
-// async function fetchAndShowMovies(movieUrl) {
-//   await fetchData(movieUrl);
-// }
-// // Create movie card html template
-// function createMovieCard(movie) {
-//   const {
-//     backdrop_path,
-//     poster_path,
-//     original_title,
-//     release_date,
-//     overview,
-//     id,
-//     media_type,
-//   } = movie;
-
-//   const backDrop = backdrop_path ? imgApi + backdrop_path : "./img-01.jpeg";
-//   const imagePath = poster_path ? imgApi + poster_path : "./img-01.jpeg";
-
-//   const cardTemplate = `
-//             <div class="movie-card card" data="${id}">
-//               <img src="${imagePath}" alt="" />
-//             </div>
-//     `;
-
-//   console.log(movie);
-//   return cardTemplate;
-// }
-
-// // Show results in page
-// function showResults(item) {
-//   const newContent = item.map(createMovieCard).join("");
-//   movieResult.innerHTML += newContent || "<p>No results found.</p>";
-// }
-
-// // Load more results
-// async function loadMoreResults() {
-//   if (isSearching) {
-//     if (searchTerm) {
-//       page++;
-//       const newUrl = `${searchUrl}${searchTerm}&page=${page}`;
-//       await fetchAndShowMovies(newUrl);
-//     }
-//   }
-// }
-
-// // Initialize the page
-// async function init() {
-//   const movieUrl = `https://api.themoviedb.org/3/discover/movie?sort_by=popularity.desc&api_key=${apiKey}&page=${page}`;
-//   isSearching = false;
-
-//   await fetchAndShowMovies(movieUrl);
-// }
-
-// init();

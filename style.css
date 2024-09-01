@@ -160,14 +160,14 @@ a {
   font-size: 15px;
 }
 
-#movies {
+#trendingSection {
   width: 100%;
   display: flex;
   gap: 10px;
   overflow-x: auto;
 }
 
-#tvShows {
+#trendingTvShows {
   width: 100%;
   display: flex;
   gap: 10px;
