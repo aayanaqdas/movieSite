@@ -8,6 +8,7 @@ const query = document.getElementById("searchInput");
 
 const trendingResult = document.getElementById("trendingSection");
 const upcomingMoviesResult = document.getElementById("upcomingSection");
+const topRatedTvResult = document.getElementById("topRatedTvSection");
 
 const searchResult = document.getElementById("searchResult");
 const loadMoreBtn = document.getElementById("loadMoreBtn");
@@ -35,6 +36,23 @@ async function fetchTrendingData(url) {
   }
 }
 
+async function fetchTopRatedTvData(url) {
+  try {
+    const response = await fetch(url);
+    console.log(url);
+    if (!response.ok) {
+      throw new Error("Network response was not ok.");
+    }
+    const data = await response.json();
+    console.log(data);
+    if (data && data.results) {
+      showResults(data.results, "topRatedTvData");
+    }
+  } catch (error) {
+    return null;
+  }
+}
+
 async function fetchUpcomingData(url) {
   try {
     const response = await fetch(url);
@@ -56,6 +74,10 @@ async function fetchTrendingAll(url){
   await fetchTrendingData(url);
 }
 
+async function fetchTopRatedTv(url){
+  await fetchTopRatedTvData(url);
+}
+
 async function fetchUpcomingMovies(url){
   await fetchUpcomingData(url);
 }
@@ -74,10 +96,16 @@ function showResults(items, type) {
     .join("");
   trendingResult.innerHTML += newContent || "<p>No results found.</p>";
 }
+else if(type === "topRatedTvData"){
+  const newContent = items.map(createMovieCard).join("");
+  topRatedTvResult.innerHTML += newContent || "<p>No results found.</p>";
+}
+
 else if(type === "upcomingMoviesData"){
   const newContent = items.map(createMovieCard).join("");
   upcomingMoviesResult.innerHTML += newContent || "<p>No results found.</p>";
 }
+
 }
 
 
@@ -298,6 +326,7 @@ function createSearchCardTv(tv) {
 // Clear result element for search
 function clearResults() {
     trendingResult.innerHTML = "";
+    topRatedTvResult.innerHTML = "";
     upcomingMoviesResult.innerHTML = "";
     searchResult.innerHTML = "";
     page = 1;
@@ -320,7 +349,8 @@ async function handleSearch(e) {
     });
     const resultsText = document.getElementById("resultsText");
     trendingResult.classList.add("hide-element");
-    upcomingMoviesUrl.classList.add("hide-element");
+    topRatedTvResult.classList.add("hide-element");
+    upcomingMoviesResult.classList.add("hide-element");
 
     searchResult.classList.remove("hide-element");
     // loadMoreBtn.classList.remove("hide-element");
@@ -364,10 +394,11 @@ async function init() {
   const trendingAllUrl = `https://api.themoviedb.org/3/trending/all/day?language=en-US&api_key=${apiKey}&page=${page}`;
   await fetchTrendingAll(trendingAllUrl);
 
+  const topRatedTvUrl = `https://api.themoviedb.org/3/tv/top_rated?language=en-US&api_key=${apiKey}&page=${page}`
+  await fetchTopRatedTv(topRatedTvUrl);
+
   const upcomingMoviesUrl = `https://api.themoviedb.org/3/movie/upcoming?language=en-US&api_key=${apiKey}&page=${page}`
   await fetchUpcomingMovies(upcomingMoviesUrl);
-
-
 }
 
 
