@@ -16,6 +16,8 @@ let isSearching = false;
 
 let searchTerm;
 
+let dateToday = new Date().toISOString().slice(0, 10);
+
 // Fetch JSON data from url
 async function fetchTrendingData(url) {
   try {
@@ -123,7 +125,6 @@ function createMovieCard(movie) {
             </div>
     `;
 
-  console.log(media_type);
   return cardTemplate;
 }
 
@@ -149,7 +150,7 @@ function createTvCard(tv) {
             </div>
 
     `;
-  console.log(media_type);
+
   return cardTemplate;
 }
 
@@ -252,7 +253,7 @@ function createSearchCard(movie) {
               </div>
             </div>
       `;
-  console.log(media_type);
+
   return cardTemplate;
 }
 
@@ -308,7 +309,7 @@ function createSearchCardTv(tv) {
 </div>
 
 `;
-  console.log(media_type);
+
   return cardTemplate;
 }
 
@@ -386,7 +387,8 @@ async function init() {
   const topRatedTvUrl = `https://api.themoviedb.org/3/tv/top_rated?language=en-US&api_key=${apiKey}&page=${page}`;
   await fetchTopRatedTv(topRatedTvUrl);
 
-  const upcomingMoviesUrl = `https://api.themoviedb.org/3/movie/upcoming?language=en-US&api_key=${apiKey}&page=${page}`;
+  // const upcomingMoviesUrl = `https://api.themoviedb.org/3/movie/upcoming?language=en-US&api_key=${apiKey}&page=${page}`;
+  const upcomingMoviesUrl = `https://api.themoviedb.org/3/discover/movie?language=en-US&api_key=${apiKey}&page=${page}&primary_release_date.gte=${dateToday}&sort_by=popularity.desc`;
   await fetchUpcomingMovies(upcomingMoviesUrl);
 }
 
