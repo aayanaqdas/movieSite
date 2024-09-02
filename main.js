@@ -17,6 +17,8 @@ let isSearching = false;
 let searchTerm;
 
 let dateToday = new Date().toISOString().slice(0, 10);
+let loader = document.getElementById("loader");
+let isLoadingMore = false;
 
 // Fetch JSON data from url
 async function fetchTrendingData(url) {
@@ -176,6 +178,7 @@ async function fetchAndShowSearch(url) {
   const data = await fetchDataSearch(url);
   if (data && data.results) {
     showSearchResults(data.results);
+
   }
 }
 
@@ -192,8 +195,10 @@ function showSearchResults(item) {
 
   /*Check if "No results found" already exists so it doesnt show multiple times*/
   if (searchContent == "") {
+    isLoadingMore = true;
     if (!searchResult.innerHTML.includes("No results found.")) {
       searchResult.innerHTML += "<p>No results found.</p>";
+      loader.classList.add("hide-element")
     }
   } else {
     searchResult.innerHTML += searchContent;
@@ -320,6 +325,7 @@ function clearResults() {
   upcomingMoviesResult.innerHTML = "";
   searchResult.innerHTML = "";
   page = 1;
+  isLoadingMore = false;
 }
 
 // Handle search
@@ -357,7 +363,14 @@ function loadMoreResults() {
     if (searchTerm) {
       page++;
       const newUrl = `${searchUrl}${searchTerm}&page=${page}`;
-      fetchAndShowSearch(newUrl);
+      loader.classList.remove("hide-element")
+      setTimeout(() => {
+       fetchAndShowSearch(newUrl); 
+        loader.classList.add("hide-element");
+        console.log(newUrl);
+        isLoadingMore = false;
+      }, 1000);
+      
     }
   }
 }
@@ -365,7 +378,7 @@ function loadMoreResults() {
 // Detect end of page and load more results
 function detectEnd() {
   const { scrollTop, clientHeight, scrollHeight } = document.documentElement;
-  if (scrollTop + clientHeight >= scrollHeight - 200) {
+  if (scrollTop + clientHeight >= scrollHeight - 100 && !isLoadingMore) {
     loadMoreResults();
   }
 }
@@ -374,7 +387,6 @@ function detectEnd() {
 form.addEventListener("submit", handleSearch);
 // loadMoreBtn.addEventListener("click", loadMoreResults)
 window.addEventListener("scroll", detectEnd);
-window.addEventListener("resize", detectEnd);
 
 // Initialize the page
 async function init() {

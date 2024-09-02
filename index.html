@@ -4,6 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="style.css" />
+
     <title>MovieSite</title>
   </head>
   <body>
@@ -22,27 +23,38 @@
         </form>
       </nav>
 
-      <div class="content-container">
-        <div class="content">
+      <section class="content-container">
+        <section class="content">
           <h4 id="resultsText" class="hide-element"></h4>
-          <div id="searchResult" class="hide-element"></div>
+          <div class="search-results_loader">
+            <div id="searchResult" class="hide-element"></div>
+            <div id="loader" class="loader hide-element"></div>
+          </div>
 
           <h2 class="sectionHeadline">Trending today</h2>
-          <div id="trendingSection" class="contentSections"></div>
+          <section id="trendingSection" class="contentSections"></section>
+
+          <h2 class="sectionHeadline">What's popular</h2>
+          <section id="popularSection" class="contentSections"></section>
 
           <h2 class="sectionHeadline">Top rated tv shows</h2>
-          <div id="topRatedTvSection" class="contentSections"></div>
+          <section id="topRatedTvSection" class="contentSections"></section>
 
           <h2 class="sectionHeadline">Upcoming movies</h2>
-          <div id="upcomingSection" class="contentSections"></div>
+          <section id="upcomingSection" class="contentSections"></section>
           <!-- <button id="loadMoreBtn" class="hide-element">Load More</button> -->
-        </div>
-      </div>
+        </section>
+      </section>
 
       <footer class="footer-container">
         <div class="header_logo-container">
-          <a href="https://www.themoviedb.org/"><img src="TMDb_primary_full_logo.svg" alt=""></a>
-          <h5>This website uses the TMDb API but is not endorsed or certified by <a href="https://www.themoviedb.org/">TMDb.</a></h5>
+          <a href="https://www.themoviedb.org/"
+            ><img src="TMDb_primary_full_logo.svg" alt=""
+          /></a>
+          <h5>
+            This website uses the TMDb API but is not endorsed or certified by
+            <a href="https://www.themoviedb.org/">TMDb.</a>
+          </h5>
         </div>
       </footer>
     </div>
