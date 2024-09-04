@@ -158,7 +158,9 @@ a {
 .search-card img {
   width: 100%;
   max-width: 100px;
+  min-height: 150px;
   border-radius: 10px;
+
 }
 
 .loader {
