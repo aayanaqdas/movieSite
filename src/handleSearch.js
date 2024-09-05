@@ -22,6 +22,7 @@ let loader = document.getElementById("loader");
 let isLoadingMore = false;
 
 
+
 /***********Searching************/
 // Fetch JSON data from url
 async function fetchDataSearch(url) {
@@ -95,7 +96,7 @@ async function fetchDataSearch(url) {
     const formattedDate =
       release_date.length > 4
         ? release_date.slice(0, 4)
-        : release_date || "No release date";
+        : release_date || "N/A";
     const year = formattedDate.slice(0, 4);
     const escapedOverview = overview.replace(/['"]/g, "&apos;");
     const description =
@@ -107,11 +108,12 @@ async function fetchDataSearch(url) {
     const genreNames = genre_ids
       .map((genreId) => {
         const genre = movieGenres.find((genre) => genre.id === genreId);
-        return genre ? genre.name : "";
+        return genre ? genre.name : "N/A";
       })
       .join(", ");
   
     const cardTemplate = `
+    <a href="info.html">
               <div class="search-card" data-id="${id}">
                 <img src="${imagePath}" alt="" />
                 <div class="search-card-text">
@@ -122,6 +124,9 @@ async function fetchDataSearch(url) {
                   </p>
                 </div>
               </div>
+  
+    </a>
+
         `;
   
     return cardTemplate;
@@ -149,7 +154,7 @@ async function fetchDataSearch(url) {
     const formattedDate =
       first_air_date.length > 4
         ? first_air_date.slice(0, 4)
-        : first_air_date || "No release date";
+        : first_air_date || "N/A";
     const year = formattedDate.slice(0, 4);
     const escapedOverview = overview.replace(/['"]/g, "&apos;");
     const description =
@@ -157,8 +162,8 @@ async function fetchDataSearch(url) {
         ? escapedOverview.slice(0, 110) + "... "
         : escapedOverview;
   
-    // Get genre_id from api and Map genre IDs to their names which is located in genres.js
-    const genreNames = genre_ids
+    // Get genre_id from api and Map genre IDs to their names which are located in genres.js
+    const genreNames =  genre_ids
       .map((genreId) => {
         const genre = tvGenres.find((genre) => genre.id === genreId);
         return genre ? genre.name : "";
@@ -166,7 +171,10 @@ async function fetchDataSearch(url) {
       .join(", ");
   
     const cardTemplate = `
-  <div class="search-card" data-id="${id}">
+
+    <a href="info.html">
+
+    <div class="search-card" data-id="${id}">
   <span class="tv-label">TV</span>
     <img src="${imagePath}" alt="" />
     <div class="search-card-text">
@@ -178,6 +186,9 @@ async function fetchDataSearch(url) {
     </div>
   </div>
   
+</a>
+
+  
   `;
   
     return cardTemplate;
@@ -185,9 +196,12 @@ async function fetchDataSearch(url) {
   
   // Clear result element for search
   function clearResults() {
-    trendingResult.innerHTML = "";
-    topRatedTvResult.innerHTML = "";
-    upcomingMoviesResult.innerHTML = "";
+    //Checks if the page is on index.html before clearing content
+    if (document.location.pathname.includes("index.html")) {
+        trendingResult.innerHTML = "";
+        topRatedTvResult.innerHTML = "";
+        upcomingMoviesResult.innerHTML = "";
+      }
     searchResult.innerHTML = "";
     page = 1;
     isLoadingMore = false;
@@ -209,11 +223,13 @@ async function fetchDataSearch(url) {
         headline.classList.add("hide-element");
       });
       const resultsText = document.getElementById("resultsText");
-      trendingResult.classList.add("hide-element");
-      popularMoviesResult.classList.add("hide-element");
-      topRatedTvResult.classList.add("hide-element");
-      upcomingMoviesResult.classList.add("hide-element");
-  
+
+
+          trendingResult.classList.add("hide-element");
+          popularMoviesResult.classList.add("hide-element");
+          topRatedTvResult.classList.add("hide-element");
+          upcomingMoviesResult.classList.add("hide-element");       
+
       searchResult.classList.remove("hide-element");
       // loadMoreBtn.classList.remove("hide-element");
       resultsText.classList.remove("hide-element");

@@ -5,10 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="./src/style.css" />
 
-    <title>MovieSite</title>
+    <title>Info</title>
   </head>
   <body>
-    <div class="landing-page-container">
+    <div class="info-page-container">
       <nav class="navbar-container">
         <div class="nav_sitename">
           <i class="nav-icon fa-solid fa-bars"></i>
@@ -23,7 +23,7 @@
         </form>
       </nav>
 
-      <section class="content-container">
+      <section class="info-content-container">
         <section class="content">
           <h4 id="resultsText" class="hide-element"></h4>
           <div class="search-results_loader">
@@ -31,18 +31,7 @@
             <div id="loader" class="loader hide-element"></div>
           </div>
 
-          <h2 class="sectionHeadline">Trending today</h2>
-          <section id="trendingSection" class="contentSections"></section>
-
-          <h2 class="sectionHeadline">Popular movies</h2>
-          <section id="popularMoviesSection" class="contentSections"></section>
-
-          <h2 class="sectionHeadline">Top rated tv shows</h2>
-          <section id="topRatedTvSection" class="contentSections"></section>
-
-          <h2 class="sectionHeadline">Upcoming movies</h2>
-          <section id="upcomingSection" class="contentSections"></section>
-          <!-- <button id="loadMoreBtn" class="hide-element">Load More</button> -->
+          
         </section>
       </section>
 
@@ -59,6 +48,8 @@
       </footer>
     </div>
 
+
+    <script type="module" src="./src/movieInfo.js"></script>
     <script type="module" src="./src/main.js"></script>
     <script type="module" src="./src/handleSearch.js"></script>
     <script type="module" src="./src/genres.js"></script>

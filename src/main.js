@@ -12,8 +12,10 @@ let page = 1;
 
 let dateToday = new Date().toISOString().slice(0, 10);
 
+const language = navigator.languages[0];
+const region = navigator.languages[0].substring(3);
 
-export{apiKey, imgApi};
+export { apiKey, imgApi };
 
 // Fetch JSON data from url
 async function fetchTrendingData(url) {
@@ -32,7 +34,6 @@ async function fetchTrendingData(url) {
     return null;
   }
 }
-
 
 async function fetchPopularMoviesData(url) {
   try {
@@ -117,7 +118,6 @@ function showResults(items, type) {
   } else if (type === "popularMoviesData") {
     const newContent = items.map(createMovieCard).join("");
     popularMoviesResult.innerHTML += newContent || "<p>No results found.</p>";
-
   } else if (type === "topRatedTvData") {
     const newContent = items.map(createTvCard).join("");
     topRatedTvResult.innerHTML += newContent || "<p>No results found.</p>";
@@ -136,16 +136,23 @@ function createMovieCard(movie) {
     release_date,
     overview,
     id,
+    vote_average,
     media_type,
   } = movie;
 
   const backDrop = backdrop_path ? imgApi + backdrop_path : "./img-01.jpeg";
-  const imagePath = poster_path ? imgApi + poster_path : "./images/no_image.svg";
+  const imagePath = poster_path
+    ? imgApi + poster_path
+    : "./images/no_image.svg";
 
   const cardTemplate = `
-              <div class="movie-card card" data-id="${id}">
-              <img src="${imagePath}" alt="" />
-            </div>
+    <a href="info.html">
+        <div class="movie-card card" data-id="${id}">
+          <img src="${imagePath}" alt="" />
+      </div>
+  
+  </a>
+
     `;
 
   return cardTemplate;
@@ -164,47 +171,55 @@ function createTvCard(tv) {
   } = tv;
 
   const backDrop = backdrop_path ? imgApi + backdrop_path : "./img-01.jpeg";
-  const imagePath = poster_path ? imgApi + poster_path : "./images/no_image.svg";
+  const imagePath = poster_path
+    ? imgApi + poster_path
+    : "./images/no_image.svg";
+
+  const year = first_air_date;
 
   const cardTemplate = `
-            <div class="tv-card card" data-id="${id}">
-              <span class="tv-label">TV</span>
-              <img src="${imagePath}" alt="" />
-            </div>
+    <a href="info.html">
+        <div class="tv-card card" data-id="${id}">
+          <span class="tv-label">TV</span>
+          <img src="${imagePath}" alt="${original_name}" />
+
+        </div>
+  </a>
+
 
     `;
 
   return cardTemplate;
 }
 
-  // Clear result element for search
-  function clearResults() {
-    trendingResult.innerHTML = "";
-    popularMoviesResult.innerHTML = "";
-    topRatedTvResult.innerHTML = "";
-    upcomingMoviesResult.innerHTML = "";
-    searchResult.innerHTML = "";
-    page = 1;
-  }
-  
-
-
+// Clear result element for search
+function clearResults() {
+  trendingResult.innerHTML = "";
+  popularMoviesResult.innerHTML = "";
+  topRatedTvResult.innerHTML = "";
+  upcomingMoviesResult.innerHTML = "";
+  searchResult.innerHTML = "";
+  page = 1;
+}
 
 // Initialize the page
 async function init() {
   clearResults();
-  
-  const trendingAllUrl = `https://api.themoviedb.org/3/trending/all/day?language=en-US&api_key=${apiKey}&page=${page}`;
+
+  const trendingAllUrl = `https://api.themoviedb.org/3/trending/all/day?language=${language}&api_key=${apiKey}&page=${page}`;
   await fetchTrendingAll(trendingAllUrl);
 
-  const popularMoviesUrl = `https://api.themoviedb.org/3/discover/movie?language=en-US&api_key=${apiKey}&page=${page}&sort_by=popularity.desc`;
+  const popularMoviesUrl = `https://api.themoviedb.org/3/discover/movie?language=${language}&api_key=${apiKey}&page=${page}&sort_by=popularity.desc`;
   await fetchPopularMovies(popularMoviesUrl);
 
-  const topRatedTvUrl = `https://api.themoviedb.org/3/tv/top_rated?language=en-US&api_key=${apiKey}&page=${page}`;
+  const topRatedTvUrl = `https://api.themoviedb.org/3/tv/top_rated?language=${language}&api_key=${apiKey}&page=${page}`;
   await fetchTopRatedTv(topRatedTvUrl);
 
-  const upcomingMoviesUrl = `https://api.themoviedb.org/3/discover/movie?language=en-US&api_key=${apiKey}&page=${page}&primary_release_date.gte=${dateToday}&sort_by=popularity.desc`;
+  const upcomingMoviesUrl = `https://api.themoviedb.org/3/discover/movie?language=${language}&api_key=${apiKey}&page=${page}&primary_release_date.gte=${dateToday}&sort_by=popularity.desc`;
   await fetchUpcomingMovies(upcomingMoviesUrl);
+
+  console.log(language);
+  console.log(region);
 }
 
 init();
