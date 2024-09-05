@@ -140,7 +140,7 @@ function createMovieCard(movie) {
   } = movie;
 
   const backDrop = backdrop_path ? imgApi + backdrop_path : "./img-01.jpeg";
-  const imagePath = poster_path ? imgApi + poster_path : "/images/no_image.svg";
+  const imagePath = poster_path ? imgApi + poster_path : "./images/no_image.svg";
 
   const cardTemplate = `
               <div class="movie-card card" data-id="${id}">
@@ -164,7 +164,7 @@ function createTvCard(tv) {
   } = tv;
 
   const backDrop = backdrop_path ? imgApi + backdrop_path : "./img-01.jpeg";
-  const imagePath = poster_path ? imgApi + poster_path : "/images/no_image.svg";
+  const imagePath = poster_path ? imgApi + poster_path : "./images/no_image.svg";
 
   const cardTemplate = `
             <div class="tv-card card" data-id="${id}">

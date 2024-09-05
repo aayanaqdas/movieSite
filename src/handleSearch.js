@@ -86,7 +86,7 @@ async function fetchDataSearch(url) {
     } = movie;
   
     const backDrop = backdrop_path ? imgApi + backdrop_path : "./img-01.jpeg";
-    const imagePath = poster_path ? imgApi + poster_path : "/images/no_image.svg";
+    const imagePath = poster_path ? imgApi + poster_path : "./images/no_image.svg";
   
     const searchTitle =
       original_title.length > 25
@@ -140,7 +140,7 @@ async function fetchDataSearch(url) {
     } = tv;
   
     const backDrop = backdrop_path ? imgApi + backdrop_path : "./img-01.jpeg";
-    const imagePath = poster_path ? imgApi + poster_path : "/images/no_image.svg";
+    const imagePath = poster_path ? imgApi + poster_path : "./images/no_image.svg";
   
     const searchTitle =
       original_name.length > 31
