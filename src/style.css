@@ -9,6 +9,7 @@
   --grey: #999c9f;
   --input-background: #131a22;
   --footer-background:#161e27;
+  --loading-grey: #ededed;
 }
 
 * {
@@ -212,6 +213,31 @@ a {
   padding: 2px 7px;
   font-size: 10px;
   border-radius: 5px;
+}
+
+
+.skeleton-poster-card{
+  width: 100%;
+  min-width: 130px;
+  max-width: 130px;
+  height: 195px;
+  border-radius: 10px;
+  background-color: var(--loading-grey);
+  background: linear-gradient(
+    100deg,
+    rgba(255, 255, 255, 0) 40%,
+    rgba(255, 255, 255, .5) 50%,
+    rgba(255, 255, 255, 0) 60%
+  ) var(--loading-grey);
+  background-size: 200% 100%;
+  background-position-x: 180%;
+  animation: 1s loading-skeleton ease-in-out infinite;
+}
+
+@keyframes loading-skeleton {
+  to {
+    background-position-x: -20%;
+  }
 }
 
 .card {

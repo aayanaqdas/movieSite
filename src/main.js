@@ -10,12 +10,13 @@ const searchResult = document.getElementById("searchResult");
 const loadMoreBtn = document.getElementById("loadMoreBtn");
 let page = 1;
 
-let dateToday = new Date().toISOString().slice(0, 10);
+const dateToday = new Date().toISOString().slice(0, 10);
 
 const language = navigator.languages[0];
 const region = navigator.languages[0].substring(3);
 
 export { apiKey, imgApi };
+
 
 // Fetch JSON data from url
 async function fetchTrendingData(url) {
@@ -28,6 +29,7 @@ async function fetchTrendingData(url) {
     const data = await response.json();
     console.log(data);
     if (data && data.results) {
+      trendingResult.innerHTML = "";
       showResults(data.results, "trendingData");
     }
   } catch (error) {
@@ -45,6 +47,7 @@ async function fetchPopularMoviesData(url) {
     const data = await response.json();
     console.log(data);
     if (data && data.results) {
+      popularMoviesResult.innerHTML = "";
       showResults(data.results, "popularMoviesData");
     }
   } catch (error) {
@@ -62,6 +65,7 @@ async function fetchTopRatedTvData(url) {
     const data = await response.json();
     console.log(data);
     if (data && data.results) {
+      topRatedTvResult.innerHTML = "";
       showResults(data.results, "topRatedTvData");
     }
   } catch (error) {
@@ -79,6 +83,7 @@ async function fetchUpcomingData(url) {
     const data = await response.json();
     console.log(data);
     if (data && data.results) {
+      upcomingMoviesResult.innerHTML = "";
       showResults(data.results, "upcomingMoviesData");
     }
   } catch (error) {
@@ -204,7 +209,6 @@ function clearResults() {
 
 // Initialize the page
 async function init() {
-  clearResults();
 
   const trendingAllUrl = `https://api.themoviedb.org/3/trending/all/day?language=${language}&api_key=${apiKey}&page=${page}`;
   await fetchTrendingAll(trendingAllUrl);
