@@ -17,10 +17,31 @@ let isSearching = false;
 
 let searchTerm;
 
+let currentResultsLength = 0;
 let totalResultsCount = 0;
 let totalSearchResults;
 
-const searchSkeleton = document.getElementById("search-skeleton-container");
+const skeletonContainer = document.getElementById("search-skeleton-container");
+
+// Function to generate skeletons
+function generateSkeletons(numSkeletons) {
+  // Clear existing skeletons
+  skeletonContainer.innerHTML = "";
+
+  for (let i = 0; i < numSkeletons; i++) {
+    const skeleton = document.createElement("div");
+    skeleton.classList.add("skeleton-search-card", "skeleton");
+    skeleton.innerHTML = `
+      <div class="skeleton-search-img"></div>
+      <div class="skeleton-search-text">
+        <h3 class="skeleton-search-title"></h3>
+        <p class="skeleton-search-paragraph"></p>
+        <p class="skeleton-search-paragraph"></p>
+      </div>
+    `;
+    skeletonContainer.appendChild(skeleton);
+  }
+}
 
 /***********Searching************/
 // Fetch JSON data from url
@@ -44,15 +65,16 @@ async function fetchDataSearch(url) {
 async function fetchAndShowSearch(url) {
   const data = await fetchDataSearch(url);
   if (data && data.results) {
-    searchSkeleton.classList.add("hide-element");
+    skeletonContainer.classList.add("hide-element");
     showSearchResults(data.results);
 
     //keeps track of how many results are available and how many results are currently loaded in
     totalSearchResults = data.total_results;
-    let currentResultsLength = data.results.length;
+    currentResultsLength = data.results.length;
     totalResultsCount += currentResultsLength;
 
     console.log(totalSearchResults);
+    generateSkeletons(10); // Generate skeletons based on current results length
   }
 }
 
@@ -67,7 +89,7 @@ function showSearchResults(item) {
     })
     .join("");
 
-  searchResult.innerHTML += searchContent || "No results found";
+  searchResult.innerHTML += searchContent || "<p>No results found<p>";
 }
 
 /******Importing genres from genres.js ******/
@@ -195,9 +217,8 @@ function createSearchCardTv(tv) {
   return cardTemplate;
 }
 
-// Clear result element for search
+// Clear result element for search and reset variables
 function clearResults() {
-  //Checks if the page is on index.html before clearing content
   searchResult.innerHTML = "";
   trendingResult.innerHTML = "";
   topRatedTvResult.innerHTML = "";
@@ -214,7 +235,8 @@ async function handleSearch(e) {
   if (searchTermInput) {
     isSearching = true;
     clearResults();
-    searchSkeleton.classList.remove("hide-element");
+    skeletonContainer.classList.remove("hide-element");
+    generateSkeletons(10); // Generate 10 skeletons initially
     searchTerm = searchTermInput;
     const newUrl = `${searchUrl}${searchTerm}`;
     const sectionHeadline = document.querySelectorAll(".sectionHeadline");
@@ -244,7 +266,8 @@ function loadMoreResults() {
     if (searchTerm) {
       page++;
       const newUrl = `${searchUrl}${searchTerm}&page=${page}`;
-      searchSkeleton.classList.remove("hide-element");
+      skeletonContainer.classList.remove("hide-element");
+      generateSkeletons(currentResultsLength); // Generate 10 skeletons initially
       fetchAndShowSearch(newUrl);
     }
   }
@@ -264,5 +287,4 @@ function detectEnd() {
 // Event listeners
 form.addEventListener("submit", handleSearch);
 // loadMoreBtn.addEventListener("click", loadMoreResults)
-
 window.addEventListener("scroll", detectEnd);
