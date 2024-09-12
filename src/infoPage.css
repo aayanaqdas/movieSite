@@ -1,0 +1,173 @@
+
+  .info-page-container{
+    display: flex;
+    flex-direction: column;
+    max-width: 1200px;
+    height: 100vh;
+    margin: 0 auto;
+    box-sizing: border-box;
+  }
+  
+  .navbar-container {
+    width: 100%;
+    height: 105px;
+  
+  }
+  
+  .nav_sitename {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    height: 49px;
+  }
+  
+  .site-name {
+    color: var(--yellow);
+    cursor: pointer;
+  }
+  
+  a {
+    text-decoration: none;
+  }
+  
+  .nav-icon {
+    font-size: 20px;
+    color: var(--grey);
+    padding: 1px 15px;
+    cursor: pointer;
+  }
+  
+  .searchbar {
+    margin: 0 auto;
+    position: relative;
+    width: calc(100% - 20px);
+  }
+  
+  #searchInput {
+    background-color: var(--input-background);
+    color: var(--grey);
+    width: 100%;
+    height: 40px;
+    border: none;
+    border-radius: 7px;
+    outline: none;
+    text-indent: 33px;
+    font-size: 16px;
+  }
+  
+  #searchIcon {
+    color: var(--grey);
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
+    margin-left: 10px;
+    font-size: large;
+  }
+  
+  .hide-element {
+    display: none !important;
+  }
+  
+  #info-section-container{
+    width: 100%;
+    margin-top: 10px;
+  }
+
+  .info-section{
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .poster_backdrop {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 100%;
+    background-color: var(--input-background);
+  }
+
+.info-backdrop {
+
+  }
+
+.info-poster {
+    width: 25%;
+    max-width: 250px;
+    border-radius: 10px;
+    position: absolute;
+    margin-left: 20px; 
+    box-shadow: 0em 5px 2em #000000;
+  }
+  
+.info-content{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 50px;
+    padding: 15px;
+    background-color: var(--input-background);
+}
+
+.title_general-info{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+}
+
+.info-title{
+    margin-bottom: 10px;
+    display: flex;
+    
+}
+
+.info-title h1{
+    font-size: 22px;
+    color: var(--white);
+}
+
+.year{
+    color: grey;
+    margin-top: 6px;
+    font-size: 17px;
+}
+
+.general-info{
+    color: var(--grey);
+    display: flex;
+    gap: 10px;
+}
+
+.rating{
+    display: flex;
+    gap: 10px;
+       
+ 
+}
+
+.star{
+    display: flex;
+    align-items: center;
+    gap: 2px;
+}
+
+
+
+
+.info-overview{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    color: var(--grey);
+}
+
+.overview-header{
+    color: var(--white);
+}

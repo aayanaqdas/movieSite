@@ -4,6 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="./src/style.css" />
+    <link rel="stylesheet" href="./src/infoPage.css" />
 
     <title>Info</title>
   </head>
@@ -23,17 +24,43 @@
         </form>
       </nav>
 
-      <section class="info-content-container">
-        <section class="content">
-          <h4 id="resultsText" class="hide-element"></h4>
-          <div class="search-results_loader">
-            <div id="searchResult" class="hide-element"></div>
-            <div id="loader" class="loader hide-element"></div>
+      <div id="info-section-container">
+        <div class="info-section">
+          <div class="poster_backdrop">
+            <img
+              class="info-backdrop"
+              src="./images/the_batman_backdrop.jpg"
+              alt=""
+            />
+            <img class="info-poster" src="./images/batman_poster.png" alt="" />
           </div>
 
-          
-        </section>
-      </section>
+          <div class="info-content">
+            <div class="title_general-info">
+              <div class="info-title">
+                <h1>The Batman <span class="year">(2022)</span></h1>
+                
+              </div>
+              <div class="general-info">
+                <div class="rating">
+                  <p class="star"><i class="fa-solid fa-star" style="color: #FFD43B;"></i>5.7</p>
+                </div>
+                <div class="runtime">2h 57m</div>
+                <div class="genre">Crime, Mystery, Thriller</div>
+              </div>
+            </div>
+
+            <div class="info-overview">
+              <h3 class="overview-header">Overview</h3>
+              <p>
+                In his second year of fighting crime, Batman uncovers corruption
+                in Gotham City that connects to his own family while facing a
+                serial killer known as the Riddler. Matt Reev
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
 
       <footer class="footer-container">
         <div class="header_logo-container">
@@ -47,7 +74,6 @@
         </div>
       </footer>
     </div>
-
 
     <script type="module" src="./src/movieInfo.js"></script>
     <script type="module" src="./src/main.js"></script>
