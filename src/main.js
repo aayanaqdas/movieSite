@@ -17,12 +17,11 @@ const region = navigator.languages[0].substring(3);
 
 export { apiKey, imgApi };
 
-
 // Fetch JSON data from url
 async function fetchTrendingData(url) {
   try {
     const response = await fetch(url);
-    console.log(url);
+    // console.log(url);
     if (!response.ok) {
       throw new Error("Network response was not ok.");
     }
@@ -40,12 +39,12 @@ async function fetchTrendingData(url) {
 async function fetchPopularMoviesData(url) {
   try {
     const response = await fetch(url);
-    console.log(url);
+    // console.log(url);
     if (!response.ok) {
       throw new Error("Network response was not ok.");
     }
     const data = await response.json();
-    console.log(data);
+    // console.log(data);
     if (data && data.results) {
       popularMoviesResult.innerHTML = "";
       showResults(data.results, "popularMoviesData");
@@ -58,12 +57,12 @@ async function fetchPopularMoviesData(url) {
 async function fetchTopRatedTvData(url) {
   try {
     const response = await fetch(url);
-    console.log(url);
+    // console.log(url);
     if (!response.ok) {
       throw new Error("Network response was not ok.");
     }
     const data = await response.json();
-    console.log(data);
+    // console.log(data);
     if (data && data.results) {
       topRatedTvResult.innerHTML = "";
       showResults(data.results, "topRatedTvData");
@@ -76,12 +75,12 @@ async function fetchTopRatedTvData(url) {
 async function fetchUpcomingData(url) {
   try {
     const response = await fetch(url);
-    console.log(url);
+    // console.log(url);
     if (!response.ok) {
       throw new Error("Network response was not ok.");
     }
     const data = await response.json();
-    console.log(data);
+    // console.log(data);
     if (data && data.results) {
       upcomingMoviesResult.innerHTML = "";
       showResults(data.results, "upcomingMoviesData");
@@ -151,7 +150,7 @@ function createMovieCard(movie) {
     : "./images/no_image.svg";
 
   const cardTemplate = `
-    <a href="info.html">
+<a href="info.html?id=${id}&mediaType=movie">
         <div class="movie-card card" data-id="${id}">
           <img src="${imagePath}" alt="" />
       </div>
@@ -183,7 +182,7 @@ function createTvCard(tv) {
   const year = first_air_date;
 
   const cardTemplate = `
-    <a href="info.html">
+<a href="info.html?id=${id}&mediaType=tv">
         <div class="tv-card card" data-id="${id}">
           <span class="tv-label">TV</span>
           <img src="${imagePath}" alt="${original_name}" />
@@ -209,7 +208,6 @@ function clearResults() {
 
 // Initialize the page
 async function init() {
-
   const trendingAllUrl = `https://api.themoviedb.org/3/trending/all/day?language=${language}&api_key=${apiKey}&page=${page}`;
   await fetchTrendingAll(trendingAllUrl);
 

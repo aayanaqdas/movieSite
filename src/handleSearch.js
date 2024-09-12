@@ -10,6 +10,7 @@ const popularMoviesResult = document.getElementById("popularMoviesSection");
 const upcomingMoviesResult = document.getElementById("upcomingSection");
 const topRatedTvResult = document.getElementById("topRatedTvSection");
 
+
 const searchResult = document.getElementById("searchResult");
 const loadMoreBtn = document.getElementById("loadMoreBtn");
 let page = 1;
@@ -134,7 +135,7 @@ function createSearchCard(movie) {
     .join(", ");
 
   const cardTemplate = `
-    <a href="info.html">
+    <a href="info.html?id=${id}&mediaType=movie">
               <div class="search-card" data-id="${id}">
                 <img src="${imagePath}" alt="" />
                 <div class="search-card-text">
@@ -195,7 +196,7 @@ function createSearchCardTv(tv) {
 
   const cardTemplate = `
 
-    <a href="info.html">
+    <a href="info.html?id=${id}&mediaType=tv"">
 
     <div class="search-card" data-id="${id}">
   <span class="tv-label">TV</span>
