@@ -89,7 +89,8 @@
     text-indent: 33px;
     font-size: 16px;
   }
-  
+
+
   #searchIcon {
     color: var(--grey);
     position: absolute;
@@ -123,10 +124,11 @@
     flex-direction: column;
     justify-content: center;
     width: 100%;
+    height: 100%;
   }
 
 .info-backdrop {
- 
+
   }
 
 .info-poster {
@@ -142,7 +144,6 @@
     flex-direction: column;
     align-items: center;
     gap: 50px;
-    padding: 15px;
     background-color: var(--input-background);
 }
 
@@ -151,29 +152,33 @@
     flex-direction: column;
     align-items: center;
     width: 100%;
+
 }
 
 .info-title{
-    margin-bottom: 10px;
-    display: flex;
-    
+    width: 100%;
+    display:flex;
+    justify-content: center;
 }
 
 .info-title h1{
-    font-size: 22px;
+      padding: 16px 20px;
+    font-size: large;
     color: var(--white);
+    display: inline-block;
+    line-height: 1;
 }
 
 .year{
     color: grey;
-    margin-top: 6px;
-    font-size: 17px;
+    font-size: medium;
 }
 
 .general-info{
     color: var(--grey);
     display: flex;
     gap: 10px;
+    padding: 16px 20px;
 }
 
 .rating{
@@ -197,6 +202,7 @@
     flex-direction: column;
     gap: 10px;
     color: var(--grey);
+    padding: 16px 20px;
 }
 
 .overview-header{

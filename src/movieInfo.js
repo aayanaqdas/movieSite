@@ -65,7 +65,7 @@ function createInfoPageMovie(movie) {
   const {
     backdrop_path,
     poster_path,
-    original_title,
+    title,
     release_date,
     overview,
     id,
@@ -106,15 +106,15 @@ function createInfoPageMovie(movie) {
             <img
               class="info-backdrop"
               src="${backDrop}"
-              alt="${original_title}"
+              alt="${title}"
             />
-            <img class="info-poster" src="${imagePath}" alt="${original_title}" />
+            <img class="info-poster" src="${imagePath}" alt="${title}" />
           </div>
 
           <div class="info-content">
             <div class="title_general-info">
               <div class="info-title">
-                <h1>${original_title} <span class="year">(${year})</span></h1>
+                <h1>${title} <span class="year">(${year})</span></h1>
                 
               </div>
               <div class="general-info">
@@ -146,7 +146,7 @@ function createInfoPageTv(tv) {
   const {
     backdrop_path,
     poster_path,
-    original_name,
+    name,
     first_air_date,
     overview,
     id,
@@ -178,15 +178,15 @@ function createInfoPageTv(tv) {
             <img
               class="info-backdrop"
               src="${backDrop}"
-              alt="${original_name}"
+              alt="${name}"
             />
-            <img class="info-poster" src="${imagePath}" alt="${original_name}" />
+            <img class="info-poster" src="${imagePath}" alt="${name}" />
           </div>
 
           <div class="info-content">
             <div class="title_general-info">
               <div class="info-title">
-                <h1>${original_name}<span class="year"${year}</span></h1>
+                <h1>${name} <span class="year">(${year})</span></h1>
                 
               </div>
               <div class="general-info">

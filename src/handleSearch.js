@@ -100,7 +100,7 @@ function createSearchCard(movie) {
   const {
     backdrop_path,
     poster_path,
-    original_title,
+    title,
     release_date,
     overview,
     id,
@@ -114,9 +114,9 @@ function createSearchCard(movie) {
     : "./images/no_image.svg";
 
   const searchTitle =
-    original_title.length > 25
-      ? original_title.slice(0, 25) + "..."
-      : original_title;
+    title.length > 25
+      ? title.slice(0, 25) + "..."
+      : title;
   const formattedDate =
     release_date.length > 4 ? release_date.slice(0, 4) : release_date || "N/A";
   const year = formattedDate.slice(0, 4);
@@ -158,7 +158,7 @@ function createSearchCardTv(tv) {
   const {
     backdrop_path,
     poster_path,
-    original_name,
+    name,
     first_air_date,
     overview,
     id,
@@ -172,9 +172,9 @@ function createSearchCardTv(tv) {
     : "./images/no_image.svg";
 
   const searchTitle =
-    original_name.length > 31
-      ? original_name.slice(0, 29) + "..."
-      : original_name;
+    name.length > 31
+      ? name.slice(0, 29) + "..."
+      : name;
   const formattedDate =
     first_air_date.length > 4
       ? first_air_date.slice(0, 4)
