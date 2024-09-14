@@ -76,6 +76,7 @@
     margin: 0 auto;
     position: relative;
     width: calc(100% - 20px);
+    display: none;
   }
   
   #searchInput {
@@ -119,27 +120,57 @@
     align-items: center;
   }
 
-  .poster_backdrop {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    width: 100%;
+.poster_backdrop {
+    min-width: 380px;
     height: 100%;
+    display: flex;
+    align-items: center;
   }
 
 .info-backdrop {
-
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  z-index: -3;
   }
 
+.info-backdrop img{
+    width: 90%;
+  }
+
+.backdrop-gradient{ 
+  height: 100%;
+  width: 27%;
+  position: absolute;
+  background: linear-gradient(
+    to right,
+    var(--background) 20%,
+    rgba(6, 13, 23, 0.9) 45%,
+    rgba(6, 13, 23, 0.7) 60%,
+    rgba(6, 13, 23, 0.54) 70%,
+    rgba(6, 13, 23, 0.276) 80%,
+    transparent 100%
+  );  
+  z-index: -2;
+}
+
 .info-poster {
-    width: 25%;
-    max-width: 250px;
-    border-radius: 10px;
+    width: 100%;
     position: absolute;
-    margin-left: 20px; 
-    box-shadow: 0em 15px 15px rgba(0, 0, 0, 0.7);  }
+    display: flex;
+    align-items: center;
+    z-index: -1;
+   }
+
+   .info-poster img{
+    width: 25%;   
+    border-radius: 10px;   
+    box-shadow: 0em 15px 15px rgba(0, 0, 0, 0.7); 
+    margin-left: 10px;
+   }
   
 .info-content{
+    margin-top: 10px;
     display: flex;
     flex-direction: column;
     align-items: center;

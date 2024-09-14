@@ -76,8 +76,8 @@ function createInfoPageMovie(movie) {
     runtime,
   } = movie;
 
-  const backDrop = backdrop_path ? imgApi + backdrop_path : "./img-01.jpeg";
-  const imagePath = poster_path
+  const backDrop = backdrop_path ? imgApi + backdrop_path : "./images/no_image.svg";
+  const poster = poster_path
     ? imgApi + poster_path
     : "./images/no_image.svg";
 
@@ -100,42 +100,43 @@ function createInfoPageMovie(movie) {
     .join(", ");
 
   const cardTemplate = `
-       <div class="info-section" data-id="${id}">
-          
-          <div class="poster_backdrop">
-            <img
-              class="info-backdrop"
-              src="${backDrop}"
-              alt="${title}"
-            />
-            <img class="info-poster" src="${imagePath}" alt="${title}" />
-          </div>
 
-          <div class="info-content">
-            <div class="title_general-info">
-              <div class="info-title">
-                <h1>${title} <span class="year">(${year})</span></h1>
-                
-              </div>
-              <div class="general-info">
-                <div class="rating">
-                  <p class="star"><i class="fa-solid fa-star" style="color: #FFD43B;"></i>${rating}</p>
-                </div>
-                •
-                <div class="runtime">${formatRuntime}</div>
-                •
-                <div class="genre">${genreNames}</div>
-              </div>
-            </div>
+  <div class="info-section" data-id="${id}">
+  <div class="poster_backdrop">
+    <div class="info-backdrop">
+      <img src="${backDrop}" alt="${title}" />
+    </div>
+    <div class="backdrop-gradient"></div>
+    <div class="info-poster">
+      <img src="${poster}" alt="${title}" />
+    </div>
+  </div>
 
-            <div class="info-overview">
-              <h3 class="overview-header">Overview</h3>
-              <p>
-              ${overview}
-              </p>
-            </div>
-          </div>
+  <div class="info-content">
+    <div class="title_general-info">
+      <div class="info-title">
+        <h1>${title} <span class="year">(${year})</span></h1>
+      </div>
+      <div class="general-info">
+        <div class="rating">
+          <p class="star">
+            <i class="fa-solid fa-star" style="color: #ffd43b"></i
+            >${rating}
+          </p>
         </div>
+        •
+        <div class="runtime">${formatRuntime}</div>
+        •
+        <div class="genre">${genreNames}</div>
+      </div>
+    </div>
+
+    <div class="info-overview">
+      <h3 class="overview-header">Overview</h3>
+      <p>${overview}</p>
+    </div>
+  </div>
+</div>
 
         `;
 
@@ -156,8 +157,8 @@ function createInfoPageTv(tv) {
     vote_count,
   } = tv;
 
-  const backDrop = backdrop_path ? imgApi + backdrop_path : "./img-01.jpeg";
-  const imagePath = poster_path
+  const backDrop = backdrop_path ? imgApi + backdrop_path : "./images/no_image.svg";
+  const poster = poster_path
     ? imgApi + poster_path
     : "./images/no_image.svg";
 
@@ -172,26 +173,28 @@ function createInfoPageTv(tv) {
 
   const cardTemplate = `
 
-       <div class="info-section" data-id="${id}">
-          
+        <div class="info-section" data-id="${id}">
           <div class="poster_backdrop">
-            <img
-              class="info-backdrop"
-              src="${backDrop}"
-              alt="${name}"
-            />
-            <img class="info-poster" src="${imagePath}" alt="${name}" />
+            <div class="info-backdrop">
+              <img src="${backDrop}" alt="${name}" />
+            </div>
+            <div class="backdrop-gradient"></div>
+            <div class="info-poster">
+              <img src="${poster}" alt="${name}" />
+            </div>
           </div>
 
           <div class="info-content">
             <div class="title_general-info">
               <div class="info-title">
                 <h1>${name} <span class="year">(${year})</span></h1>
-                
               </div>
               <div class="general-info">
                 <div class="rating">
-                  <p class="star"><i class="fa-solid fa-star" style="color: #FFD43B;"></i>${rating}</p>
+                  <p class="star">
+                    <i class="fa-solid fa-star" style="color: #ffd43b"></i
+                    >${rating}
+                  </p>
                 </div>
                 •
                 <div class="genre">${genreNames}</div>
@@ -200,15 +203,14 @@ function createInfoPageTv(tv) {
 
             <div class="info-overview">
               <h3 class="overview-header">Overview</h3>
-              <p>
-              ${overview}
-              </p>
+              <p>${overview}</p>
             </div>
           </div>
         </div>
 
   
   `;
+  
 
   return cardTemplate;
 }
