@@ -22,7 +22,13 @@ let currentResultsLength = 0;
 let totalResultsCount = 0;
 let totalSearchResults;
 
+
 const skeletonContainer = document.getElementById("search-skeleton-container");
+
+
+const infoSectionContainer = document.getElementById("info-section-container");
+
+
 
 // Function to generate skeletons
 function generateSkeletons(numSkeletons) {
@@ -66,6 +72,7 @@ async function fetchDataSearch(url) {
 async function fetchAndShowSearch(url) {
   const data = await fetchDataSearch(url);
   if (data && data.results) {
+    console.log(data);
     skeletonContainer.classList.add("hide-element");
     showSearchResults(data.results);
 
@@ -73,6 +80,7 @@ async function fetchAndShowSearch(url) {
     totalSearchResults = data.total_results;
     currentResultsLength = data.results.length;
     totalResultsCount += currentResultsLength;
+
 
     console.log(totalSearchResults);
     generateSkeletons(10); // Generate skeletons based on current results length
@@ -221,57 +229,36 @@ function createSearchCardTv(tv) {
 // Clear result element for search and reset variables
 function clearResults() {
   searchResult.innerHTML = "";
-  trendingResult.innerHTML = "";
-  topRatedTvResult.innerHTML = "";
-  upcomingMoviesResult.innerHTML = "";
   page = 1;
   totalResultsCount = 0;
+  query.value = "";
 }
 
 // Handle search
 async function handleSearch(e) {
   e.preventDefault();
   const searchTermInput = query.value.trim();
-
   if (searchTermInput) {
-    isSearching = true;
-    clearResults();
-    skeletonContainer.classList.remove("hide-element");
-    generateSkeletons(10); // Generate 10 skeletons initially
-    searchTerm = searchTermInput;
-    const newUrl = `${searchUrl}${searchTerm}`;
-    const sectionHeadline = document.querySelectorAll(".sectionHeadline");
-    sectionHeadline.forEach((headline) => {
-      headline.classList.add("hide-element");
-    });
-    const resultsText = document.getElementById("resultsText");
-
-    trendingResult.classList.add("hide-element");
-    popularMoviesResult.classList.add("hide-element");
-    topRatedTvResult.classList.add("hide-element");
-    upcomingMoviesResult.classList.add("hide-element");
-
-    searchResult.classList.remove("hide-element");
-    // loadMoreBtn.classList.remove("hide-element");
-    resultsText.classList.remove("hide-element");
-    resultsText.innerText = "Showing results for: " + query.value;
-    query.value = "";
-
-    await fetchAndShowSearch(newUrl);
+    const urlParams = new URLSearchParams();
+    urlParams.set("query", searchTermInput);
+    const newUrl = `search.html?${urlParams.toString()}`;
+    
+    window.location.href = newUrl;
   }
 }
 
+
 // Load more results
 function loadMoreResults() {
-  if (isSearching) {
-    if (searchTerm) {
+  const urlParams = new URLSearchParams(window.location.search);
+  const urlQuery = urlParams.get("query"); 
+    if (urlQuery) {
       page++;
       const newUrl = `${searchUrl}${searchTerm}&page=${page}`;
       skeletonContainer.classList.remove("hide-element");
       generateSkeletons(currentResultsLength); // Generate 10 skeletons initially
       fetchAndShowSearch(newUrl);
     }
-  }
 }
 
 // Detect end of page and load more results
@@ -285,7 +272,33 @@ function detectEnd() {
   }
 }
 
+
 // Event listeners
 form.addEventListener("submit", handleSearch);
+
 // loadMoreBtn.addEventListener("click", loadMoreResults)
 window.addEventListener("scroll", detectEnd);
+
+
+
+// Initiate search when page loads if query is in url
+async function initSearch(){
+  const urlParams = new URLSearchParams(window.location.search);
+  const urlQuery = urlParams.get("query"); 
+  if(urlQuery){
+    query.value = urlQuery;
+    searchTerm = urlQuery;
+    clearResults();
+    skeletonContainer.classList.remove("hide-element");
+    generateSkeletons(10); // Generate 10 skeletons initially
+    
+    const newUrl = `${searchUrl}${searchTerm}`;
+    const resultsText = document.getElementById("resultsText");
+    const totalResultsText = document.getElementById("totalResultsText");
+    resultsText.innerText = "Search results for: " + searchTerm;
+    console.log(totalSearchResults);
+    await fetchAndShowSearch(newUrl);
+    totalResultsText.innerText = `(Results: ${totalSearchResults})`;
+  }
+}
+initSearch();

@@ -4,31 +4,40 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="./src/style.css" />
-    <link rel="stylesheet" href="./src/infoPage.css" />
+    <link rel="stylesheet" href="./src/search.css">
 
-    <title>Info</title>
+    <title>Search</title>
   </head>
   <body>
-    <div id="info-page-container">
+    <div class="search-page-container">
       <nav class="navbar-container">
         <div class="nav_sitename">
           <i class="nav-icon fa-solid fa-bars"></i>
           <a href="index.html"><h2 class="site-name">MovieSite</h2></a>
-          <div class="user-icon_searchAndX-icon nav-icon">
-            <i class="fa-solid fa-user"></i>
-            <i class="fa-solid fa-magnifying-glass" id="searchIcon"></i>
-            <i class="fa-solid fa-x hide-element" id="xIcon"></i>
-          </div>
+          <i class="nav-icon fa-solid fa-user"></i>
         </div>
-        <form id="searchForm" class="hide-element">
+        <form id="searchForm">
           <div class="searchbar">
             <i class="fa-solid fa-magnifying-glass" id="inputSearchIcon"></i>
-            <input type="text" id="searchInput" placeholder="Search" />
+            <input type="text" id="searchInput" placeholder="Search"  />
           </div>
         </form>
       </nav>
 
-      <div id="info-section-container"></div> 
+      <section class="content-container">
+        <section class="content">
+          <div class="results-text_total-results">
+          <h4 id="resultsText"></h4>
+          <p id="totalResultsText"></p>
+          </div>
+
+          <div class="search-results_skeleton">
+            <div id="searchResult" ></div>
+            <div id="search-skeleton-container"></div>
+          </div>
+        </section>
+      </section>
+
       <footer class="footer-container">
         <div class="header_logo-container">
           <a href="https://www.themoviedb.org/"
@@ -43,10 +52,8 @@
     </div>
 
 
-    <script type="module" src="./src/movieInfo.js"></script>   
-    <script type="module" src="./src/handleSearch.js"></script>
     <script type="module" src="./src/main.js"></script>
-
+    <script type="module" src="./src/handleSearch.js"></script>
     <script
       src="https://kit.fontawesome.com/c385798621.js"
       crossorigin="anonymous"

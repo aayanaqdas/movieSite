@@ -101,7 +101,7 @@ a {
 
 
 
-#searchIcon {
+#inputSearchIcon {
   color: var(--grey);
   position: absolute;
   top: 50%;
@@ -129,124 +129,6 @@ a {
   margin-bottom: 100px;
 
 }
-
-.search-results_skeleton{
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 20px;
-}
-
-#searchResult {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-}
-
-#search-skeleton-container{
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-}
-
-.skeleton-search-card{
-  display: flex;
-  gap: 10px;
-  color: var(--grey);
-  background-color: var(--input-background);
-  width: 100%;
-  min-width: 360px;
-  min-height: 150px;
-  border-radius: 10px;
-}
-
-.skeleton-search-img{
-  width: 100%;
-  max-width: 100px;
-  min-height: 150px;
-  border-radius: 10px;
-  background-color: var(--grey);
-  background: var(--skeleton-gradient);
-  background-size: 200% 100%;
-  background-position-x: 180%;
-  animation: 1s loading-skeleton ease-in-out infinite;
-}
-
-.skeleton-search-text{
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  margin-top: 5px;
-  padding-right: 5px;
-  padding-bottom: 5px;
-  min-width: 250px;
-  
-}
-
-.skeleton-search-title{
-  min-height: 19px;
-  background-color: var(--grey);
-  background: var(--skeleton-gradient);
-  background-size: 200% 100%;
-  background-position-x: 180%;
-  animation: 1s loading-skeleton ease-in-out infinite;
-}
-
-.skeleton-search-paragraph{
-  min-height: 17px;
-  max-width: 150px;
-  background-color: var(--grey);
-  background: var(--skeleton-gradient);
-  background-size: 200% 100%;
-  background-position-x: 180%;
-  animation: 1s loading-skeleton ease-in-out infinite;
-}
-
-
-
-.search-card {
-  display: flex;
-  gap: 10px;
-  color: var(--grey);
-  background-color: var(--input-background);
-  width: 100%;
-  border-radius: 10px;
-  position: relative;
-  cursor: pointer;
-}
-
-.search-card-text {
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-  margin-top: 5px;
-  padding-right: 5px;
-  padding-bottom: 5px;
-}
-
-.search-card-title {
-  color: var(--yellow);
-  font-size: medium;
-}
-
-.search-card-info {
-  color: var(--white);
-  font-size: small;
-}
-
-.search-card-overview {
-  font-size: small;
-}
-
-.search-card img {
-  width: 100%;
-  max-width: 100px;
-  min-height: 150px;
-  border-radius: 10px;
-
-}
-
 
 #loadMoreBtn {
   padding: 15px 20px;

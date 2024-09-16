@@ -2,6 +2,23 @@ import { apiKey, imgApi } from "./main.js";
 
 const infoSectionContainer = document.getElementById("info-section-container");
 
+//reveal searchbar in infopage so its possible to search
+const searchIcon = document.getElementById("searchIcon");
+const xIcon = document.getElementById("xIcon");
+const searchBar = document.getElementById("searchForm");
+
+searchIcon.onclick = function(){
+  searchIcon.classList.add("hide-element");
+  xIcon.classList.remove("hide-element");
+  searchBar.classList.remove("hide-element");
+}
+
+xIcon.onclick = function(){
+  searchIcon.classList.remove("hide-element");
+  xIcon.classList.add("hide-element");
+  searchBar.classList.add("hide-element");
+}
+
 // Fetch JSON data from url
 async function fetchInfoDataMovie(url) {
   try {
@@ -219,7 +236,7 @@ const urlParams = new URLSearchParams(window.location.search);
 const id = urlParams.get("id");
 const mediaType = urlParams.get("mediaType");
 
-initInfoPage(id, mediaType);
+
 async function initInfoPage(id, mediaType) {
   if (mediaType === "tv") {
     const tvInfoUrl = `https://api.themoviedb.org/3/tv/${id}?api_key=${apiKey}`;
@@ -229,3 +246,5 @@ async function initInfoPage(id, mediaType) {
     await fetchInfoMovie(movieInfoUrl);
   }
 }
+
+initInfoPage(id, mediaType);
