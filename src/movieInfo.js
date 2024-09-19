@@ -75,8 +75,6 @@ function showResults(item, mediaType) {
   }
 }
 
-/******Importing genres from genres.js ******/
-import { movieGenres, tvGenres } from "./genres.js";
 
 function createInfoPageMovie(movie) {
   const {

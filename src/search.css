@@ -83,6 +83,7 @@ a {
   gap: 20px;
   padding: 15px;
   margin-bottom: 100px;
+  margin-top: 20px;
 
 }
 
@@ -99,6 +100,24 @@ a {
 #totalResultsText{
   font-size: small;
   color: var(--grey);
+}
+
+.changeResultTypes{
+  display: flex;
+  gap: 5px;
+}
+.resultTypeButton{
+  background-color: transparent;
+  color: var(--grey);
+  padding: 5px 10px;
+  border: 1px solid;
+  cursor: pointer;
+}
+
+#loadMovieBtn.active,
+#loadTvBtn.active,
+#loadPersonBtn.active{
+  color: var(--yellow);
 }
 
 .search-results_skeleton{
