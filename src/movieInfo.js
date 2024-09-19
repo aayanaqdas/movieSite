@@ -1,4 +1,5 @@
 import { apiKey, imgApi } from "./main.js";
+const imgApiPerson = "https://image.tmdb.org/t/p/w235_and_h235_face";
 
 const infoSectionContainer = document.getElementById("info-section-container");
 
@@ -57,6 +58,25 @@ async function fetchInfoDataTv(url) {
   }
 }
 
+// Fetch JSON data from url
+async function fetchInfoDataPerson(url) {
+  try {
+    const response = await fetch(url);
+    console.log(url);
+    if (!response.ok) {
+      throw new Error("Network response was not ok.");
+    }
+    const data = await response.json();
+    console.log(data);
+    if (data) {
+      // infoSectionContainer.innerHTML = "";
+      showResults(data, "person");
+    }
+  } catch (error) {
+    return null;
+  }
+}
+
 async function fetchInfoMovie(url) {
   await fetchInfoDataMovie(url);
 }
@@ -65,12 +85,19 @@ async function fetchInfoTv(url) {
   await fetchInfoDataTv(url);
 }
 
+async function fetchInfoPerson(url) {
+  await fetchInfoDataPerson(url);
+}
+
 function showResults(item, mediaType) {
   if (mediaType === "movie") {
     const infoContent = createInfoPageMovie(item);
     infoSectionContainer.innerHTML = infoContent || "<p>No results found<p>";
   } else if (mediaType === "tv") {
     const infoContent = createInfoPageTv(item);
+    infoSectionContainer.innerHTML = infoContent || "<p>No results found<p>";
+  } else if (mediaType === "person") {
+    const infoContent = createInfoPagePerson(item);
     infoSectionContainer.innerHTML = infoContent || "<p>No results found<p>";
   }
 }
@@ -229,6 +256,75 @@ function createInfoPageTv(tv) {
 
   return cardTemplate;
 }
+
+function createInfoPagePerson(person){
+  const {
+    profile_path,
+    name,
+    known_for_department,
+    biography,
+    birthday,
+    id,
+    place_of_birth,
+    gender
+  } = person;
+
+  const profilePath = profile_path
+  ? imgApiPerson + profile_path
+  : "./images/no_image.svg";
+
+
+  const departmentName = known_for_department ? known_for_department : "N/A";
+  const genderName = gender === 2 ?  "Male" : "Female" || "N/A";
+  const birthdate = birthday? birthday.split("-").reverse().join("/") : "N/A";
+  const birthplace = place_of_birth ? place_of_birth : "N/A";
+  const biographyContent = biography? biography : "N/A";
+
+  const cardTemplate = `
+          <div class="person-info-section" data-id="${id}">
+          <div class="name_image">
+            <div class="person-image">
+              <img
+                src="${profilePath}"
+                alt="${name}"
+              />
+            </div>
+            <h1 class="person-name">${name}</h1>
+          </div>
+          <div class="personal-info">
+            <h2>Personal Info</h2>
+            <div class="known-for-department">
+              <h4>Known For</h4>
+              <p>${departmentName}</p>                
+            </div>
+            <div class="gender">
+              <h4>Gender</h4>
+              <p>${genderName}</p>
+            </div>
+            <div class="birthdate">
+              <h4>Birthdate</h4>
+              <p>${birthdate}</p>
+            </div>
+            <div class="birthplace">
+              <h4>Place of birth</h4>
+              <p>${birthplace}</p>
+            </div>
+          </div>
+          <div class="biography">
+            <h2>Biography</h2>
+            ${biographyContent}
+          </div>
+          
+          <div class="known-for-section">
+            <h2 class="sectionHeadline"></h2>
+            <div id="knownForContent" class="contentsections"></div>
+          </div>
+        </div>
+        
+        `;
+        return cardTemplate;
+  
+}
 //get media ID and mediaType from the url
 const urlParams = new URLSearchParams(window.location.search);
 const id = urlParams.get("id");
@@ -242,6 +338,10 @@ async function initInfoPage(id, mediaType) {
   } else if (mediaType === "movie") {
     const movieInfoUrl = `https://api.themoviedb.org/3/movie/${id}?api_key=${apiKey}`;
     await fetchInfoMovie(movieInfoUrl);
+  }
+  else if (mediaType === "person") {
+    const personInfoUrl = `https://api.themoviedb.org/3/person/${id}?api_key=${apiKey}`;
+    await fetchInfoPerson(personInfoUrl);
   }
 }
 

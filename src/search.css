@@ -132,6 +132,7 @@ a {
   display: flex;
   flex-direction: column;
   gap: 20px;
+  min-width: 100%;
 }
 
 #search-skeleton-container{
