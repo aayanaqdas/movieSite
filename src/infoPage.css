@@ -125,6 +125,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    overflow: hidden;
   }
 
 .poster_backdrop {
@@ -268,6 +269,7 @@
     flex-direction: column;
     gap: 10px;
     /* color: var(--grey); */
+    font-size: 15px;
     padding: 0px 20px;
 }
 
@@ -302,6 +304,18 @@
   gap: 30px;
 }
 
+.cast-header{
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.view-cast-text{
+  font-size: 13px;
+  color: var(--grey);
+  cursor: pointer;
+  text-decoration: underline;
+}
+
 .cast-card {
   display: flex;
   flex-direction: column;
@@ -310,8 +324,8 @@
   width: 100%;
   /* min-width: 130px; */
   min-width: 170px;
-  position: relative;
- 
+  overflow: hidden;
+  padding-bottom: 15px;
 }
 
 
@@ -330,8 +344,54 @@
   gap: 5px;
   font-size: 15px;
   color: var(--grey);
-  
+  white-space: wrap; /* add this */
+  text-align: center; /* add this */
 }
+
+/****** Full Credits Page ********/
+ /*** Cast ***/
+.credits-section{
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+ 
+}
+
+.credits-cast-header{
+  padding: 16px 20px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.total-cast-text{
+  font-size: 14px;
+  color: var(--grey);
+}
+.credits-cast{
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 7px 20px;
+}
+
+.credits-cast-card{
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  color: var(--grey);
+  width: 100%;
+  font-size: 13px;
+}
+
+.credits-cast-card img{
+  width: 100%;
+  max-width: 60px;
+  border-radius: 6px;
+}
+
+/*** Person info page****/
 
 .person-info-section{
   display: flex;
@@ -378,4 +438,7 @@
   flex-direction: column;
   gap: 5px;
   line-height: 25px;
+  width: 100%;
 }
+
+

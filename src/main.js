@@ -28,7 +28,6 @@ async function fetchTrendingData(url) {
     const data = await response.json();
     console.log(data);
     if (data && data.results) {
-      trendingResult.innerHTML = "";
       showResults(data.results, "trendingData");
     }
   } catch (error) {
@@ -46,7 +45,6 @@ async function fetchPopularMoviesData(url) {
     const data = await response.json();
     // console.log(data);
     if (data && data.results) {
-      popularMoviesResult.innerHTML = "";
       showResults(data.results, "popularMoviesData");
     }
   } catch (error) {
@@ -64,7 +62,6 @@ async function fetchTopRatedTvData(url) {
     const data = await response.json();
     // console.log(data);
     if (data && data.results) {
-      topRatedTvResult.innerHTML = "";
       showResults(data.results, "topRatedTvData");
     }
   } catch (error) {
@@ -82,7 +79,6 @@ async function fetchUpcomingData(url) {
     const data = await response.json();
     // console.log(data);
     if (data && data.results) {
-      upcomingMoviesResult.innerHTML = "";
       showResults(data.results, "upcomingMoviesData");
     }
   } catch (error) {
@@ -118,15 +114,19 @@ function showResults(items, type) {
         }
       })
       .join("");
+    trendingResult.innerHTML = "";
     trendingResult.innerHTML += newContent || "<p>No results found.</p>";
   } else if (type === "popularMoviesData") {
     const newContent = items.map(createMovieCard).join("");
+    popularMoviesResult.innerHTML = "";
     popularMoviesResult.innerHTML += newContent || "<p>No results found.</p>";
   } else if (type === "topRatedTvData") {
     const newContent = items.map(createTvCard).join("");
+    topRatedTvResult.innerHTML = "";
     topRatedTvResult.innerHTML += newContent || "<p>No results found.</p>";
   } else if (type === "upcomingMoviesData") {
     const newContent = items.map(createMovieCard).join("");
+    upcomingMoviesResult.innerHTML = "";
     upcomingMoviesResult.innerHTML += newContent || "<p>No results found.</p>";
   }
 }
@@ -196,15 +196,6 @@ function createTvCard(tv) {
   return cardTemplate;
 }
 
-// Clear result element for search
-function clearResults() {
-  trendingResult.innerHTML = "";
-  popularMoviesResult.innerHTML = "";
-  topRatedTvResult.innerHTML = "";
-  upcomingMoviesResult.innerHTML = "";
-  searchResult.innerHTML = "";
-  page = 1;
-}
 
 // Initialize the page
 async function init() {

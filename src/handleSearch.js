@@ -1,6 +1,5 @@
 import { apiKey, imgApi } from "./main.js";
 
-const searchUrlMulti = `https://api.themoviedb.org/3/search/multi?api_key=${apiKey}&query=`;
 const searchUrlPerson = `https://api.themoviedb.org/3/search/person?api_key=${apiKey}&query=`;
 const searchUrlMovie = `https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&query=`;
 const searchUrlTv = `https://api.themoviedb.org/3/search/tv?api_key=${apiKey}&query=`;
@@ -9,7 +8,7 @@ const form = document.getElementById("searchForm");
 const query = document.getElementById("searchInput");
 
 const searchResult = document.getElementById("searchResult");
-const loadMoreBtn = document.getElementById("loadMoreBtn");
+
 
 const loadMovieBtn = document.getElementById("loadMovieBtn");
 const loadTvBtn = document.getElementById("loadTvBtn");
@@ -27,7 +26,7 @@ let currentResultsPerson = 0;
 
 
 let page = 1;
-let isSearching = false;
+
 
 let searchTerm;
 
@@ -224,7 +223,7 @@ function loadMoreResults() {
     const newUrlTv = `${searchUrlTv}${searchTerm}&page=${page}`;
     const newUrlPerson = `${searchUrlPerson}${searchTerm}&page=${page}`;
     skeletonContainer.classList.remove("hide-element");
-    generateSkeletons(10); // Generate 10 skeletons initially
+    generateSkeletons(10); 
 
 //Fetches more results if only one of the button has the "active" class
     if(loadMovieBtn.classList.contains("active")){
@@ -309,7 +308,7 @@ async function initSearch() {
     const resultsText = document.getElementById("resultsText");
     const totalResultsText = document.getElementById("totalResultsText");
     resultsText.innerText = "Search results for: " + searchTerm;
-    
+    document.title = `Search: ${searchTerm}`;
     await fetchAndShowSearchMovie(newUrlMovie);
     await fetchAndShowSearchTv(newUrlTv);
     await fetchAndShowSearchPerson(newUrlPerson);
