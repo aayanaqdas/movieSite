@@ -440,7 +440,7 @@ function createSearchCardPerson(person) {
 
   const cardTemplate = `
 
-    <a href="info.html?id=${id}&mediaType=person"">
+    <a href="info.html?id=${id}&mediaType=person">
 
     <div class="search-card" data-id="${id}">
     <img src="${profilePoster}" alt="" />

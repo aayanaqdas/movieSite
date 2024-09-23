@@ -15,7 +15,7 @@ const dateToday = new Date().toISOString().slice(0, 10);
 const language = navigator.languages[0];
 const region = navigator.languages[0].substring(3);
 
-export { apiKey, imgApi };
+export { apiKey, imgApi, dateToday};
 
 // Fetch JSON data from url
 async function fetchTrendingData(url) {

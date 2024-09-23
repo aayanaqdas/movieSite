@@ -31,7 +31,6 @@
 }
   
   
-  
   #info-page-container{
     display: flex;
     flex-direction: column;
@@ -178,10 +177,10 @@
     margin-top: 10px;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    gap: 50px;
+
     background-color: var(--input-background);
     min-width: 100%;
+    width: 100%;
 }
 
 .title_general-info{
@@ -199,8 +198,8 @@
 }
 
 .info-title h1{
-      padding: 16px 20px;
-    font-size: large;
+    padding: 16px 20px;
+    font-size: x-large;
     color: var(--white);
     display: inline-block;
     line-height: 1;
@@ -212,17 +211,26 @@
 }
 
 .general-info{
-    color: var(--grey);
-    display: flex;
-    gap: 10px;
-    padding: 16px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  background-color: #0c141e;
+  font-size: 14px;
+  /* padding: 16px 20px; */
+  padding: 16px 0px;
+  width: 100%;
+}
+
+.rating_runtime{
+  display: flex;
+  align-items: center;
+  color: var(--grey);
+  gap: 10px;
 }
 
 .rating{
     display: flex;
-    gap: 10px;
-       
- 
 }
 
 .star{
@@ -232,19 +240,98 @@
 }
 
 
+.rating-number{
+  font-size: large;
+  color: var(--white);
+
+}
+
+
+.genres{
+  /* color: var(--grey); */
+}
+
+.media-info{
+  
+}
+
+.tagline{
+  color: var(--grey);
+  padding: 10px 20px;
+  /* margin-bottom: -25px; */
+  font-style: italic;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
 .info-overview{
     display: flex;
     flex-direction: column;
     gap: 10px;
-    color: var(--grey);
-    padding: 16px 20px;
+    /* color: var(--grey); */
+    padding: 0px 20px;
 }
 
 .overview-header{
     color: var(--white);
 }
 
+.release-date{
+  padding: 16px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  color: var(--grey);
+  font-size: 15px;
+  margin-top: 30px;
+}
 
+.production-companies{
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  color: var(--grey);
+  font-size: 15px;
+  padding: 16px 20px;
+}
+
+.cast-container{
+  padding: 16px 20px;
+  background-color: var(--background);
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.cast-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  width: 100%;
+  /* min-width: 130px; */
+  min-width: 170px;
+  position: relative;
+ 
+}
+
+
+.cast-card img {
+  width: 100%;
+  width: 160px;
+  height: 160px;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.cast-info{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  font-size: 15px;
+  color: var(--grey);
+  
+}
 
 .person-info-section{
   display: flex;
