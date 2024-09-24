@@ -1,13 +1,11 @@
-const apiKey = "37d7e055234a0531d45416a1d56745eb";
-const imgApi = "https://image.tmdb.org/t/p/w1280";
+import {apiKey, imgApi } from "./apiKey.js";
 
 const trendingResult = document.getElementById("trendingSection");
 const popularMoviesResult = document.getElementById("popularMoviesSection");
 const upcomingMoviesResult = document.getElementById("upcomingSection");
 const topRatedTvResult = document.getElementById("topRatedTvSection");
 
-const searchResult = document.getElementById("searchResult");
-const loadMoreBtn = document.getElementById("loadMoreBtn");
+
 let page = 1;
 
 const dateToday = new Date().toISOString().slice(0, 10);
@@ -15,7 +13,6 @@ const dateToday = new Date().toISOString().slice(0, 10);
 const language = navigator.languages[0];
 const region = navigator.languages[0].substring(3);
 
-export { apiKey, imgApi, dateToday};
 
 // Fetch JSON data from url
 async function fetchTrendingData(url) {
@@ -43,7 +40,7 @@ async function fetchPopularMoviesData(url) {
       throw new Error("Network response was not ok.");
     }
     const data = await response.json();
-    // console.log(data);
+    console.log(data);
     if (data && data.results) {
       showResults(data.results, "popularMoviesData");
     }
@@ -60,7 +57,7 @@ async function fetchTopRatedTvData(url) {
       throw new Error("Network response was not ok.");
     }
     const data = await response.json();
-    // console.log(data);
+    console.log(data);
     if (data && data.results) {
       showResults(data.results, "topRatedTvData");
     }
@@ -77,7 +74,7 @@ async function fetchUpcomingData(url) {
       throw new Error("Network response was not ok.");
     }
     const data = await response.json();
-    // console.log(data);
+    console.log(data);
     if (data && data.results) {
       showResults(data.results, "upcomingMoviesData");
     }
@@ -179,7 +176,6 @@ function createTvCard(tv) {
     ? imgApi + poster_path
     : "./images/no_image.svg";
 
-  const year = first_air_date;
 
   const cardTemplate = `
 <a href="info.html?id=${id}&mediaType=tv">

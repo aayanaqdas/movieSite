@@ -1,4 +1,4 @@
-import { apiKey, imgApi } from "./main.js";
+import { apiKey, imgApi, imgApiPerson } from "./apiKey.js";
 
 const searchUrlPerson = `https://api.themoviedb.org/3/search/person?api_key=${apiKey}&query=`;
 const searchUrlMovie = `https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&query=`;

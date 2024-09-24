@@ -441,4 +441,10 @@
   width: 100%;
 }
 
-
+.recommendations{
+  padding: 16px 20px;
+  background-color: var(--background);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}

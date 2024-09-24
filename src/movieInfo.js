@@ -1,5 +1,4 @@
-import { apiKey, imgApi } from "./main.js";
-const imgApiPerson = "https://image.tmdb.org/t/p/w235_and_h235_face";
+import { apiKey, imgApi, imgApiPerson } from "./apiKey.js";
 
 const infoSectionContainer = document.getElementById("info-section-container");
 
@@ -154,6 +153,7 @@ function createInfoPageMovie(movie) {
     trailers,
   } = movie;
 
+  console.log(recommendations.results);
   const backDrop = backdrop_path
     ? imgApi + backdrop_path
     : "./images/no_image.svg";
@@ -204,6 +204,22 @@ function createInfoPageMovie(movie) {
             <p>${castMember.character.split('/').slice(0, 2).join('/')}</p>
           </div>
         </div>
+      `;
+    })
+    .join("");
+
+    const recommendationHTML = recommendations.results
+    .map((media) => {
+      const poster = media.poster_path
+      ? imgApi + media.poster_path
+      : "./images/no_image.svg";
+      return `
+    <a href="info.html?id=${media.id}&mediaType=movie">
+        <div class="card" data-id="${media.id}">
+          <img src="${poster}" alt="${media.name}" />
+
+        </div>
+    </a>
       `;
     })
     .join("");
@@ -268,6 +284,12 @@ function createInfoPageMovie(movie) {
               ${castHTML}
               </section>
             </div>
+        <div class="recommendations">
+          <h2 class="sectionHeadline">Recommended</h2>
+          <section class="contentSections">
+          ${recommendationHTML}
+          </section>            
+            </div>
           </div>
         </div>
 
@@ -291,7 +313,8 @@ function createInfoPageTv(tv) {
     tagline,
     production_companies,
     number_of_seasons,
-    aggregate_credits
+    aggregate_credits,
+    recommendations
   } = tv;
 
 
@@ -339,6 +362,23 @@ function createInfoPageTv(tv) {
         </div>
       `;
     }).join("");
+
+    const recommendationHTML = recommendations.results
+    .map((media) => {
+      const poster = media.poster_path
+      ? imgApi + media.poster_path
+      : "./images/no_image.svg";
+      return `
+<a href="info.html?id=${media.id}&mediaType=tv">
+        <div class="tv-card card" data-id="${media.id}">
+          <span class="tv-label">TV</span>
+          <img src="${poster}" alt="${media.name}" />
+
+        </div>
+  </a>
+      `;
+    })
+    .join("");
 
   const cardTemplate = `
 
@@ -398,6 +438,12 @@ function createInfoPageTv(tv) {
               <section id="castSection" class="contentSections">
               ${castHTML}
               </section>
+            </div>
+        <div class="recommendations">
+          <h2 class="sectionHeadline">Recommended</h2>
+          <section class="contentSections">
+          ${recommendationHTML}
+          </section>            
             </div>
           </div>
         </div>
