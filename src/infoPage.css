@@ -248,13 +248,7 @@
 }
 
 
-.genres{
-  /* color: var(--grey); */
-}
 
-.media-info{
-  
-}
 
 .tagline{
   color: var(--grey);
@@ -432,13 +426,21 @@
   gap: 5px;
 }
 
-.biography{
+#biography{
   color: var(--grey);
   display: flex;
   flex-direction: column;
   gap: 5px;
   line-height: 25px;
   width: 100%;
+}
+
+.read-more-button{
+  background-color: transparent;
+  border: none;
+  color: var(--white);
+  text-decoration: underline;
+  cursor: pointer;
 }
 
 .recommendations{

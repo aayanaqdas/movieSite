@@ -110,7 +110,6 @@ async function fetchCreditsInfoTv(url) {
   }
 }
 
-
 function showResults(item, mediaType) {
   if (mediaType === "movie") {
     const infoContent = createInfoPageMovie(item);
@@ -121,17 +120,14 @@ function showResults(item, mediaType) {
   } else if (mediaType === "person") {
     const infoContent = createInfoPagePerson(item);
     infoSectionContainer.innerHTML = infoContent || "<p>No results found<p>";
-  }
-  else if(mediaType === "movie/credits"){
+  } else if (mediaType === "movie/credits") {
     const infoContent = createCreditsPageMovie(item);
     infoSectionContainer.innerHTML = infoContent || "<p>No results found<p>";
-  }
-  else if(mediaType === "tv/credits"){
+  } else if (mediaType === "tv/credits") {
     const infoContent = createCreditsPageTv(item);
     infoSectionContainer.innerHTML = infoContent || "<p>No results found<p>";
   }
 }
-
 
 function createInfoPageMovie(movie) {
   const {
@@ -189,11 +185,12 @@ function createInfoPageMovie(movie) {
     })
     .join(", ");
 
-  const castHTML = credits.cast.slice(0, 20)
+  const castHTML = credits.cast
+    .slice(0, 20)
     .map((castMember) => {
       const profileImg = castMember.profile_path
-      ? imgApiPerson + castMember.profile_path
-      : "./images/no_person_img.svg";
+        ? imgApiPerson + castMember.profile_path
+        : "./images/no_person_img.svg";
       return `
         <div class="cast-card" data-id="${castMember.id}">
         <a href="info.html?id=${castMember.id}&mediaType=person">
@@ -201,18 +198,18 @@ function createInfoPageMovie(movie) {
           </a>
           <div class="cast-info">
             <h3>${castMember.name}</h3>
-            <p>${castMember.character.split('/').slice(0, 2).join('/')}</p>
+            <p>${castMember.character.split("/").slice(0, 2).join("/")}</p>
           </div>
         </div>
       `;
     })
     .join("");
 
-    const recommendationHTML = recommendations.results
+  const recommendationHTML = recommendations.results
     .map((media) => {
       const poster = media.poster_path
-      ? imgApi + media.poster_path
-      : "./images/no_image.svg";
+        ? imgApi + media.poster_path
+        : "./images/no_image.svg";
       return `
     <a href="info.html?id=${media.id}&mediaType=movie">
         <div class="card" data-id="${media.id}">
@@ -314,10 +311,8 @@ function createInfoPageTv(tv) {
     production_companies,
     number_of_seasons,
     aggregate_credits,
-    recommendations
+    recommendations,
   } = tv;
-
-
 
   const backDrop = backdrop_path
     ? imgApi + backdrop_path
@@ -344,10 +339,12 @@ function createInfoPageTv(tv) {
     })
     .join(", ");
 
-    const castHTML = aggregate_credits.cast.slice(0, 20).map((castMember) => {
+  const castHTML = aggregate_credits.cast
+    .slice(0, 20)
+    .map((castMember) => {
       const profileImg = castMember.profile_path
-      ? imgApiPerson + castMember.profile_path
-      : "./images/no_person_img.svg";
+        ? imgApiPerson + castMember.profile_path
+        : "./images/no_person_img.svg";
       const roles = castMember.roles;
       const character = roles[0].character;
       return `
@@ -357,17 +354,18 @@ function createInfoPageTv(tv) {
           </a>
           <div class="cast-info">
             <h3>${castMember.name}</h3>
-            <p>${character.split('/').slice(0, 2).join('/')}</p>
+            <p>${character.split("/").slice(0, 2).join("/")}</p>
           </div>
         </div>
       `;
-    }).join("");
+    })
+    .join("");
 
-    const recommendationHTML = recommendations.results
+  const recommendationHTML = recommendations.results
     .map((media) => {
       const poster = media.poster_path
-      ? imgApi + media.poster_path
-      : "./images/no_image.svg";
+        ? imgApi + media.poster_path
+        : "./images/no_image.svg";
       return `
 <a href="info.html?id=${media.id}&mediaType=tv">
         <div class="tv-card card" data-id="${media.id}">
@@ -380,7 +378,7 @@ function createInfoPageTv(tv) {
     })
     .join("");
 
-  const cardTemplate = `
+  const pageTemplate = `
 
         <div class="info-section" data-id="${id}">
           <div class="poster_backdrop">
@@ -451,7 +449,7 @@ function createInfoPageTv(tv) {
   
   `;
 
-  return cardTemplate;
+  return pageTemplate;
 }
 
 function createInfoPagePerson(person) {
@@ -476,9 +474,13 @@ function createInfoPagePerson(person) {
   const genderName = gender === 2 ? "Male" : "Female" || "N/A";
   const birthdate = birthday ? birthday.split("-").reverse().join("/") : "N/A";
   const birthplace = place_of_birth ? place_of_birth : "N/A";
-  const biographyContent = biography ? biography : "N/A";
+  const biographyFull = biography ? biography : "N/A";
 
-  const cardTemplate = `
+  const biographyShort =
+    biographyFull.length > 400 ? biographyFull.slice(0, 400) : biographyFull;
+  const biographyMore = biographyFull.slice(400);
+
+  const pageTemplate = `
           <div class="person-info-section" data-id="${id}">
           <div class="name_image">
             <div class="person-image">
@@ -508,9 +510,21 @@ function createInfoPagePerson(person) {
               <p>${birthplace}</p>
             </div>
           </div>
-          <div class="biography">
-            <h2>Biography</h2>
-            ${biographyContent}
+        <div id="biography">
+          <h2>Biography</h2>
+      <p id="biography-short">${biographyShort}<span id='dots'>....</span>${
+    biographyMore
+      ? `<span id="biography-more" class="hide-element">${biographyMore}</span>`
+      : ""
+  }
+  
+  
+  ${
+    biographyMore
+      ? `<span><button class="read-more-button">Read More</button></span>`
+      : ""
+  }</p>
+            
           </div>
           
           <div class="known-for-section">
@@ -520,22 +534,48 @@ function createInfoPagePerson(person) {
         </div>
         
         `;
-  return cardTemplate;
+
+  document.getElementById("info-section-container").innerHTML = pageTemplate;
+
+  //function to add read more button to biography if it exceeds 400 characters
+  // Wait for the button to be rendered in the DOM
+  setTimeout(function () {
+    // Add event listener to the read more button
+    const readMoreButtons = document.querySelectorAll(".read-more-button");
+    const dots = document.getElementById("dots");
+    dots.classList.add("hide-element");
+    readMoreButtons.forEach((button) => {
+      dots.classList.remove("hide-element");
+      button.addEventListener("click", function () {
+        const biographyMore = document.getElementById("biography-more");
+        if (biographyMore.classList.contains("hide-element")) {
+          dots.classList.add("hide-element");
+          biographyMore.classList.remove("hide-element");
+          button.textContent = "Read Less";
+        } else {
+          biographyMore.classList.add("hide-element");
+          dots.classList.remove("hide-element");
+          button.textContent = "Read More";
+        }
+      });
+    });
+  }, 100);
+
+  return pageTemplate;
 }
 
-
-function createCreditsPageMovie(credits){
-  const {crew, cast} = credits;
+function createCreditsPageMovie(credits) {
+  const { crew, cast } = credits;
   console.log(crew);
 
   document.title = `Crew and cast`;
 
   const castHTML = cast
-  .map((castMember) => {
-    const profileImg = castMember.profile_path
-    ? imgApiPerson + castMember.profile_path
-    : "./images/no_person_img.svg";
-    return `
+    .map((castMember) => {
+      const profileImg = castMember.profile_path
+        ? imgApiPerson + castMember.profile_path
+        : "./images/no_person_img.svg";
+      return `
       <div class="credits-cast">
       <a href="info.html?id=${castMember.id}&mediaType=person">
         <div class="credits-cast-card">
@@ -551,16 +591,16 @@ function createCreditsPageMovie(credits){
             </a>
           </div>
     `;
-  })
-  .join("");
+    })
+    .join("");
 
   const crewHTML = crew
-  .map((crewMember) => {
-    const profileImg = crewMember.profile_path
-    ? imgApiPerson + crewMember.profile_path
-    : "./images/no_person_img.svg";
+    .map((crewMember) => {
+      const profileImg = crewMember.profile_path
+        ? imgApiPerson + crewMember.profile_path
+        : "./images/no_person_img.svg";
 
-    return `
+      return `
       <div class="credits-cast">
       <a href="info.html?id=${crewMember.id}&mediaType=person">
         <div class="credits-cast-card">
@@ -576,10 +616,8 @@ function createCreditsPageMovie(credits){
             </a>
           </div>
     `;
-  })
-  .join("");
-
-  
+    })
+    .join("");
 
   const template = `
         <div class="credits-section">
@@ -591,26 +629,23 @@ function createCreditsPageMovie(credits){
 
       `;
 
-return template;
-
+  return template;
 }
 
-
-function createCreditsPageTv(aggregate_credits){
-  const {crew, cast} = aggregate_credits;
+function createCreditsPageTv(aggregate_credits) {
+  const { crew, cast } = aggregate_credits;
   console.log(crew);
 
   document.title = `Crew and cast`;
 
-
   const castHTML = cast
-  .map((castMember) => {
-    const profileImg = castMember.profile_path
-    ? imgApiPerson + castMember.profile_path
-    : "./images/no_person_img.svg";
-    const roles = castMember.roles;
-    const character = roles[0].character;
-    return `
+    .map((castMember) => {
+      const profileImg = castMember.profile_path
+        ? imgApiPerson + castMember.profile_path
+        : "./images/no_person_img.svg";
+      const roles = castMember.roles;
+      const character = roles[0].character;
+      return `
       <div class="credits-cast">
       <a href="info.html?id=${castMember.id}&mediaType=person">
         <div class="credits-cast-card">
@@ -626,17 +661,17 @@ function createCreditsPageTv(aggregate_credits){
             </a>
           </div>
     `;
-  })
-  .join("");
+    })
+    .join("");
 
   const crewHTML = crew
-  .map((crewMember) => {
-    const profileImg = crewMember.profile_path
-    ? imgApiPerson + crewMember.profile_path
-    : "./images/no_person_img.svg";
-    const jobs = crewMember.jobs;
-    const job = jobs[0].job;
-    return `
+    .map((crewMember) => {
+      const profileImg = crewMember.profile_path
+        ? imgApiPerson + crewMember.profile_path
+        : "./images/no_person_img.svg";
+      const jobs = crewMember.jobs;
+      const job = jobs[0].job;
+      return `
       <div class="credits-cast">
       <a href="info.html?id=${crewMember.id}&mediaType=person">
         <div class="credits-cast-card">
@@ -652,10 +687,8 @@ function createCreditsPageTv(aggregate_credits){
             </a>
           </div>
     `;
-  })
-  .join("");
-
-  
+    })
+    .join("");
 
   const template = `
         <div class="credits-section">
@@ -667,10 +700,8 @@ function createCreditsPageTv(aggregate_credits){
 
       `;
 
-return template;
-
+  return template;
 }
-
 
 //get media ID and mediaType from the url
 const urlParams = new URLSearchParams(window.location.search);
@@ -686,19 +717,18 @@ async function initInfoPage(id, mediaType) {
     const movieInfoUrl = `https://api.themoviedb.org/3/movie/${id}?api_key=${apiKey}&append_to_response=credits,trailers,recommendations,watch/providers`;
     await fetchInfoDataMovie(movieInfoUrl);
   } else if (mediaType === "person") {
-    const personInfoUrl = `https://api.themoviedb.org/3/person/${id}?api_key=${apiKey}`;
+    const personInfoUrl = `https://api.themoviedb.org/3/person/${id}?api_key=${apiKey}&append_to_response=combined_credits`;
     await fetchInfoDataPerson(personInfoUrl);
   }
 
   //get full media credits for cast and crew
-  else if(mediaType === "movie/credits"){
+  else if (mediaType === "movie/credits") {
     console.log("movie credits");
-    const creditsUrl = `https://api.themoviedb.org/3/movie/${id}/credits?api_key=${apiKey}`
+    const creditsUrl = `https://api.themoviedb.org/3/movie/${id}/credits?api_key=${apiKey}`;
     await fetchCreditsInfoMovie(creditsUrl);
-  }
-  else if(mediaType === "tv/credits"){
+  } else if (mediaType === "tv/credits") {
     console.log("tv credits");
-    const creditsUrl = `https://api.themoviedb.org/3/tv/${id}/aggregate_credits?api_key=${apiKey}`
+    const creditsUrl = `https://api.themoviedb.org/3/tv/${id}/aggregate_credits?api_key=${apiKey}`;
     await fetchCreditsInfoTv(creditsUrl);
   }
 }
