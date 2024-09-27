@@ -201,6 +201,7 @@ a {
   justify-content: center;
   align-items: center;
   margin-top: auto;
+  z-index: 10;
 }
 
 .header_logo-container{

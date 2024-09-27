@@ -7,6 +7,8 @@ const searchIcon = document.getElementById("searchIcon");
 const xIcon = document.getElementById("xIcon");
 const searchBar = document.getElementById("searchForm");
 
+const loader = document.getElementById("loader");
+
 searchIcon.onclick = function () {
   searchIcon.classList.add("hide-element");
   xIcon.classList.remove("hide-element");
@@ -114,18 +116,23 @@ function showResults(item, mediaType) {
   if (mediaType === "movie") {
     const infoContent = createInfoPageMovie(item);
     infoSectionContainer.innerHTML = infoContent || "<p>No results found<p>";
+    loader.classList.add("hide-element");
   } else if (mediaType === "tv") {
     const infoContent = createInfoPageTv(item);
     infoSectionContainer.innerHTML = infoContent || "<p>No results found<p>";
+    loader.classList.add("hide-element");
   } else if (mediaType === "person") {
     const infoContent = createInfoPagePerson(item);
     infoSectionContainer.innerHTML = infoContent || "<p>No results found<p>";
+    loader.classList.add("hide-element");
   } else if (mediaType === "movie/credits") {
     const infoContent = createCreditsPageMovie(item);
     infoSectionContainer.innerHTML = infoContent || "<p>No results found<p>";
+    loader.classList.add("hide-element");
   } else if (mediaType === "tv/credits") {
     const infoContent = createCreditsPageTv(item);
     infoSectionContainer.innerHTML = infoContent || "<p>No results found<p>";
+    loader.classList.add("hide-element");
   }
 }
 
@@ -518,7 +525,7 @@ function createInfoPagePerson(person) {
       : ""
   }
   
-  
+
   ${
     biographyMore
       ? `<span><button class="read-more-button">Read More</button></span>`
