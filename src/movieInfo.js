@@ -136,6 +136,8 @@ function showResults(item, mediaType) {
   }
 }
 
+
+
 function createInfoPageMovie(movie) {
   const {
     backdrop_path,
@@ -155,8 +157,7 @@ function createInfoPageMovie(movie) {
     recommendations,
     trailers,
   } = movie;
-
-  console.log(recommendations.results);
+  
   const backDrop = backdrop_path
     ? imgApi + backdrop_path
     : "./images/no_image.svg";
@@ -211,6 +212,16 @@ function createInfoPageMovie(movie) {
       `;
     })
     .join("");
+
+    const mediaHTML = trailers.youtube
+    .map((media) => {
+    return `
+      <div class="youtube-player" data-id="${media.source}"></div>
+      `; 
+    })
+    .join("");
+
+
 
   const recommendationHTML = recommendations.results
     .map((media) => {
@@ -288,6 +299,14 @@ function createInfoPageMovie(movie) {
               ${castHTML}
               </section>
             </div>
+
+        <div class="info-videos">
+          <h2 class="sectionHeadline">Videos</h2>
+          <section class="info-video-section">
+          ${mediaHTML}
+          </section>            
+            </div>
+
         <div class="recommendations">
           <h2 class="sectionHeadline">Recommended</h2>
           <section class="contentSections">
@@ -319,6 +338,7 @@ function createInfoPageTv(tv) {
     number_of_seasons,
     aggregate_credits,
     recommendations,
+    videos
   } = tv;
 
   const backDrop = backdrop_path
@@ -367,6 +387,16 @@ function createInfoPageTv(tv) {
       `;
     })
     .join("");
+
+
+    const mediaHTML = videos.results
+    .map((media) => {
+    return `
+      <div class="youtube-player" data-id="${media.key}"></div>
+      `; 
+    })
+    .join("");
+
 
   const recommendationHTML = recommendations.results
     .map((media) => {
@@ -444,6 +474,14 @@ function createInfoPageTv(tv) {
               ${castHTML}
               </section>
             </div>
+
+        <div class="info-videos">
+          <h2 class="sectionHeadline">Videos</h2>
+          <section class="info-video-section">
+          ${mediaHTML}
+          </section>            
+            </div>
+
         <div class="recommendations">
           <h2 class="sectionHeadline">Recommended</h2>
           <section class="contentSections">
@@ -710,6 +748,41 @@ function createCreditsPageTv(aggregate_credits) {
   return template;
 }
 
+
+/***********Load thumbnail fro youtube video and when clicked load the video **********/
+function labnolIframe(div) {
+  var iframe = document.createElement('iframe');
+  iframe.setAttribute('src', 'https://www.youtube.com/embed/' + div.dataset.id + '?autoplay=1');
+  iframe.setAttribute('frameborder', '0');
+  iframe.setAttribute('allowfullscreen', '1');
+  iframe.setAttribute('allow', 'accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture');
+  div.parentNode.replaceChild(iframe, div);
+}
+
+function initYouTubeVideos() {
+  var playerElements = document.querySelectorAll('.youtube-player');
+  for (var n = 0; n < playerElements.length; n++) {
+    var videoId = playerElements[n].dataset.id;
+    var div = document.createElement('div');
+    div.setAttribute('data-id', videoId);
+    var thumbNode = document.createElement('img');
+    thumbNode.src = '//i.ytimg.com/vi/ID/hqdefault.jpg'.replace('ID', videoId);
+    div.appendChild(thumbNode);
+    var playButton = document.createElement('div');
+    playButton.setAttribute('class', 'play');
+    div.appendChild(playButton);
+    div.onclick = function () {
+      labnolIframe(this);
+    };
+    playerElements[n].appendChild(div);
+  }
+}
+
+// document.addEventListener('DOMContentLoaded', initYouTubeVideos);
+
+
+
+
 //get media ID and mediaType from the url
 const urlParams = new URLSearchParams(window.location.search);
 const id = urlParams.get("id");
@@ -718,7 +791,7 @@ const mediaType = urlParams.get("mediaType");
 //get info from api requests
 async function initInfoPage(id, mediaType) {
   if (mediaType === "tv") {
-    const tvInfoUrl = `https://api.themoviedb.org/3/tv/${id}?api_key=${apiKey}&append_to_response=aggregate_credits,trailers,recommendations,watch/providers`;
+    const tvInfoUrl = `https://api.themoviedb.org/3/tv/${id}?api_key=${apiKey}&append_to_response=aggregate_credits,videos,recommendations,watch/providers`;
     await fetchInfoDataTv(tvInfoUrl);
   } else if (mediaType === "movie") {
     const movieInfoUrl = `https://api.themoviedb.org/3/movie/${id}?api_key=${apiKey}&append_to_response=credits,trailers,recommendations,watch/providers`;
@@ -738,6 +811,8 @@ async function initInfoPage(id, mediaType) {
     const creditsUrl = `https://api.themoviedb.org/3/tv/${id}/aggregate_credits?api_key=${apiKey}`;
     await fetchCreditsInfoTv(creditsUrl);
   }
+
+  initYouTubeVideos();
 }
 
 initInfoPage(id, mediaType);
