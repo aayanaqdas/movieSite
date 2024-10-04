@@ -216,7 +216,7 @@ function createInfoPageMovie(movie) {
     const mediaHTML = trailers.youtube
     .map((media) => {
     return `
-      <div class="youtube-player" data-id="${media.source}"></div>
+        <div class="youtube-player" data-id="${media.source}" data-name="${media.name}"></div>
       `; 
     })
     .join("");
@@ -296,21 +296,21 @@ function createInfoPageMovie(movie) {
             <div class="cast-container">
               <h2 class="cast-header">Top Cast <a href="info.html?id=${id}&mediaType=movie/credits" class="view-cast-text">View full cast and crew</a></h2>
               <section id="castSection" class="contentSections">
-              ${castHTML}
+              ${castHTML || '<p class="not-available">No cast available at this time</p>'}
               </section>
             </div>
 
         <div class="info-videos">
           <h2 class="sectionHeadline">Videos</h2>
           <section class="info-video-section">
-          ${mediaHTML}
+          ${mediaHTML || '<p class="not-available">No videos available at this time</p>'}
           </section>            
             </div>
 
         <div class="recommendations">
           <h2 class="sectionHeadline">Recommended</h2>
           <section class="contentSections">
-          ${recommendationHTML}
+          ${recommendationHTML || '<p class="not-available">No recommendations available at this time</p>'}
           </section>            
             </div>
           </div>
@@ -392,12 +392,12 @@ function createInfoPageTv(tv) {
     const mediaHTML = videos.results
     .map((media) => {
     return `
-      <div class="youtube-player" data-id="${media.key}"></div>
+    <div class="youtube-player" data-id="${media.key}" data-name="${media.name}"></div>
       `; 
     })
     .join("");
 
-
+    
   const recommendationHTML = recommendations.results
     .map((media) => {
       const poster = media.poster_path
@@ -471,21 +471,21 @@ function createInfoPageTv(tv) {
             <div class="cast-container">
               <h2 class="cast-header">Series Cast <a href="info.html?id=${id}&mediaType=tv/credits" class="view-cast-text">View full cast and crew</a></h2>
               <section id="castSection" class="contentSections">
-              ${castHTML}
+              ${castHTML || '<p class="not-available">No cast available at this time</p>'}
               </section>
             </div>
 
         <div class="info-videos">
           <h2 class="sectionHeadline">Videos</h2>
           <section class="info-video-section">
-          ${mediaHTML}
+          ${mediaHTML || '<p class="not-available">No videos available at this time</p>'}
           </section>            
             </div>
 
         <div class="recommendations">
           <h2 class="sectionHeadline">Recommended</h2>
           <section class="contentSections">
-          ${recommendationHTML}
+          ${recommendationHTML || '<p class="not-available">No recommendations available at this time</p>'}
           </section>            
             </div>
           </div>
@@ -749,22 +749,53 @@ function createCreditsPageTv(aggregate_credits) {
 }
 
 
-/***********Load thumbnail fro youtube video and when clicked load the video **********/
-function labnolIframe(div) {
-  var iframe = document.createElement('iframe');
-  iframe.setAttribute('src', 'https://www.youtube.com/embed/' + div.dataset.id + '?autoplay=1');
-  iframe.setAttribute('frameborder', '0');
-  iframe.setAttribute('allowfullscreen', '1');
-  iframe.setAttribute('allow', 'accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture');
-  div.parentNode.replaceChild(iframe, div);
+/***********Load thumbnail for youtube video and when clicked load the video **********/
+//Create video frame
+function createVideoModal(div) {
+  const name = div.dataset.name.length > 32 ? div.dataset.name.slice(0, 32) + "..." : div.dataset.name;
+  const videoModalHTML = `
+        <div id="videoModal" class="modal">
+          <div class="modal-content">
+            <div class="modal-title_close-btn">
+              <h3>${name}</h3>
+              <span class="close">&times;</span>
+            </div>
+            <div id="video">
+              <iframe
+                width="351"
+                height="197"
+                src="https://www.youtube.com/embed/${div.dataset.id + "?autoplay=1"}"
+                title="YouTube video player"
+                frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                referrerpolicy="strict-origin-when-cross-origin"
+                allowfullscreen
+              ></iframe>
+            </div>
+          </div>
+        </div>
+  `;
+  const modalContainer = document.getElementById("videoModalContainer");
+  modalContainer.style.display = "block";
+  document.body.style.overflow = "hidden";
+  modalContainer.innerHTML = videoModalHTML;
+
+  const closeBtn = document.querySelector(".close");
+  closeBtn.onclick = function () {
+    modalContainer.innerHTML = "";
+    modalContainer.style.display = "none";
+    document.body.style.overflow = "visible";
+  };
 }
 
 function initYouTubeVideos() {
   var playerElements = document.querySelectorAll('.youtube-player');
   for (var n = 0; n < playerElements.length; n++) {
     var videoId = playerElements[n].dataset.id;
+    var videoName = playerElements[n].dataset.name;
     var div = document.createElement('div');
     div.setAttribute('data-id', videoId);
+    div.setAttribute('data-name', videoName);
     var thumbNode = document.createElement('img');
     thumbNode.src = '//i.ytimg.com/vi/ID/hqdefault.jpg'.replace('ID', videoId);
     div.appendChild(thumbNode);
@@ -772,16 +803,13 @@ function initYouTubeVideos() {
     playButton.setAttribute('class', 'play');
     div.appendChild(playButton);
     div.onclick = function () {
-      labnolIframe(this);
+      //Make the frame appear when clicked
+      createVideoModal(this);
     };
     playerElements[n].appendChild(div);
   }
 }
-
 // document.addEventListener('DOMContentLoaded', initYouTubeVideos);
-
-
-
 
 //get media ID and mediaType from the url
 const urlParams = new URLSearchParams(window.location.search);

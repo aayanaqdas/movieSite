@@ -3,7 +3,7 @@
 :root {
   --background: #060d17;
   --black: #000;
-  --black-opacity: #000000a7;
+  --black-opacity: #00000088;
   --white: #fff;
   --yellow: #ffae00;
   --grey: #999c9f;
@@ -38,6 +38,7 @@
     height: 100vh;
     margin: 0 auto;
     box-sizing: border-box;
+    overflow: visible;
   }
   
   .navbar-container {
@@ -452,6 +453,11 @@
   gap: 10px;
 }
 
+.not-available{
+  color: var(--grey);
+  font-size: small;
+}
+
 /******Loader******/
 #loader{
   width: 100%;
@@ -519,6 +525,49 @@
   overflow-x: auto;
 }
 
+#videoModalContainer{
+  width: 100%;
+  height: 100vh;
+  z-index: 100;
+  background-color: var(--black-opacity);
+  position: fixed;
+  display: none;
+}
+
+.modal{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100vh;
+}
+
+
+.modal-title_close-btn{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: var(--black);
+  padding: 16px;
+  color: var(--white);
+  max-width: 351px;
+}
+
+
+/* The Close Button */
+.close {
+  float: right;
+  font-size: 22px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: var(--grey);
+  text-decoration: none;
+  cursor: pointer;
+}
+
 .youtube-player {
   position: relative;
   padding-bottom: 45%;
@@ -527,7 +576,7 @@
   min-width: 80%;
   max-width: 100%;
   background: var(--background);
-  border-radius: 6px;
+  border-radius: 10px;
 }
 
 .youtube-player iframe {
@@ -575,3 +624,4 @@
   background: url('https://i.ibb.co/j3jcJKv/yt.png') no-repeat;
   cursor: pointer;
 }
+
