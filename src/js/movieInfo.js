@@ -153,7 +153,7 @@ function createInfoPageMovie(movie) {
     production_companies,
     credits,
     recommendations,
-    trailers,
+    videos,
   } = movie;
 
   const backDrop = backdrop_path
@@ -211,11 +211,11 @@ function createInfoPageMovie(movie) {
     })
     .join("");
 
-  const mediaHTML = trailers.youtube
+  const mediaHTML = videos.results
     .map((media) => {
-      return `
-        <div class="youtube-player" data-id="${media.source}" data-name="${media.name}"></div>
-      `;
+        return `
+          <div class="youtube-player" data-id="${media.key}" data-name="${media.name}"></div>
+        `;        
     })
     .join("");
 
@@ -396,8 +396,10 @@ function createInfoPageTv(tv) {
   const mediaHTML = videos.results
     .map((media) => {
       return `
-    <div class="youtube-player" data-id="${media.key}" data-name="${media.name}"></div>
-      `;
+        <div class="youtube-player" data-id="${media.key}" data-name="${media.name}"></div>
+      `;        
+
+
     })
     .join("");
 
@@ -819,7 +821,7 @@ function initYouTubeVideos() {
     playButton.setAttribute("class", "play");
     div.appendChild(playButton);
     div.onclick = function () {
-      //Make the frame appear when clicked
+      //Make the modal appear and play video when clicking on the video thumbnail
       createVideoModal(this);
     };
     playerElements[n].appendChild(div);
@@ -838,7 +840,7 @@ async function initInfoPage(id, mediaType) {
     const tvInfoUrl = `https://api.themoviedb.org/3/tv/${id}?api_key=${apiKey}&append_to_response=aggregate_credits,videos,recommendations,watch/providers`;
     await fetchInfoDataTv(tvInfoUrl);
   } else if (mediaType === "movie") {
-    const movieInfoUrl = `https://api.themoviedb.org/3/movie/${id}?api_key=${apiKey}&append_to_response=credits,trailers,recommendations,watch/providers`;
+    const movieInfoUrl = `https://api.themoviedb.org/3/movie/${id}?api_key=${apiKey}&append_to_response=credits,videos,recommendations,watch/providers`;
     await fetchInfoDataMovie(movieInfoUrl);
   } else if (mediaType === "person") {
     const personInfoUrl = `https://api.themoviedb.org/3/person/${id}?api_key=${apiKey}&append_to_response=combined_credits`;
