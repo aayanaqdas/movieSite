@@ -1,10 +1,9 @@
-import {apiKey, imgApi } from "./apiKey.js";
+import { apiKey, imgApi } from "./apiKey.js";
 
 const trendingResult = document.getElementById("trendingSection");
 const popularMoviesResult = document.getElementById("popularMoviesSection");
 const upcomingMoviesResult = document.getElementById("upcomingSection");
 const topRatedTvResult = document.getElementById("topRatedTvSection");
-
 
 let page = 1;
 
@@ -12,7 +11,6 @@ const dateToday = new Date().toISOString().slice(0, 10);
 
 const language = navigator.languages[0];
 const region = navigator.languages[0].substring(3);
-
 
 // Fetch JSON data from url
 async function fetchTrendingData(url) {
@@ -176,7 +174,6 @@ function createTvCard(tv) {
     ? imgApi + poster_path
     : "./images/no_image.svg";
 
-
   const cardTemplate = `
 <a href="info.html?id=${id}&mediaType=tv">
         <div class="tv-card card" data-id="${id}">
@@ -191,7 +188,6 @@ function createTvCard(tv) {
 
   return cardTemplate;
 }
-
 
 // Initialize the page
 async function init() {

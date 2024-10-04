@@ -9,7 +9,6 @@ const query = document.getElementById("searchInput");
 
 const searchResult = document.getElementById("searchResult");
 
-
 const loadMovieBtn = document.getElementById("loadMovieBtn");
 const loadTvBtn = document.getElementById("loadTvBtn");
 const loadPersonBtn = document.getElementById("loadPersonBtn");
@@ -23,10 +22,7 @@ let currentResultsMovie = 0;
 let currentResultsTv = 0;
 let currentResultsPerson = 0;
 
-
-
 let page = 1;
-
 
 let searchTerm;
 
@@ -113,8 +109,7 @@ async function fetchAndShowSearchMovie(url) {
     totalResultsMovie = data.total_results;
     totalResults += totalResultsMovie;
 
-    currentResultsMovie = data.results.length + currentResultsMovie; 
-
+    currentResultsMovie = data.results.length + currentResultsMovie;
 
     loadMovieBtn.innerText = `Movies: ${totalResultsMovie}`;
     console.log("current results for movie: " + currentResultsMovie);
@@ -132,7 +127,7 @@ async function fetchAndShowSearchTv(url) {
     totalResultsTv = data.total_results;
     totalResults += totalResultsTv;
 
-    currentResultsTv = data.results.length + currentResultsTv; 
+    currentResultsTv = data.results.length + currentResultsTv;
 
     loadTvBtn.innerText = `TV Shows: ${totalResultsTv}`;
     console.log("Total results for tv: " + totalResultsTv);
@@ -150,7 +145,7 @@ async function fetchAndShowSearchPerson(url) {
     totalResultsPerson = data.total_results;
     totalResults += totalResultsPerson;
 
-    currentResultsPerson = data.results.length + currentResultsPerson; 
+    currentResultsPerson = data.results.length + currentResultsPerson;
 
     loadPersonBtn.innerText = `People: ${totalResultsPerson}`;
     console.log("Total results for people: " + totalResultsPerson);
@@ -178,17 +173,10 @@ function showSearchResults(item, mediaType) {
     .join("");
 
   searchResult.innerHTML += searchContent;
-  if(searchResult.innerHTML === ""){
+  if (searchResult.innerHTML === "") {
     searchResult.innerHTML += "<p>No results found<p>";
   }
-
-    
-
-      
-  } 
-
-
-  
+}
 
 // Clear result element for search and reset variables
 function clearResults() {
@@ -223,43 +211,48 @@ function loadMoreResults() {
     const newUrlTv = `${searchUrlTv}${searchTerm}&page=${page}`;
     const newUrlPerson = `${searchUrlPerson}${searchTerm}&page=${page}`;
     skeletonContainer.classList.remove("hide-element");
-    generateSkeletons(10); 
+    generateSkeletons(10);
 
-//Fetches more results if only one of the button has the "active" class
-    if(loadMovieBtn.classList.contains("active")){
-        fetchAndShowSearchMovie(newUrlMovie);
-    }
-    else if(loadTvBtn.classList.contains("active")){
-        fetchAndShowSearchTv(newUrlTv);
-    }
-    else if (loadPersonBtn.classList.contains("active")){
-        fetchAndShowSearchPerson(newUrlPerson);
+    //Fetches more results if only one of the button has the "active" class
+    if (loadMovieBtn.classList.contains("active")) {
+      fetchAndShowSearchMovie(newUrlMovie);
+    } else if (loadTvBtn.classList.contains("active")) {
+      fetchAndShowSearchTv(newUrlTv);
+    } else if (loadPersonBtn.classList.contains("active")) {
+      fetchAndShowSearchPerson(newUrlPerson);
     }
   }
 }
-
 
 // Detect end of page and load more results
 function detectEnd() {
   //if results that are loaded in is not the same as the results available from api
-  if (loadMovieBtn.classList.contains("active") && currentResultsMovie < totalResultsMovie ) {
+  if (
+    loadMovieBtn.classList.contains("active") &&
+    currentResultsMovie < totalResultsMovie
+  ) {
     const { scrollTop, clientHeight, scrollHeight } = document.documentElement;
     if (scrollTop + clientHeight >= scrollHeight - 200) {
       loadMoreResults();
     }
-  } else if (loadTvBtn.classList.contains("active") && currentResultsTv < totalResultsTv) {
+  } else if (
+    loadTvBtn.classList.contains("active") &&
+    currentResultsTv < totalResultsTv
+  ) {
     const { scrollTop, clientHeight, scrollHeight } = document.documentElement;
     if (scrollTop + clientHeight >= scrollHeight - 200) {
       loadMoreResults();
     }
-  } else if (loadPersonBtn.classList.contains("active") && currentResultsPerson < totalResultsPerson) {
+  } else if (
+    loadPersonBtn.classList.contains("active") &&
+    currentResultsPerson < totalResultsPerson
+  ) {
     const { scrollTop, clientHeight, scrollHeight } = document.documentElement;
     if (scrollTop + clientHeight >= scrollHeight - 200) {
       loadMoreResults();
     }
   }
 }
-
 
 // Event listeners
 form.addEventListener("submit", handleSearch);
@@ -333,9 +326,7 @@ function createSearchCard(movie) {
   const year = formattedDate.slice(0, 4);
 
   const description =
-    overview.length > 110
-      ? overview.slice(0, 110) + "... "
-      : "N/A";
+    overview.length > 110 ? overview.slice(0, 110) + "... " : "N/A";
 
   // Get genre_ids from api and Map genre IDs to their names which is located in genres.js
   const genreNames = genre_ids
@@ -344,7 +335,6 @@ function createSearchCard(movie) {
       return genre ? genre.name : "N/A";
     })
     .join(", ");
-    
 
   const cardTemplate = `
     <a href="info.html?id=${id}&mediaType=movie">
@@ -381,9 +371,7 @@ function createSearchCardTv(tv) {
   const year = formattedDate.slice(0, 4);
 
   const description =
-    overview.length > 110
-      ? overview.slice(0, 110) + "... "
-      : "N/A";
+    overview.length > 110 ? overview.slice(0, 110) + "... " : "N/A";
 
   // Get genre_id from api and Map genre IDs to their names which are located in genres.js
   const genreNames = genre_ids

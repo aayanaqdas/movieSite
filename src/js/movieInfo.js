@@ -136,8 +136,6 @@ function showResults(item, mediaType) {
   }
 }
 
-
-
 function createInfoPageMovie(movie) {
   const {
     backdrop_path,
@@ -157,7 +155,7 @@ function createInfoPageMovie(movie) {
     recommendations,
     trailers,
   } = movie;
-  
+
   const backDrop = backdrop_path
     ? imgApi + backdrop_path
     : "./images/no_image.svg";
@@ -213,15 +211,13 @@ function createInfoPageMovie(movie) {
     })
     .join("");
 
-    const mediaHTML = trailers.youtube
+  const mediaHTML = trailers.youtube
     .map((media) => {
-    return `
+      return `
         <div class="youtube-player" data-id="${media.source}" data-name="${media.name}"></div>
-      `; 
+      `;
     })
     .join("");
-
-
 
   const recommendationHTML = recommendations.results
     .map((media) => {
@@ -296,21 +292,30 @@ function createInfoPageMovie(movie) {
             <div class="cast-container">
               <h2 class="cast-header">Top Cast <a href="info.html?id=${id}&mediaType=movie/credits" class="view-cast-text">View full cast and crew</a></h2>
               <section id="castSection" class="contentSections">
-              ${castHTML || '<p class="not-available">No cast available at this time</p>'}
+              ${
+                castHTML ||
+                '<p class="not-available">No cast available at this time</p>'
+              }
               </section>
             </div>
 
         <div class="info-videos">
           <h2 class="sectionHeadline">Videos</h2>
           <section class="info-video-section">
-          ${mediaHTML || '<p class="not-available">No videos available at this time</p>'}
+          ${
+            mediaHTML ||
+            '<p class="not-available">No videos available at this time</p>'
+          }
           </section>            
             </div>
 
         <div class="recommendations">
           <h2 class="sectionHeadline">Recommended</h2>
           <section class="contentSections">
-          ${recommendationHTML || '<p class="not-available">No recommendations available at this time</p>'}
+          ${
+            recommendationHTML ||
+            '<p class="not-available">No recommendations available at this time</p>'
+          }
           </section>            
             </div>
           </div>
@@ -338,7 +343,7 @@ function createInfoPageTv(tv) {
     number_of_seasons,
     aggregate_credits,
     recommendations,
-    videos
+    videos,
   } = tv;
 
   const backDrop = backdrop_path
@@ -388,16 +393,14 @@ function createInfoPageTv(tv) {
     })
     .join("");
 
-
-    const mediaHTML = videos.results
+  const mediaHTML = videos.results
     .map((media) => {
-    return `
+      return `
     <div class="youtube-player" data-id="${media.key}" data-name="${media.name}"></div>
-      `; 
+      `;
     })
     .join("");
 
-    
   const recommendationHTML = recommendations.results
     .map((media) => {
       const poster = media.poster_path
@@ -471,21 +474,30 @@ function createInfoPageTv(tv) {
             <div class="cast-container">
               <h2 class="cast-header">Series Cast <a href="info.html?id=${id}&mediaType=tv/credits" class="view-cast-text">View full cast and crew</a></h2>
               <section id="castSection" class="contentSections">
-              ${castHTML || '<p class="not-available">No cast available at this time</p>'}
+              ${
+                castHTML ||
+                '<p class="not-available">No cast available at this time</p>'
+              }
               </section>
             </div>
 
         <div class="info-videos">
           <h2 class="sectionHeadline">Videos</h2>
           <section class="info-video-section">
-          ${mediaHTML || '<p class="not-available">No videos available at this time</p>'}
+          ${
+            mediaHTML ||
+            '<p class="not-available">No videos available at this time</p>'
+          }
           </section>            
             </div>
 
         <div class="recommendations">
           <h2 class="sectionHeadline">Recommended</h2>
           <section class="contentSections">
-          ${recommendationHTML || '<p class="not-available">No recommendations available at this time</p>'}
+          ${
+            recommendationHTML ||
+            '<p class="not-available">No recommendations available at this time</p>'
+          }
           </section>            
             </div>
           </div>
@@ -748,11 +760,13 @@ function createCreditsPageTv(aggregate_credits) {
   return template;
 }
 
-
 /***********Load thumbnail for youtube video and when clicked load the video **********/
 //Create video frame
 function createVideoModal(div) {
-  const name = div.dataset.name.length > 32 ? div.dataset.name.slice(0, 32) + "..." : div.dataset.name;
+  const name =
+    div.dataset.name.length > 32
+      ? div.dataset.name.slice(0, 32) + "..."
+      : div.dataset.name;
   const videoModalHTML = `
         <div id="videoModal" class="modal">
           <div class="modal-content">
@@ -764,7 +778,9 @@ function createVideoModal(div) {
               <iframe
                 width="351"
                 height="197"
-                src="https://www.youtube.com/embed/${div.dataset.id + "?autoplay=1"}"
+                src="https://www.youtube.com/embed/${
+                  div.dataset.id + "?autoplay=1"
+                }"
                 title="YouTube video player"
                 frameborder="0"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
@@ -789,18 +805,18 @@ function createVideoModal(div) {
 }
 
 function initYouTubeVideos() {
-  var playerElements = document.querySelectorAll('.youtube-player');
+  var playerElements = document.querySelectorAll(".youtube-player");
   for (var n = 0; n < playerElements.length; n++) {
     var videoId = playerElements[n].dataset.id;
     var videoName = playerElements[n].dataset.name;
-    var div = document.createElement('div');
-    div.setAttribute('data-id', videoId);
-    div.setAttribute('data-name', videoName);
-    var thumbNode = document.createElement('img');
-    thumbNode.src = '//i.ytimg.com/vi/ID/hqdefault.jpg'.replace('ID', videoId);
+    var div = document.createElement("div");
+    div.setAttribute("data-id", videoId);
+    div.setAttribute("data-name", videoName);
+    var thumbNode = document.createElement("img");
+    thumbNode.src = "//i.ytimg.com/vi/ID/hqdefault.jpg".replace("ID", videoId);
     div.appendChild(thumbNode);
-    var playButton = document.createElement('div');
-    playButton.setAttribute('class', 'play');
+    var playButton = document.createElement("div");
+    playButton.setAttribute("class", "play");
     div.appendChild(playButton);
     div.onclick = function () {
       //Make the frame appear when clicked
