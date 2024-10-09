@@ -7,6 +7,7 @@
   --white: #fff;
   --yellow: #ffae00;
   --grey: #999c9f;
+  --light-grey: #CCCCCC;
   --input-background: #131a22;
   --footer-background:#161e27;
   --skeleton-background: #161e27;
@@ -154,26 +155,89 @@
   background: linear-gradient(
     to right,
     var(--background) 10%,
-    rgba(6, 13, 23, 0.5) 25%,
+    rgba(6, 13, 23, 0.7) 35%,
+    rgba(6, 13, 23, 0.5) 50%,
+    rgba(6, 13, 23, 0.4) 60%,
+    rgba(6, 13, 23, 0.3) 70%,
     transparent 100%
   );  
   z-index: -2;
 }
 
+.poster_general-info{
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  display: flex;
+  align-items: center;
+  z-index: -1;
+  backdrop-filter: blur(1px);
+}
 .info-poster {
-    width: 100%;
-    position: absolute;
-    display: flex;
-    align-items: center;
-    z-index: -1;
-   }
+  display: flex;
+  align-content: center;
+  gap: 15px;
 
-   .info-poster img{
+}
+
+.info-poster img{
     width: 25%;   
     border-radius: 10px;   
     box-shadow: 0em 15px 15px rgba(0, 0, 0, 0.7); 
     margin-left: 10px;
    }
+
+.general-info{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 100%;
+  text-shadow: 2px 2px 4px #000000;
+  padding-right: 5px;
+}
+
+.info{
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 0.8em;
+  font-weight: bold;
+  color: var(--light-grey);
+  margin-top: 6px;
+  text-shadow: 2px 2px 4px #000000;
+  
+}
+
+.genres{
+  display: flex;
+  gap: 5px;
+  font-size: 0.8em;
+  
+  color: var(--light-grey);
+  text-shadow: 2px 2px 4px #000000;
+}
+.rating{
+  display: flex;
+  color: var(--light-grey);
+  margin-top: 15px;
+  font-weight: bold;
+}
+
+.star{
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+
+.rating-number{
+  font-size: 15px;
+  color: var(--white);
+
+} 
+.total-stars{
+  font-size: 13px;
+}
   
 .info-content{
     margin-top: 10px;
@@ -185,7 +249,7 @@
     width: 100%;
 }
 
-.title_general-info{
+/* .title_general-info{
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -217,7 +281,6 @@
   flex-direction: column;
   align-items: center;
   gap: 5px;
-  /* background-color: #0c141e; */
   background-color: var(--background);
   font-size: 14px;
   padding: 16px 0px;
@@ -246,9 +309,9 @@
   font-size: large;
   color: var(--white);
 
-}
+} 
 
-
+*/
 
 
 .tagline{
@@ -263,7 +326,7 @@
     display: flex;
     flex-direction: column;
     gap: 10px;
-    /* color: var(--grey); */
+    color: var(--light-grey);
     font-size: 15px;
     padding: 0px 20px;
 }
@@ -277,7 +340,7 @@
   display: flex;
   flex-direction: column;
   gap: 10px;
-  color: var(--grey);
+  color: var(--light-grey);
   font-size: 15px;
   margin-top: 30px;
 }

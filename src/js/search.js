@@ -1,4 +1,10 @@
-import { apiKey, imgApi, imgApiPerson } from "./apiKey.js";
+// Purpose: Handle search functionality and display search results
+import { apiKey, fetchData} from "./api.js";
+import {
+  createSearchCard,
+  createSearchCardTv,
+  createSearchCardPerson,
+} from "./pageCreators.js";
 
 const searchUrlPerson = `https://api.themoviedb.org/3/search/person?api_key=${apiKey}&query=`;
 const searchUrlMovie = `https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&query=`;
@@ -13,11 +19,12 @@ const loadMovieBtn = document.getElementById("loadMovieBtn");
 const loadTvBtn = document.getElementById("loadTvBtn");
 const loadPersonBtn = document.getElementById("loadPersonBtn");
 
+//These variables keep track of results loaded in and total results available from api.
+//Used in detectEnd function
 let totalResultsMovie = 0;
 let totalResultsTv = 0;
 let totalResultsPerson = 0;
 let totalResults = 0;
-
 let currentResultsMovie = 0;
 let currentResultsTv = 0;
 let currentResultsPerson = 0;
@@ -201,6 +208,8 @@ async function handleSearch(e) {
   }
 }
 
+export { handleSearch };
+
 // Load more results
 function loadMoreResults() {
   const urlParams = new URLSearchParams(window.location.search);
@@ -258,31 +267,32 @@ function detectEnd() {
 form.addEventListener("submit", handleSearch);
 
 // loadMoreBtn.addEventListener("click", loadMoreResults)
-window.addEventListener("scroll", detectEnd);
+if (window.location.pathname === "/search.html") {
+  window.addEventListener("scroll", detectEnd);
+  loadMovieBtn.addEventListener("click", () => {
+    loadMovieBtn.classList.add("active");
+    loadTvBtn.classList.remove("active");
+    loadPersonBtn.classList.remove("active");
+    clearResults();
+    fetchAndShowSearchMovie(searchUrlMovie + searchTerm);
+  });
 
-loadMovieBtn.addEventListener("click", () => {
-  loadMovieBtn.classList.add("active");
-  loadTvBtn.classList.remove("active");
-  loadPersonBtn.classList.remove("active");
-  clearResults();
-  fetchAndShowSearchMovie(searchUrlMovie + searchTerm);
-});
+  loadTvBtn.addEventListener("click", () => {
+    loadTvBtn.classList.add("active");
+    loadMovieBtn.classList.remove("active");
+    loadPersonBtn.classList.remove("active");
+    clearResults();
+    fetchAndShowSearchTv(searchUrlTv + searchTerm);
+  });
 
-loadTvBtn.addEventListener("click", () => {
-  loadTvBtn.classList.add("active");
-  loadMovieBtn.classList.remove("active");
-  loadPersonBtn.classList.remove("active");
-  clearResults();
-  fetchAndShowSearchTv(searchUrlTv + searchTerm);
-});
-
-loadPersonBtn.addEventListener("click", () => {
-  loadPersonBtn.classList.add("active");
-  loadMovieBtn.classList.remove("active");
-  loadTvBtn.classList.remove("active");
-  clearResults();
-  fetchAndShowSearchPerson(searchUrlPerson + searchTerm);
-});
+  loadPersonBtn.addEventListener("click", () => {
+    loadPersonBtn.classList.add("active");
+    loadMovieBtn.classList.remove("active");
+    loadTvBtn.classList.remove("active");
+    clearResults();
+    fetchAndShowSearchPerson(searchUrlPerson + searchTerm);
+  });
+}
 
 // Initiate search when page loads if query is in url
 async function initSearch() {
@@ -309,141 +319,3 @@ async function initSearch() {
   }
 }
 initSearch();
-
-/******Importing genres from genres.js ******/
-import { movieGenres, tvGenres } from "./genres.js";
-
-function createSearchCard(movie) {
-  const { poster_path, title, release_date, overview, id, genre_ids } = movie;
-
-  const imagePath = poster_path
-    ? imgApi + poster_path
-    : "./images/no_image.svg";
-
-  const searchTitle = title.length > 25 ? title.slice(0, 25) + "..." : title;
-  const formattedDate =
-    release_date.length > 4 ? release_date.slice(0, 4) : release_date || "N/A";
-  const year = formattedDate.slice(0, 4);
-
-  const description =
-    overview.length > 110 ? overview.slice(0, 110) + "... " : "N/A";
-
-  // Get genre_ids from api and Map genre IDs to their names which is located in genres.js
-  const genreNames = genre_ids
-    .map((genreId) => {
-      const genre = movieGenres.find((genre) => genre.id === genreId);
-      return genre ? genre.name : "N/A";
-    })
-    .join(", ");
-
-  const cardTemplate = `
-    <a href="info.html?id=${id}&mediaType=movie">
-              <div class="search-card" data-id="${id}">
-                <img src="${imagePath}" alt="" />
-                <div class="search-card-text">
-                  <h3 class="search-card-title">${searchTitle}</h3>
-                  <p class="search-card-info">${year} ${"‧ " + genreNames}</p>
-                  <p class="search-card-overview">
-                      ${description}
-                  </p>
-                </div>
-              </div>
-  
-    </a>
-
-        `;
-
-  return cardTemplate;
-}
-
-function createSearchCardTv(tv) {
-  const { poster_path, name, first_air_date, overview, id, genre_ids } = tv;
-
-  const imagePath = poster_path
-    ? imgApi + poster_path
-    : "./images/no_image.svg";
-
-  const searchTitle = name.length > 31 ? name.slice(0, 29) + "..." : name;
-  const formattedDate =
-    first_air_date.length > 4
-      ? first_air_date.slice(0, 4)
-      : first_air_date || "N/A";
-  const year = formattedDate.slice(0, 4);
-
-  const description =
-    overview.length > 110 ? overview.slice(0, 110) + "... " : "N/A";
-
-  // Get genre_id from api and Map genre IDs to their names which are located in genres.js
-  const genreNames = genre_ids
-    .map((genreId) => {
-      const genre = tvGenres.find((genre) => genre.id === genreId);
-      return genre ? genre.name : "";
-    })
-    .join(", ");
-
-  const cardTemplate = `
-
-    <a href="info.html?id=${id}&mediaType=tv"">
-
-    <div class="search-card" data-id="${id}">
-  <span class="tv-label">TV</span>
-    <img src="${imagePath}" alt="" />
-    <div class="search-card-text">
-      <h3 class="search-card-title">${searchTitle}</h3>
-      <p class="search-card-info">${year} ${"‧ " + genreNames}</p>
-      <p class="search-card-overview">
-          ${description}
-      </p>
-    </div>
-  </div>
-  
-</a>
-
-  
-  `;
-
-  return cardTemplate;
-}
-
-function createSearchCardPerson(person) {
-  const {
-    profile_path,
-    name,
-    id,
-    known_for,
-    known_for_department,
-    media_type,
-  } = person;
-
-  const profilePoster = profile_path
-    ? imgApi + profile_path
-    : "./images/no_image.svg";
-
-  const knownFor = known_for
-    .map((knownFor) => {
-      return knownFor ? knownFor.title : "N/A";
-    })
-    .join(", ");
-
-  const cardTemplate = `
-
-    <a href="info.html?id=${id}&mediaType=person">
-
-    <div class="search-card" data-id="${id}">
-    <img src="${profilePoster}" alt="" />
-    <div class="search-card-text">
-      <h3 class="search-card-title">${name}</h3>
-      <p class="search-card-info">Department: ${known_for_department}</p>
-      <p class="search-card-overview">
-          Known for: ${knownFor}
-      </p>
-    </div>
-  </div>
-  
-</a>
-
-  
-  `;
-
-  return cardTemplate;
-}
