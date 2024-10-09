@@ -18,6 +18,7 @@ async function fetchAndShowResults(url, mediaType) {
   const data = await fetchData(url);
   if (data) {
     showResults(data, mediaType);
+    console.log(data);
   }
 }
 
@@ -54,10 +55,10 @@ const mediaType = urlParams.get("mediaType");
 //get info from api requests
 async function initInfoPage(id, mediaType) {
   if (mediaType === "tv") {
-    const tvInfoUrl = `https://api.themoviedb.org/3/tv/${id}?api_key=${apiKey}&append_to_response=aggregate_credits,videos,recommendations,watch/providers`;
+    const tvInfoUrl = `https://api.themoviedb.org/3/tv/${id}?api_key=${apiKey}&append_to_response=aggregate_credits,videos,images,recommendations,watch/providers`;
     await fetchAndShowResults(tvInfoUrl, "tv");
   } else if (mediaType === "movie") {
-    const movieInfoUrl = `https://api.themoviedb.org/3/movie/${id}?api_key=${apiKey}&append_to_response=credits,videos,recommendations,watch/providers`;
+    const movieInfoUrl = `https://api.themoviedb.org/3/movie/${id}?api_key=${apiKey}&append_to_response=credits,videos,images,recommendations,watch/providers`;
     await fetchAndShowResults(movieInfoUrl, "movie");
   } else if (mediaType === "person") {
     const personInfoUrl = `https://api.themoviedb.org/3/person/${id}?api_key=${apiKey}&append_to_response=combined_credits`;

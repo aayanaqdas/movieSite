@@ -235,6 +235,9 @@ function createInfoPageMovie(movie) {
   document.title = `${title} (${releaseYear}) - Info`;
 
   const rating = vote_average.toString().slice(0, 3) || "N/A";
+  const voteCountString = vote_count.toString();
+  const voteCount = voteCountString.length > 3 ? (voteCountString/1000).toFixed(1) + 'k' : voteCountString;
+console.log(vote_count);
 
   const runtimeHour = runtime > 60 ? runtime / 60 : "0";
   const runtimeMinute = runtime > 60 ? runtime % 60 : "0";
@@ -325,7 +328,7 @@ function createInfoPageMovie(movie) {
                 <div class="rating">
                   <p class="star">
                     <i class="fa-solid fa-star" style="color: #ffd43b"></i
-                    > <span class="rating-number">${rating}</span><span class="total-stars">/10</span></p>
+                    > <span class="rating-number">${rating}</span><span class="total-stars">/10 (${voteCount})</span></p>
                 </div>
               </div>
             </div>              
@@ -537,7 +540,7 @@ console.log(vote_count);
             </div>
 
             <div class="cast-container">
-              <h2 class="cast-header">Top Cast <a href="info.html?id=${id}&mediaType=movie/credits" class="view-cast-text">View full cast and crew</a></h2>
+              <h2 class="cast-header">Top Cast <a href="info.html?id=${id}&mediaType=tv/credits" class="view-cast-text">View full cast and crew</a></h2>
               <section id="castSection" class="contentSections">
               ${
                 castHTML ||
