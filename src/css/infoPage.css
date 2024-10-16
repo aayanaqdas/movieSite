@@ -249,69 +249,6 @@
     width: 100%;
 }
 
-/* .title_general-info{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
-
-}
-
-.info-title{
-    width: 100%;
-    display:flex;
-    justify-content: center;
-}
-
-.info-title h1{
-    padding: 16px 20px;
-    font-size: x-large;
-    color: var(--white);
-    display: inline-block;
-    line-height: 1;
-}
-
-.year{
-    color: grey;
-    font-size: medium;
-}
-
-.general-info{
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 5px;
-  background-color: var(--background);
-  font-size: 14px;
-  padding: 16px 0px;
-  width: 100%;
-}
-
-.rating_runtime{
-  display: flex;
-  align-items: center;
-  color: var(--grey);
-  gap: 10px;
-}
-
-.rating{
-    display: flex;
-}
-
-.star{
-    display: flex;
-    align-items: center;
-    gap: 2px;
-}
-
-
-.rating-number{
-  font-size: large;
-  color: var(--white);
-
-} 
-
-*/
 
 
 .tagline{
@@ -359,13 +296,13 @@
   background-color: var(--background);
   display: flex;
   flex-direction: column;
-  gap: 30px;
 }
 
 .cast-header{
   display: flex;
   align-items: center;
   gap: 10px;
+  margin-bottom: 20px;
 }
 .view-cast-text{
   font-size: 13px;
@@ -407,7 +344,24 @@
 }
 
 /****** Full Credits Page ********/
- /*** Cast ***/
+.changeResultTypes{
+  display: flex;
+  gap: 5px;
+  padding: 16px 20px;
+}
+.resultTypeButton{
+  background-color: transparent;
+  color: var(--grey);
+  padding: 5px 10px;
+  border: 1px solid;
+  cursor: pointer;
+}
+
+#loadCast.active,
+#loadCrew.active{
+  color: var(--yellow);
+}
+
 .credits-section{
   display: flex;
   flex-direction: column;
@@ -424,13 +378,17 @@
 }
 
 .total-cast-text{
-  font-size: 14px;
   color: var(--grey);
 }
+
+.credits-cast-container{
+  width: 100%;
+  height: 100%;
+}
+
 .credits-cast{
   display: flex;
   flex-direction: column;
-  height: 100%;
   padding: 7px 20px;
 }
 
@@ -438,7 +396,7 @@
   display: flex;
   align-items: center;
   gap: 15px;
-  color: var(--grey);
+  color: var(--light-grey);
   width: 100%;
   font-size: 13px;
 }
@@ -447,6 +405,28 @@
   width: 100%;
   max-width: 60px;
   border-radius: 6px;
+}
+
+.credits-episode-count{
+  color: var(--grey);
+}
+
+.load-more-btn-container{
+  display: flex;
+  justify-content: center;
+  padding: 16px 20px;
+}
+#loadMoreBtn {
+  display: none;
+  width: 100%;
+  padding: 15px 20px;
+  background-color: var(--yellow);
+  color: var(--background);
+  border: none;
+  border-radius: 7px;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 15px;
 }
 
 /*** Person info page****/

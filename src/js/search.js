@@ -56,58 +56,10 @@ function generateSkeletons(numSkeletons) {
 }
 
 /***********Searching************/
-// Fetch JSON data from url
-async function fetchDataSearchMovie(url) {
-  try {
-    const response = await fetch(url);
-    if (!response.ok) {
-      throw new Error("Network response was not ok.");
-    }
-    return await response.json();
-  } catch (error) {
-    console.error("Error fetching data:", error);
-    // Display an error message to the user
-    searchResult.innerHTML =
-      "<p>Error fetching data. Please try again later.</p>";
-    searchSkeleton.classList.add("hide-element");
-  }
-}
-
-async function fetchDataSearchTv(url) {
-  try {
-    const response = await fetch(url);
-    if (!response.ok) {
-      throw new Error("Network response was not ok.");
-    }
-    return await response.json();
-  } catch (error) {
-    console.error("Error fetching data:", error);
-    // Display an error message to the user
-    searchResult.innerHTML =
-      "<p>Error fetching data. Please try again later.</p>";
-    searchSkeleton.classList.add("hide-element");
-  }
-}
-
-async function fetchDataSearchPerson(url) {
-  try {
-    const response = await fetch(url);
-    if (!response.ok) {
-      throw new Error("Network response was not ok.");
-    }
-    return await response.json();
-  } catch (error) {
-    console.error("Error fetching data:", error);
-    // Display an error message to the user
-    searchResult.innerHTML =
-      "<p>Error fetching data. Please try again later.</p>";
-    searchSkeleton.classList.add("hide-element");
-  }
-}
 
 // Fetch and show results based on url for searching
 async function fetchAndShowSearchMovie(url) {
-  const data = await fetchDataSearchMovie(url);
+  const data = await fetchData(url);
   if (data && data.results) {
     console.log(data);
     skeletonContainer.classList.add("hide-element");
@@ -125,7 +77,7 @@ async function fetchAndShowSearchMovie(url) {
 }
 
 async function fetchAndShowSearchTv(url) {
-  const data = await fetchDataSearchTv(url);
+  const data = await fetchData(url);
   if (data && data.results) {
     console.log(data);
     skeletonContainer.classList.add("hide-element");
@@ -143,7 +95,7 @@ async function fetchAndShowSearchTv(url) {
 }
 
 async function fetchAndShowSearchPerson(url) {
-  const data = await fetchDataSearchPerson(url);
+  const data = await fetchData(url);
   if (data && data.results) {
     console.log(data);
     skeletonContainer.classList.add("hide-element");
@@ -269,6 +221,7 @@ form.addEventListener("submit", handleSearch);
 // loadMoreBtn.addEventListener("click", loadMoreResults)
 if (window.location.pathname === "/search.html") {
   window.addEventListener("scroll", detectEnd);
+  
   loadMovieBtn.addEventListener("click", () => {
     loadMovieBtn.classList.add("active");
     loadTvBtn.classList.remove("active");

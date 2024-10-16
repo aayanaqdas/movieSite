@@ -5,17 +5,11 @@ import { movieGenres, tvGenres } from "./genres.js";
 // Create movie card html template
 function createMovieCard(movie) {
   const {
-    backdrop_path,
     poster_path,
-    original_title,
-    release_date,
-    overview,
     id,
-    vote_average,
-    media_type,
+    name
   } = movie;
 
-  const backDrop = backdrop_path ? imgApi + backdrop_path : "./img-01.jpeg";
   const imagePath = poster_path
     ? imgApi + poster_path
     : "./images/no_image.svg";
@@ -23,29 +17,23 @@ function createMovieCard(movie) {
   const cardTemplate = `
   <a href="info.html?id=${id}&mediaType=movie">
           <div class="movie-card card" data-id="${id}">
-            <img src="${imagePath}" alt="" />
+            <img src="${imagePath}" alt="${name}" />
         </div>
-    
     </a>
   
       `;
-
+    
   return cardTemplate;
 }
 
 // Create tv-show card html template
 function createTvCard(tv) {
   const {
-    backdrop_path,
     poster_path,
     original_name,
-    first_air_date,
-    overview,
     id,
-    media_type,
   } = tv;
 
-  const backDrop = backdrop_path ? imgApi + backdrop_path : "./img-01.jpeg";
   const imagePath = poster_path
     ? imgApi + poster_path
     : "./images/no_image.svg";
@@ -58,8 +46,6 @@ function createTvCard(tv) {
   
           </div>
     </a>
-  
-  
       `;
 
   return cardTemplate;
@@ -220,6 +206,7 @@ function createInfoPageMovie(movie) {
     credits,
     recommendations,
     videos,
+    images,
   } = movie;
 
   const backDrop = backdrop_path
@@ -236,8 +223,11 @@ function createInfoPageMovie(movie) {
 
   const rating = vote_average.toString().slice(0, 3) || "N/A";
   const voteCountString = vote_count.toString();
-  const voteCount = voteCountString.length > 3 ? (voteCountString/1000).toFixed(1) + 'k' : voteCountString;
-console.log(vote_count);
+  const voteCount =
+    voteCountString.length > 3
+      ? (voteCountString / 1000).toFixed(1) + "k"
+      : voteCountString;
+  console.log(vote_count);
 
   const runtimeHour = runtime > 60 ? runtime / 60 : "0";
   const runtimeMinute = runtime > 60 ? runtime % 60 : "0";
@@ -304,7 +294,7 @@ console.log(vote_count);
     })
     .join("");
 
-    const cardTemplate = `
+  const cardTemplate = `
             <div class="info-section" data-id="${id}">
           <div class="poster_backdrop">
             <div class="info-backdrop">
@@ -426,8 +416,11 @@ function createInfoPageTv(tv) {
   const rating = vote_average.toString().slice(0, 3) || "N/A";
 
   const voteCountString = vote_count.toString();
-  const voteCount = voteCountString.length > 3 ? (voteCountString/1000).toFixed(1) + 'k' : voteCountString;
-console.log(vote_count);
+  const voteCount =
+    voteCountString.length > 3
+      ? (voteCountString / 1000).toFixed(1) + "k"
+      : voteCountString;
+  console.log(vote_count);
   const genreNames = genres
     .map((genre) => {
       return genre ? genre.name : "N/A";
@@ -512,7 +505,9 @@ console.log(vote_count);
                 <div class="rating">
                   <p class="star">
                     <i class="fa-solid fa-star" style="color: #ffd43b"></i
-                    > <span class="rating-number">${rating}</span><span class="total-stars">/10 (${voteCount || 0})</span></p>
+                    > <span class="rating-number">${rating}</span><span class="total-stars">/10 (${
+    voteCount || 0
+  })</span></p>
                 </div>
               </div>
             </div>              
@@ -587,6 +582,7 @@ function createInfoPagePerson(person) {
     id,
     place_of_birth,
     gender,
+    combined_credits,
   } = person;
 
   document.title = `${name} - Info`;
@@ -649,13 +645,7 @@ function createInfoPagePerson(person) {
         ? `<span><button class="read-more-button">Read More</button></span>`
         : ""
     }</p>
-              
-            </div>
-            
-            <div class="known-for-section">
-              <h2 class="sectionHeadline"></h2>
-              <div id="knownForContent" class="contentsections"></div>
-            </div>
+    </div>
           </div>
           
           `;
@@ -719,6 +709,33 @@ function createCreditsPageMovie(credits) {
     })
     .join("");
 
+    const restCast = cast.slice(300, cast.length)
+    .map((castMember) => {
+
+      const profileImg = castMember.profile_path
+        ? imgApiPerson + castMember.profile_path
+        : "./images/no_person_img.svg";
+      const roles = castMember.roles;
+      const character = roles[0].character;
+      return `
+        <div class="credits-cast">
+        <a href="info.html?id=${castMember.id}&mediaType=person">
+          <div class="credits-cast-card">
+              <img
+                  src="${profileImg}"
+                  alt=""
+                />
+            <div class="credits-cast-info">
+                <h3>${castMember.name}</h3>
+                <p>${character}</p>           
+              </div>
+              </div>
+              </a>
+            </div>
+      `;
+    })
+    .join("");
+
   const crewHTML = crew
     .map((crewMember) => {
       const profileImg = crewMember.profile_path
@@ -744,16 +761,58 @@ function createCreditsPageMovie(credits) {
     })
     .join("");
 
-  const template = `
-          <div class="credits-section">
-            <h3 class="credits-cast-header">Cast <span class="total-cast-text">(${cast.length})</span></h3>
-              ${castHTML}
-            <h3 class="credits-cast-header">Crew <span class="total-cast-text">(${crew.length})</span></h3>
-            ${crewHTML}
-          </div>
-  
-        `;
-
+    const template = `
+    <div class="credits-section">
+      <div class="changeResultTypes">
+        <button id="loadCast" class="resultTypeButton active">Cast: ${cast.length}</button>
+        <button id="loadCrew" class="resultTypeButton">Crew: ${crew.length}</button>
+      </div>
+      <h3 class="credits-cast-header">Cast</h3>
+        <div class="credits-cast-container">
+        ${castHTML}
+        </div>
+        <div class="load-more-btn-container"> 
+          <button id="loadMoreBtn">Load All</button>
+        </div>
+      </div>
+      
+  `;
+        setTimeout(function () {
+          // Add event listener to the load more button
+          const loadMoreBtn = document.getElementById("loadMoreBtn");
+          let divCount = document.querySelectorAll(".credits-cast").length;
+          const creditsContainerEl = document.querySelector(".credits-cast-container");
+          const loadCrewBtn = document.getElementById("loadCrew");
+          const loadCastBtn = document.getElementById("loadCast");
+          console.log(divCount);
+        if(cast.length > 300 && divCount !== cast.length && loadCastBtn.classList.contains("active")){
+            loadMoreBtn.style.display = "block";
+            loadMoreBtn.addEventListener("click", function () {
+              creditsContainerEl.innerHTML += restCast;
+              divCount = document.querySelectorAll(".credits-cast").length;
+              divCount === cast.length ? loadMoreBtn.style.display = "none" : loadMoreBtn.style.display = "block";
+            console.log(divCount);
+            })
+          }
+          else{
+            loadMoreBtn.style.display = "none";
+          }
+          const creditsHeader = document.querySelector(".credits-cast-header");
+          loadCrewBtn.addEventListener("click", function () {
+            document.querySelector(".credits-cast-container").innerHTML = crewHTML;
+            creditsHeader.textContent = "Crew";
+            loadCrewBtn.classList.add("active");
+            loadCastBtn.classList.remove("active");
+            loadMoreBtn.style.display = "none";
+          });
+          loadCastBtn.addEventListener("click", function () {
+            document.querySelector(".credits-cast-container").innerHTML = castHTML;
+            creditsHeader.textContent = "Series Cast";
+            loadCrewBtn.classList.remove("active");
+            loadCastBtn.classList.add("active");
+            loadMoreBtn.style.display = "block";
+          });
+        }, 200);
   return template;
 }
 
@@ -763,13 +822,15 @@ function createCreditsPageTv(aggregate_credits) {
 
   document.title = `Crew and cast`;
 
-  const castHTML = cast
+  const castHTML = cast.slice(0, 300)
     .map((castMember) => {
       const profileImg = castMember.profile_path
         ? imgApiPerson + castMember.profile_path
         : "./images/no_person_img.svg";
       const roles = castMember.roles;
       const character = roles[0].character;
+      const totalEpisodes = castMember.total_episode_count;
+
       return `
         <div class="credits-cast">
         <a href="info.html?id=${castMember.id}&mediaType=person">
@@ -780,7 +841,35 @@ function createCreditsPageTv(aggregate_credits) {
                 />
             <div class="credits-cast-info">
                 <h3>${castMember.name}</h3>
-                <p>${character}</p>                
+                <p>${character} <span class = "credits-episode-count">(${totalEpisodes + " episodes"})</span></p>           
+              </div>
+              </div>
+              </a>
+            </div>
+      `;
+    })
+    .join("");
+
+    const restCast = cast.slice(300, cast.length)
+    .map((castMember) => {
+
+      const profileImg = castMember.profile_path
+        ? imgApiPerson + castMember.profile_path
+        : "./images/no_person_img.svg";
+      const roles = castMember.roles;
+      const character = roles[0].character;
+      const totalEpisodes = castMember.total_episode_count;
+      return `
+        <div class="credits-cast">
+        <a href="info.html?id=${castMember.id}&mediaType=person">
+          <div class="credits-cast-card">
+              <img
+                  src="${profileImg}"
+                  alt=""
+                />
+            <div class="credits-cast-info">
+                <h3>${castMember.name}</h3>
+                <p>${character} <span class = "credits-episode-count">(${totalEpisodes + " episodes"})</span></p>           
               </div>
               </div>
               </a>
@@ -817,15 +906,59 @@ function createCreditsPageTv(aggregate_credits) {
 
   const template = `
           <div class="credits-section">
-            <h3 class="credits-cast-header">Series Cast <span class="total-cast-text">(${cast.length})</span></h3>
+            <div class="changeResultTypes">
+              <button id="loadCast" class="resultTypeButton active">Cast: ${cast.length}</button>
+              <button id="loadCrew" class="resultTypeButton">Crew: ${crew.length}</button>
+            </div>
+            <h3 class="credits-cast-header">Series Cast</h3>
+              <div class="credits-cast-container">
               ${castHTML}
-            <h3 class="credits-cast-header">Crew <span class="total-cast-text">(${crew.length})</span></h3>
-            ${crewHTML}
-          </div>
-  
+              </div>
+              <div class="load-more-btn-container"> 
+                <button id="loadMoreBtn">Load All</button>
+              </div>
+            </div>
+            
         `;
 
+    setTimeout(function () {
+          // Add event listener to the load more button
+          const loadMoreBtn = document.getElementById("loadMoreBtn");
+          let divCount = document.querySelectorAll(".credits-cast").length;
+          const creditsContainerEl = document.querySelector(".credits-cast-container");
+          const loadCrewBtn = document.getElementById("loadCrew");
+          const loadCastBtn = document.getElementById("loadCast");
+          console.log(divCount);
+        if(cast.length > 300 && divCount !== cast.length && loadCastBtn.classList.contains("active")){
+            loadMoreBtn.style.display = "block";
+            loadMoreBtn.addEventListener("click", function () {
+              creditsContainerEl.innerHTML += restCast;
+              divCount = document.querySelectorAll(".credits-cast").length;
+              divCount === cast.length ? loadMoreBtn.style.display = "none" : loadMoreBtn.style.display = "block";
+            console.log(divCount);
+            })
+          }
+          else{
+            loadMoreBtn.style.display = "none";
+          }
+          const creditsHeader = document.querySelector(".credits-cast-header");
+          loadCrewBtn.addEventListener("click", function () {
+            document.querySelector(".credits-cast-container").innerHTML = crewHTML;
+            creditsHeader.textContent = "Crew";
+            loadCrewBtn.classList.add("active");
+            loadCastBtn.classList.remove("active");
+            loadMoreBtn.style.display = "none";
+          });
+          loadCastBtn.addEventListener("click", function () {
+            document.querySelector(".credits-cast-container").innerHTML = castHTML;
+            creditsHeader.textContent = "Series Cast";
+            loadCrewBtn.classList.remove("active");
+            loadCastBtn.classList.add("active");
+            loadMoreBtn.style.display = "block";
+          });
+        }, 200);
   return template;
+ 
 }
 
 /***********Load thumbnail for youtube video and when clicked load the video **********/

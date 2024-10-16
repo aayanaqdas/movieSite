@@ -130,16 +130,7 @@ a {
 
 }
 
-#loadMoreBtn {
-  padding: 15px 20px;
-  background-color: var(--yellow);
-  color: var(--input-background);
-  border: none;
-  border-radius: 7px;
-  cursor: pointer;
-  font-weight: bold;
-  font-size: 15px;
-}
+
 
 .contentSections {
   width: 100%;
