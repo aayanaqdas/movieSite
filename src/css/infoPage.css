@@ -343,6 +343,15 @@
   text-align: center; /* add this */
 }
 
+.recommendations{
+  padding: 16px 20px;
+  background-color: var(--background);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;  
+}
+
+
 /****** Full Credits Page ********/
 .changeResultTypes{
   display: flex;
@@ -487,12 +496,29 @@
   cursor: pointer;
 }
 
-.recommendations{
-  padding: 16px 20px;
-  background-color: var(--background);
+.known-for-container {
+  width: 100%;
+  color: var(--white);
+
+}
+
+.known-for-media {
   display: flex;
   flex-direction: column;
+  gap: 20px;
+}
+
+#knownForSection {
+  width: 100%;
+  display: flex;
   gap: 10px;
+  overflow-x: auto;
+}
+
+.known-for-character{
+  color: var(--grey);
+  display: flex;
+  justify-content: center;
 }
 
 .not-available{

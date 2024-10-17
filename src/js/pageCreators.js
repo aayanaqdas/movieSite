@@ -601,6 +601,46 @@ function createInfoPagePerson(person) {
     biographyFull.length > 400 ? biographyFull.slice(0, 400) : biographyFull;
   const biographyMore = biographyFull.slice(400);
 
+  // Sort combined_credits.cast by user vote count in descending order
+  const sortByVote = combined_credits.cast.sort((a, b) => b.vote_count - a.vote_count);
+
+  // Filter out duplicates based on media id
+  const filteredCredits = [];
+  const mediaId = new Set();
+
+  for (const media of sortByVote) {
+    if (!mediaId.has(media.id)) {
+    mediaId.add(media.id);
+    filteredCredits.push(media);
+    }
+  }
+
+  const knownForHTML = filteredCredits.slice(0, 30).map((media) => {
+    const poster = media.poster_path
+      ? imgApi + media.poster_path
+      : "./images/no_image.svg";
+      if(media.media_type === "movie"){
+        return `
+        <a href="info.html?id=${media.id}&mediaType=movie">
+            <div class="card" data-id="${media.id}">
+              <img src="${poster}" alt="${media.name}" />
+            </div>
+            <p class="known-for-character">${media.character}</p>
+        </a>`;
+      }
+      else{
+        return `
+        <a href="info.html?id=${media.id}&mediaType=tv">
+            <div class="tv-card card" data-id="${media.id}">
+              <span class="tv-label">TV</span>
+              <img src="${poster}" alt="${media.name}" />
+            </div>
+            <p class="known-for-character">${media.character}</p>
+      </a>
+          `;
+      }
+  }).join("");
+
   const pageTemplate = `
             <div class="person-info-section" data-id="${id}">
             <div class="name_image">
@@ -646,6 +686,19 @@ function createInfoPagePerson(person) {
         : ""
     }</p>
     </div>
+
+  <div class="known-for-container">
+      <section class="known-for-media">
+        <h2 class="sectionHeadline">Known For</h2>
+      <section id="knownForSection">
+          ${
+            knownForHTML ||
+            '<p class="not-available">Not available at this time</p>'
+          }      
+      </section>
+    </section>
+  </div>
+
           </div>
           
           `;
