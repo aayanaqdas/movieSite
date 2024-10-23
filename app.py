@@ -14,7 +14,7 @@ DATE_TODAY = date.today()
 def index():
     return render_template('index.html')
 
-@app.route('/get_movie_details/<dataType>', methods=['GET'])
+@app.route('/get_landing_page_details/<dataType>', methods=['GET'])
 def get_movie_details(dataType):
     # Set the correct endpoint depending on media type (movie or TV show)
     if dataType == 'trendingData':
@@ -29,7 +29,7 @@ def get_movie_details(dataType):
         return jsonify({'error': 'Invalid media type'}), 400
 
     # Fetch the data from TMDB API
-    response = requests.get(url)
+    response = requests.get(url, timeout=15)
 
     if response.status_code == 200:
         # Return the movie/TV show details as JSON
@@ -37,5 +37,65 @@ def get_movie_details(dataType):
     else:
         return jsonify({'error': 'Failed to fetch data from TMDB API'}), response.status_code
 
+@app.route('/search.html')
+def search():
+    return render_template('search.html')
+
+@app.route('/search/movie', methods=['GET'])
+def getSearchDataMovie():
+    query = request.args.get('query')
+    page = request.args.get('page')
+    if query:
+        movieUrl = f'https://api.themoviedb.org/3/search/movie?api_key={API_KEY}&query={query}&page={page}'
+    else:
+        return jsonify({'error': 'Invalid query parameter'}), 400
+
+    # Fetch the data from TMDB API
+    response = requests.get(movieUrl, timeout=15)
+
+    if response.status_code == 200:
+        # Return the movie/TV show details as JSON
+        return jsonify(response.json())
+    else:
+        return jsonify({'error': 'Failed to fetch data from TMDB API'}), response.status_code
+
+@app.route('/search/tv', methods=['GET'])
+def getSearchDataTv():
+    query = request.args.get('query')
+    page = request.args.get('page')
+    if query:
+        tvUrl = f'https://api.themoviedb.org/3/search/tv?api_key={API_KEY}&query={query}&page={page}'
+    else:
+        return jsonify({'error': 'Invalid query parameter'}), 400
+
+    # Fetch the data from TMDB API
+    response = requests.get(tvUrl, timeout=15)
+
+    if response.status_code == 200:
+        # Return the movie/TV show details as JSON
+        return jsonify(response.json())
+    else:
+        return jsonify({'error': 'Failed to fetch data from TMDB API'}), response.status_code
+
+
+@app.route('/search/person', methods=['GET'])
+def getSearchDataPerson():
+    query = request.args.get('query')
+    page = request.args.get('page')
+    if query:
+        personUrl = f'https://api.themoviedb.org/3/search/person?api_key={API_KEY}&query={query}&page={page}'
+    else:
+        return jsonify({'error': 'Invalid query parameter'}), 400
+
+    # Fetch the data from TMDB API
+    response = requests.get(personUrl, timeout=15)
+
+    if response.status_code == 200:
+        # Return the movie/TV show details as JSON
+        return jsonify(response.json())
+    else:
+        return jsonify({'error': 'Failed to fetch data from TMDB API'}), response.status_code
+
+
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True, host="0.0.0.0")

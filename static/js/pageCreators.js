@@ -12,7 +12,7 @@ function createMovieCard(movie) {
 
   const imagePath = poster_path
     ? imgApi + poster_path
-    : "./images/no_image.svg";
+    : "static/images/no_image.svg";
 
   const cardTemplate = `
   <a href="info.html?id=${id}&mediaType=movie">
@@ -36,7 +36,7 @@ function createTvCard(tv) {
 
   const imagePath = poster_path
     ? imgApi + poster_path
-    : "./images/no_image.svg";
+    : "static/images/no_image.svg";
 
   const cardTemplate = `
   <a href="info.html?id=${id}&mediaType=tv">
@@ -57,7 +57,7 @@ function createSearchCard(movie) {
 
   const imagePath = poster_path
     ? imgApi + poster_path
-    : "./images/no_image.svg";
+    : "static/images/no_image.svg";
 
   const searchTitle = title.length > 25 ? title.slice(0, 25) + "..." : title;
   const formattedDate =
@@ -100,7 +100,7 @@ function createSearchCardTv(tv) {
 
   const imagePath = poster_path
     ? imgApi + poster_path
-    : "./images/no_image.svg";
+    : "static/images/no_image.svg";
 
   const searchTitle = name.length > 31 ? name.slice(0, 29) + "..." : name;
   const formattedDate =
@@ -156,7 +156,7 @@ function createSearchCardPerson(person) {
 
   const profilePoster = profile_path
     ? imgApi + profile_path
-    : "./images/no_image.svg";
+    : "static/images/no_image.svg";
 
   const knownFor = known_for
     .map((knownFor) => {
@@ -211,8 +211,8 @@ function createInfoPageMovie(movie) {
 
   const backDrop = backdrop_path
     ? imgApi + backdrop_path
-    : "./images/no_image.svg";
-  const poster = poster_path ? imgApi + poster_path : "./images/no_image.svg";
+    : "static/images/no_image.svg";
+  const poster = poster_path ? imgApi + poster_path : "static/images/no_image.svg";
 
   const releaseYear = release_date.slice(0, 4) || "N/A";
   const releaseDate = release_date
@@ -255,7 +255,7 @@ function createInfoPageMovie(movie) {
     .map((castMember) => {
       const profileImg = castMember.profile_path
         ? imgApiPerson + castMember.profile_path
-        : "./images/no_person_img.svg";
+        : "static/images/no_image.svg";
       return `
           <div class="cast-card" data-id="${castMember.id}">
           <a href="info.html?id=${castMember.id}&mediaType=person">
@@ -282,7 +282,7 @@ function createInfoPageMovie(movie) {
     .map((media) => {
       const poster = media.poster_path
         ? imgApi + media.poster_path
-        : "./images/no_image.svg";
+        : "static/images/no_image.svg";
       return `
       <a href="info.html?id=${media.id}&mediaType=movie">
           <div class="card" data-id="${media.id}">
@@ -403,8 +403,8 @@ function createInfoPageTv(tv) {
 
   const backDrop = backdrop_path
     ? imgApi + backdrop_path
-    : "./images/no_image.svg";
-  const poster = poster_path ? imgApi + poster_path : "./images/no_image.svg";
+    : "static/images/no_image.svg";
+  const poster = poster_path ? imgApi + poster_path : "static/images/no_image.svg";
 
   const releaseYear = first_air_date.slice(0, 4);
   const releaseDate = first_air_date
@@ -438,7 +438,7 @@ function createInfoPageTv(tv) {
     .map((castMember) => {
       const profileImg = castMember.profile_path
         ? imgApiPerson + castMember.profile_path
-        : "./images/no_person_img.svg";
+        : "static/images/no_person_img.svg";
       const roles = castMember.roles;
       const character = roles[0].character;
       return `
@@ -467,7 +467,7 @@ function createInfoPageTv(tv) {
     .map((media) => {
       const poster = media.poster_path
         ? imgApi + media.poster_path
-        : "./images/no_image.svg";
+        : "static/images/no_image.svg";
       return `
   <a href="info.html?id=${media.id}&mediaType=tv">
           <div class="tv-card card" data-id="${media.id}">
@@ -589,7 +589,7 @@ function createInfoPagePerson(person) {
 
   const profilePath = profile_path
     ? imgApiPerson + profile_path
-    : "./images/no_person_img.svg";
+    : "static/images/no_person_img.svg";
 
   const departmentName = known_for_department ? known_for_department : "N/A";
   const genderName = gender === 2 ? "Male" : "Female" || "N/A";
@@ -618,7 +618,7 @@ function createInfoPagePerson(person) {
   const knownForHTML = filteredCredits.slice(0, 30).map((media) => {
     const poster = media.poster_path
       ? imgApi + media.poster_path
-      : "./images/no_image.svg";
+      : "static/images/no_image.svg";
       if(media.media_type === "movie"){
         return `
         <a href="info.html?id=${media.id}&mediaType=movie">
@@ -742,7 +742,7 @@ function createCreditsPageMovie(credits) {
     .map((castMember) => {
       const profileImg = castMember.profile_path
         ? imgApiPerson + castMember.profile_path
-        : "./images/no_person_img.svg";
+        : "static/images/no_person_img.svg";
       return `
         <div class="credits-cast">
         <a href="info.html?id=${castMember.id}&mediaType=person">
@@ -767,7 +767,7 @@ function createCreditsPageMovie(credits) {
 
       const profileImg = castMember.profile_path
         ? imgApiPerson + castMember.profile_path
-        : "./images/no_person_img.svg";
+        : "static/images/no_person_img.svg";
       const roles = castMember.roles;
       const character = roles[0].character;
       return `
@@ -793,7 +793,7 @@ function createCreditsPageMovie(credits) {
     .map((crewMember) => {
       const profileImg = crewMember.profile_path
         ? imgApiPerson + crewMember.profile_path
-        : "./images/no_person_img.svg";
+        : "static/images/no_person_img.svg";
 
       return `
         <div class="credits-cast">
@@ -879,7 +879,7 @@ function createCreditsPageTv(aggregate_credits) {
     .map((castMember) => {
       const profileImg = castMember.profile_path
         ? imgApiPerson + castMember.profile_path
-        : "./images/no_person_img.svg";
+        : "static/images/no_person_img.svg";
       const roles = castMember.roles;
       const character = roles[0].character;
       const totalEpisodes = castMember.total_episode_count;
@@ -908,7 +908,7 @@ function createCreditsPageTv(aggregate_credits) {
 
       const profileImg = castMember.profile_path
         ? imgApiPerson + castMember.profile_path
-        : "./images/no_person_img.svg";
+        : "static/images/no_person_img.svg";
       const roles = castMember.roles;
       const character = roles[0].character;
       const totalEpisodes = castMember.total_episode_count;
@@ -935,7 +935,7 @@ function createCreditsPageTv(aggregate_credits) {
     .map((crewMember) => {
       const profileImg = crewMember.profile_path
         ? imgApiPerson + crewMember.profile_path
-        : "./images/no_person_img.svg";
+        : "static/images/no_person_img.svg";
       const jobs = crewMember.jobs;
       const job = jobs[0].job;
       return `

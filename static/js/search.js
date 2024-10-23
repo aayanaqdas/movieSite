@@ -1,14 +1,9 @@
-// Purpose: Handle search functionality and display search results
-import { apiKey, fetchData} from "./api.js";
+
 import {
   createSearchCard,
   createSearchCardTv,
   createSearchCardPerson,
 } from "./pageCreators.js";
-
-const searchUrlPerson = `https://api.themoviedb.org/3/search/person?api_key=${apiKey}&query=`;
-const searchUrlMovie = `https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&query=`;
-const searchUrlTv = `https://api.themoviedb.org/3/search/tv?api_key=${apiKey}&query=`;
 
 const form = document.getElementById("searchForm");
 const query = document.getElementById("searchInput");
@@ -35,6 +30,7 @@ let searchTerm;
 
 const skeletonContainer = document.getElementById("search-skeleton-container");
 
+
 // Function to generate skeletons
 function generateSkeletons(numSkeletons) {
   // Clear existing skeletons
@@ -59,56 +55,77 @@ function generateSkeletons(numSkeletons) {
 
 // Fetch and show results based on url for searching
 async function fetchAndShowSearchMovie(url) {
-  const data = await fetchData(url);
-  if (data && data.results) {
-    console.log(data);
-    skeletonContainer.classList.add("hide-element");
-    showSearchResults(data.results, "movie");
-
-    totalResultsMovie = data.total_results;
-    totalResults += totalResultsMovie;
-
-    currentResultsMovie = data.results.length + currentResultsMovie;
-
-    loadMovieBtn.innerText = `Movies: ${totalResultsMovie}`;
-    console.log("current results for movie: " + currentResultsMovie);
-    generateSkeletons(10); // Generate skeletons based on current results length
+  try {
+    const response = await fetch(url);
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    const data = await response.json();
+    if (data && data.results) {
+      console.log(data);
+      skeletonContainer.classList.add("hide-element");
+      showSearchResults(data.results, "movie");
+      totalResultsMovie = data.total_results;
+      totalResults += totalResultsMovie;
+  
+      currentResultsMovie = data.results.length + currentResultsMovie;
+  
+      loadMovieBtn.innerText = `Movies: ${totalResultsMovie}`;
+      console.log("current results for movie: " + currentResultsMovie);
+      generateSkeletons(10); // Generate skeletons based on current results length
+    }
+  } catch (error) {
+    console.error("Error fetching movie details:", error);
   }
 }
 
 async function fetchAndShowSearchTv(url) {
-  const data = await fetchData(url);
-  if (data && data.results) {
-    console.log(data);
-    skeletonContainer.classList.add("hide-element");
-    showSearchResults(data.results, "tv");
-
-    totalResultsTv = data.total_results;
-    totalResults += totalResultsTv;
-
-    currentResultsTv = data.results.length + currentResultsTv;
-
-    loadTvBtn.innerText = `TV Shows: ${totalResultsTv}`;
-    console.log("Total results for tv: " + totalResultsTv);
-    generateSkeletons(10); // Generate skeletons based on current results length
+  try {
+    const response = await fetch(url);
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    const data = await response.json();
+    if (data && data.results) {
+      console.log(data);
+      skeletonContainer.classList.add("hide-element");
+      showSearchResults(data.results, "tv");
+      totalResultsTv = data.total_results;
+      totalResults += totalResultsTv;
+  
+      currentResultsTv = data.results.length + currentResultsTv;
+  
+      loadTvBtn.innerText = `TV Shows: ${totalResultsTv}`;
+      console.log("Total results for tv: " + totalResultsTv);
+      generateSkeletons(10); // Generate skeletons based on current results length
+    }
+  } catch (error) {
+    console.error("Error fetching movie details:", error);
   }
 }
 
 async function fetchAndShowSearchPerson(url) {
-  const data = await fetchData(url);
-  if (data && data.results) {
-    console.log(data);
-    skeletonContainer.classList.add("hide-element");
-    showSearchResults(data.results, "person");
-
-    totalResultsPerson = data.total_results;
-    totalResults += totalResultsPerson;
-
-    currentResultsPerson = data.results.length + currentResultsPerson;
-
-    loadPersonBtn.innerText = `People: ${totalResultsPerson}`;
-    console.log("Total results for people: " + totalResultsPerson);
-    generateSkeletons(10); // Generate skeletons based on current results length
+  try {
+    const response = await fetch(url);
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    const data = await response.json();
+    if (data && data.results) {
+      console.log(data);
+      skeletonContainer.classList.add("hide-element");
+      showSearchResults(data.results, "person");
+      totalResultsPerson = data.total_results;
+      totalResults += totalResultsPerson;
+  
+      currentResultsPerson = data.results.length + currentResultsPerson;
+  
+      loadPersonBtn.innerText = `People: ${totalResultsPerson}`;
+      console.log("Total results for people: " + totalResultsPerson);
+      generateSkeletons(10); // Generate skeletons based on current results length
+    }
+  } catch (error) {
+    console.error("Error fetching movie details:", error);
   }
 }
 
@@ -168,9 +185,10 @@ function loadMoreResults() {
   const urlQuery = urlParams.get("query");
   if (urlQuery) {
     page++;
-    const newUrlMovie = `${searchUrlMovie}${searchTerm}&page=${page}`;
-    const newUrlTv = `${searchUrlTv}${searchTerm}&page=${page}`;
-    const newUrlPerson = `${searchUrlPerson}${searchTerm}&page=${page}`;
+    const newUrlMovie = `/search/movie?query=${searchTerm}&page=${page}`;
+    const newUrlTv = `/search/tv?query=${searchTerm}&page=${page}}`;
+    const newUrlPerson = `/search/person?query=${searchTerm}&page=${page}`;
+
     skeletonContainer.classList.remove("hide-element");
     generateSkeletons(10);
 
@@ -221,13 +239,13 @@ form.addEventListener("submit", handleSearch);
 // loadMoreBtn.addEventListener("click", loadMoreResults)
 if (window.location.pathname === "/search.html") {
   window.addEventListener("scroll", detectEnd);
-  
+
   loadMovieBtn.addEventListener("click", () => {
     loadMovieBtn.classList.add("active");
     loadTvBtn.classList.remove("active");
     loadPersonBtn.classList.remove("active");
     clearResults();
-    fetchAndShowSearchMovie(searchUrlMovie + searchTerm);
+    fetchAndShowSearchMovie(`/search/movie?query=${searchTerm}&page=${page}`);
   });
 
   loadTvBtn.addEventListener("click", () => {
@@ -235,7 +253,7 @@ if (window.location.pathname === "/search.html") {
     loadMovieBtn.classList.remove("active");
     loadPersonBtn.classList.remove("active");
     clearResults();
-    fetchAndShowSearchTv(searchUrlTv + searchTerm);
+    fetchAndShowSearchTv(`/search/tv?query=${searchTerm}&page=${page}`);
   });
 
   loadPersonBtn.addEventListener("click", () => {
@@ -243,7 +261,7 @@ if (window.location.pathname === "/search.html") {
     loadMovieBtn.classList.remove("active");
     loadTvBtn.classList.remove("active");
     clearResults();
-    fetchAndShowSearchPerson(searchUrlPerson + searchTerm);
+    fetchAndShowSearchPerson(`/search/person?query=${searchTerm}&page=${page}`);
   });
 }
 
@@ -258,9 +276,10 @@ async function initSearch() {
     skeletonContainer.classList.remove("hide-element");
     generateSkeletons(10); // Generate 10 skeletons initially
 
-    const newUrlMovie = `${searchUrlMovie}${searchTerm}`;
-    const newUrlTv = `${searchUrlTv}${searchTerm}`;
-    const newUrlPerson = `${searchUrlPerson}${searchTerm}`;
+    const newUrlMovie = `/search/movie?query=${searchTerm}&page=${page}`;
+    const newUrlTv = `/search/tv?query=${searchTerm}&page=${page}`;
+    const newUrlPerson = `/search/person?query=${searchTerm}&page=${page}`;
+
     const resultsText = document.getElementById("resultsText");
     const totalResultsText = document.getElementById("totalResultsText");
     resultsText.innerText = "Search results for: " + searchTerm;
