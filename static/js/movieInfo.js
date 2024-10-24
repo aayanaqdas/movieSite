@@ -14,11 +14,17 @@ const loader = document.getElementById("loader");
 
 const form = document.getElementById("searchForm");
 
-async function fetchAndShowResults(url, mediaType) {
-  const data = await fetchData(url);
-  if (data) {
-    showResults(data, mediaType);
-    console.log(data);
+async function fetchAndShowResults(mediaId, type) {
+  try {
+    const response = await fetch(`info/${type}/${mediaId}`);
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    const data = await response.json();
+    console.log(data, type);
+    showResults(data, type);
+  } catch (error) {
+    console.error("Error fetching media details:", error);
   }
 }
 
@@ -53,29 +59,30 @@ const id = urlParams.get("id");
 const mediaType = urlParams.get("mediaType");
 
 //get info from api requests
-async function initInfoPage(id, mediaType) {
+async function initInfoPage(mediaType, id) {
   if (mediaType === "tv") {
-    const tvInfoUrl = `https://api.themoviedb.org/3/tv/${id}?api_key=${apiKey}&append_to_response=aggregate_credits,videos,recommendations,watch/providers`;
-    await fetchAndShowResults(tvInfoUrl, "tv");
+    const tvId = id;
+    await fetchAndShowResults(tvId, "tv");
   } else if (mediaType === "movie") {
-    const movieInfoUrl = `https://api.themoviedb.org/3/movie/${id}?api_key=${apiKey}&append_to_response=credits,videos,recommendations,watch/providers`;
-    await fetchAndShowResults(movieInfoUrl, "movie");
+    const movieId = id;
+    await fetchAndShowResults(movieId, "movie");
   } else if (mediaType === "person") {
-    const personInfoUrl = `https://api.themoviedb.org/3/person/${id}?api_key=${apiKey}&append_to_response=combined_credits`;
-    await fetchAndShowResults(personInfoUrl, "person");
+    const personId = id;
+    await fetchAndShowResults(personId, "person");
   }
 
   //get full media credits for cast and crew
   else if (mediaType === "movie/credits") {
-    const creditsUrl = `https://api.themoviedb.org/3/movie/${id}/credits?api_key=${apiKey}`;
-    await fetchAndShowResults(creditsUrl, "movie/credits");
+    const creditsId = id;
+    await fetchAndShowResults(creditsId, "movie/credits");
   } else if (mediaType === "tv/credits") {
-    const creditsUrl = `https://api.themoviedb.org/3/tv/${id}/aggregate_credits?api_key=${apiKey}`;
-    await fetchAndShowResults(creditsUrl, "tv/credits");
+    const creditsId = id;
+    await fetchAndShowResults(creditsId, "tv/credits");
   }
   initYouTubeVideos();
 }
 toggleSearchBar();
-initInfoPage(id, mediaType);
+initInfoPage(mediaType, id);
 
 form.addEventListener("submit", handleSearch);
+

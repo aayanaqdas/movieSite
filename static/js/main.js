@@ -25,7 +25,7 @@ async function fetchDetails(type) {
     console.log(data, type);
     showResults(data.results, type);
   } catch (error) {
-    console.error("Error fetching movie details:", error);
+    console.error("Error fetching media details:", error);
   }
 }
 

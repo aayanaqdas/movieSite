@@ -96,6 +96,35 @@ def getSearchDataPerson():
     else:
         return jsonify({'error': 'Failed to fetch data from TMDB API'}), response.status_code
 
+@app.route('/info.html')
+def getIngoPage():
+    return render_template('info.html')
+
+@app.route('/info/<path:mediaType>/<mediaId>', methods=['GET'])
+def getInfo(mediaType, mediaId):
+    # Set the correct endpoint depending on id and mediatype
+    if mediaType == 'tv':
+        url = f'https://api.themoviedb.org/3/tv/{mediaId}?api_key={API_KEY}&append_to_response=aggregate_credits,videos,recommendations,watch/providers'
+    elif mediaType == 'movie':
+        url = f'https://api.themoviedb.org/3/movie/{mediaId}?api_key={API_KEY}&append_to_response=credits,videos,recommendations,watch/providers'
+    elif mediaType == 'person':
+        url = f'https://api.themoviedb.org/3/person/{mediaId}?api_key={API_KEY}&append_to_response=combined_credits'
+    elif mediaType == 'movie/credits':
+        url = f'https://api.themoviedb.org/3/movie/{mediaId}/credits?api_key={API_KEY}'
+    elif mediaType == 'tv/credits':
+        url = f'https://api.themoviedb.org/3/tv/{mediaId}/aggregate_credits?api_key={API_KEY}'
+    else:
+        return jsonify({'error': 'Invalid media type'}), 400
+
+    # Fetch the data from TMDB API
+    response = requests.get(url, timeout=15)
+
+    if response.status_code == 200:
+        # Return the movie/TV show details as JSON
+        return jsonify(response.json())
+    else:
+        return jsonify({'error': 'Failed to fetch data from TMDB API'}), response.status_code
+
 
 if __name__ == '__main__':
     app.run(debug=True, host="0.0.0.0")
