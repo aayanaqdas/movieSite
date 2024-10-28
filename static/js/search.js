@@ -171,7 +171,7 @@ async function handleSearch(e) {
   if (searchTermInput) {
     const urlParams = new URLSearchParams();
     urlParams.set("query", searchTermInput);
-    const newUrl = `search.html?${urlParams.toString()}`;
+    const newUrl = `/search.html?${urlParams.toString()}`;
 
     window.location.href = newUrl;
   }

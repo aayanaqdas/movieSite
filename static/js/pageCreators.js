@@ -12,10 +12,10 @@ function createMovieCard(movie) {
 
   const imagePath = poster_path
     ? imgApi + poster_path
-    : "static/images/no_image.svg";
+    : "/static/images/no_image.svg";
 
   const cardTemplate = `
-  <a href="info.html?id=${id}&mediaType=movie">
+  <a href="/info.html/movie/${id}">
           <div class="movie-card card" data-id="${id}">
             <img src="${imagePath}" alt="${name}" />
         </div>
@@ -36,10 +36,10 @@ function createTvCard(tv) {
 
   const imagePath = poster_path
     ? imgApi + poster_path
-    : "static/images/no_image.svg";
+    : "/static/images/no_image.svg";
 
   const cardTemplate = `
-  <a href="info.html?id=${id}&mediaType=tv">
+  <a href="/info.html/tv/${id}">
           <div class="tv-card card" data-id="${id}">
             <span class="tv-label">TV</span>
             <img src="${imagePath}" alt="${original_name}" />
@@ -57,7 +57,7 @@ function createSearchCard(movie) {
 
   const imagePath = poster_path
     ? imgApi + poster_path
-    : "static/images/no_image.svg";
+    : "/static/images/no_image.svg";
 
   const searchTitle = title.length > 25 ? title.slice(0, 25) + "..." : title;
   const formattedDate =
@@ -76,7 +76,7 @@ function createSearchCard(movie) {
     .join(", ");
 
   const cardTemplate = `
-    <a href="info.html?id=${id}&mediaType=movie">
+    <a href="info.html/movie/${id}">
               <div class="search-card" data-id="${id}">
                 <img src="${imagePath}" alt="" />
                 <div class="search-card-text">
@@ -100,7 +100,7 @@ function createSearchCardTv(tv) {
 
   const imagePath = poster_path
     ? imgApi + poster_path
-    : "static/images/no_image.svg";
+    : "/static/images/no_image.svg";
 
   const searchTitle = name.length > 31 ? name.slice(0, 29) + "..." : name;
   const formattedDate =
@@ -122,7 +122,7 @@ function createSearchCardTv(tv) {
 
   const cardTemplate = `
 
-    <a href="info.html?id=${id}&mediaType=tv"">
+    <a href="/info.html/tv/${id}">
 
     <div class="search-card" data-id="${id}">
   <span class="tv-label">TV</span>
@@ -156,7 +156,7 @@ function createSearchCardPerson(person) {
 
   const profilePoster = profile_path
     ? imgApi + profile_path
-    : "static/images/no_image.svg";
+    : "/static/images/no_image.svg";
 
   const knownFor = known_for
     .map((knownFor) => {
@@ -166,7 +166,7 @@ function createSearchCardPerson(person) {
 
   const cardTemplate = `
 
-    <a href="info.html?id=${id}&mediaType=person">
+    <a href="info.html/person/${id}">
 
     <div class="search-card" data-id="${id}">
     <img src="${profilePoster}" alt="" />
@@ -211,8 +211,8 @@ function createInfoPageMovie(movie) {
 
   const backDrop = backdrop_path
     ? imgApi + backdrop_path
-    : "static/images/no_image.svg";
-  const poster = poster_path ? imgApi + poster_path : "static/images/no_image.svg";
+    : "/static/images/no_image.svg";
+  const poster = poster_path ? imgApi + poster_path : "/static/images/no_image.svg";
 
   const releaseYear = release_date.slice(0, 4) || "N/A";
   const releaseDate = release_date
@@ -255,10 +255,10 @@ function createInfoPageMovie(movie) {
     .map((castMember) => {
       const profileImg = castMember.profile_path
         ? imgApiPerson + castMember.profile_path
-        : "static/images/no_image.svg";
+        : "/static/images/no_person_img.svg";
       return `
           <div class="cast-card" data-id="${castMember.id}">
-          <a href="info.html?id=${castMember.id}&mediaType=person">
+          <a href="/info.html/person/${castMember.id}">
             <img src="${profileImg}" alt="${castMember.name}">
             </a>
             <div class="cast-info">
@@ -282,9 +282,9 @@ function createInfoPageMovie(movie) {
     .map((media) => {
       const poster = media.poster_path
         ? imgApi + media.poster_path
-        : "static/images/no_image.svg";
+        : "/static/images/no_image.svg";
       return `
-      <a href="info.html?id=${media.id}&mediaType=movie">
+      <a href="/info.html/movie/${media.id}">
           <div class="card" data-id="${media.id}">
             <img src="${poster}" alt="${media.name}" />
   
@@ -346,7 +346,7 @@ function createInfoPageMovie(movie) {
             </div>
 
             <div class="cast-container">
-              <h2 class="cast-header">Top Cast <a href="info.html?id=${id}&mediaType=movie/credits" class="view-cast-text">View full cast and crew</a></h2>
+              <h2 class="cast-header">Top Cast <a href="/info.html/movie-credits/${id}" class="view-cast-text">View full cast and crew</a></h2>
               <section id="castSection" class="contentSections">
               ${
                 castHTML ||
@@ -403,8 +403,8 @@ function createInfoPageTv(tv) {
 
   const backDrop = backdrop_path
     ? imgApi + backdrop_path
-    : "static/images/no_image.svg";
-  const poster = poster_path ? imgApi + poster_path : "static/images/no_image.svg";
+    : "/static/images/no_image.svg";
+  const poster = poster_path ? imgApi + poster_path : "/static/images/no_image.svg";
 
   const releaseYear = first_air_date.slice(0, 4);
   const releaseDate = first_air_date
@@ -438,12 +438,12 @@ function createInfoPageTv(tv) {
     .map((castMember) => {
       const profileImg = castMember.profile_path
         ? imgApiPerson + castMember.profile_path
-        : "static/images/no_person_img.svg";
+        : "/static/images/no_person_img.svg";
       const roles = castMember.roles;
       const character = roles[0].character;
       return `
           <div class="cast-card" data-id="${castMember.id}">
-            <a href="info.html?id=${castMember.id}&mediaType=person">
+            <a href="/info.html/person/${castMember.id}">
               <img src="${profileImg}" alt="${castMember.name}">
             </a>
             <div class="cast-info">
@@ -467,9 +467,9 @@ function createInfoPageTv(tv) {
     .map((media) => {
       const poster = media.poster_path
         ? imgApi + media.poster_path
-        : "static/images/no_image.svg";
+        : "/static/images/no_image.svg";
       return `
-  <a href="info.html?id=${media.id}&mediaType=tv">
+  <a href="/info.html/tv/${media.id}">
           <div class="tv-card card" data-id="${media.id}">
             <span class="tv-label">TV</span>
             <img src="${poster}" alt="${media.name}" />
@@ -535,7 +535,7 @@ function createInfoPageTv(tv) {
             </div>
 
             <div class="cast-container">
-              <h2 class="cast-header">Top Cast <a href="info.html?id=${id}&mediaType=tv/credits" class="view-cast-text">View full cast and crew</a></h2>
+              <h2 class="cast-header">Top Cast <a href="/info.html/tv-credits/${id}" class="view-cast-text">View full cast and crew</a></h2>
               <section id="castSection" class="contentSections">
               ${
                 castHTML ||
@@ -589,7 +589,7 @@ function createInfoPagePerson(person) {
 
   const profilePath = profile_path
     ? imgApiPerson + profile_path
-    : "static/images/no_person_img.svg";
+    : "/static/images/no_person_img.svg";
 
   const departmentName = known_for_department ? known_for_department : "N/A";
   const genderName = gender === 2 ? "Male" : "Female" || "N/A";
@@ -618,10 +618,10 @@ function createInfoPagePerson(person) {
   const knownForHTML = filteredCredits.slice(0, 30).map((media) => {
     const poster = media.poster_path
       ? imgApi + media.poster_path
-      : "static/images/no_image.svg";
+      : "/static/images/no_image.svg";
       if(media.media_type === "movie"){
         return `
-        <a href="info.html?id=${media.id}&mediaType=movie">
+        <a href="/info.html/movie/${media.id}">
             <div class="card" data-id="${media.id}">
               <img src="${poster}" alt="${media.name}" />
             </div>
@@ -630,7 +630,7 @@ function createInfoPagePerson(person) {
       }
       else{
         return `
-        <a href="info.html?id=${media.id}&mediaType=tv">
+        <a href="/info.html/tv/${media.id}">
             <div class="tv-card card" data-id="${media.id}">
               <span class="tv-label">TV</span>
               <img src="${poster}" alt="${media.name}" />
@@ -742,10 +742,10 @@ function createCreditsPageMovie(credits) {
     .map((castMember) => {
       const profileImg = castMember.profile_path
         ? imgApiPerson + castMember.profile_path
-        : "static/images/no_person_img.svg";
+        : "/static/images/no_person_img.svg";
       return `
         <div class="credits-cast">
-        <a href="info.html?id=${castMember.id}&mediaType=person">
+        <a href="/info.html/person/${castMember.id}">
           <div class="credits-cast-card">
               <img
                   src="${profileImg}"
@@ -772,7 +772,7 @@ function createCreditsPageMovie(credits) {
       const character = roles[0].character;
       return `
         <div class="credits-cast">
-        <a href="info.html?id=${castMember.id}&mediaType=person">
+        <a href="/info.html/person/${castMember.id}">
           <div class="credits-cast-card">
               <img
                   src="${profileImg}"
@@ -793,11 +793,11 @@ function createCreditsPageMovie(credits) {
     .map((crewMember) => {
       const profileImg = crewMember.profile_path
         ? imgApiPerson + crewMember.profile_path
-        : "static/images/no_person_img.svg";
+        : "/static/images/no_person_img.svg";
 
       return `
         <div class="credits-cast">
-        <a href="info.html?id=${crewMember.id}&mediaType=person">
+        <a href="/info.html/person/${crewMember.id}">
           <div class="credits-cast-card">
               <img
                   src="${profileImg}"
@@ -879,14 +879,14 @@ function createCreditsPageTv(aggregate_credits) {
     .map((castMember) => {
       const profileImg = castMember.profile_path
         ? imgApiPerson + castMember.profile_path
-        : "static/images/no_person_img.svg";
+        : "/static/images/no_person_img.svg";
       const roles = castMember.roles;
       const character = roles[0].character;
       const totalEpisodes = castMember.total_episode_count;
 
       return `
         <div class="credits-cast">
-        <a href="info.html?id=${castMember.id}&mediaType=person">
+        <a href="/info.html/person/${castMember.id}">
           <div class="credits-cast-card">
               <img
                   src="${profileImg}"
@@ -908,13 +908,13 @@ function createCreditsPageTv(aggregate_credits) {
 
       const profileImg = castMember.profile_path
         ? imgApiPerson + castMember.profile_path
-        : "static/images/no_person_img.svg";
+        : "/static/images/no_person_img.svg";
       const roles = castMember.roles;
       const character = roles[0].character;
       const totalEpisodes = castMember.total_episode_count;
       return `
         <div class="credits-cast">
-        <a href="info.html?id=${castMember.id}&mediaType=person">
+        <a href="/info.html/person/${castMember.id}">
           <div class="credits-cast-card">
               <img
                   src="${profileImg}"
@@ -935,12 +935,12 @@ function createCreditsPageTv(aggregate_credits) {
     .map((crewMember) => {
       const profileImg = crewMember.profile_path
         ? imgApiPerson + crewMember.profile_path
-        : "static/images/no_person_img.svg";
+        : "/static/images/no_person_img.svg";
       const jobs = crewMember.jobs;
       const job = jobs[0].job;
       return `
         <div class="credits-cast">
-        <a href="info.html?id=${crewMember.id}&mediaType=person">
+        <a href="/info.html/person/${crewMember.id}">
           <div class="credits-cast-card">
               <img
                   src="${profileImg}"

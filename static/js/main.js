@@ -17,7 +17,7 @@ const region = navigator.languages[0].substring(3);
 
 async function fetchDetails(type) {
   try {
-    const response = await fetch(`get_landing_page_details/${type}`);
+    const response = await fetch(`landingPage/${type}`);
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }

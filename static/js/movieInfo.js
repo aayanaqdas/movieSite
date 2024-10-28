@@ -14,15 +14,15 @@ const loader = document.getElementById("loader");
 
 const form = document.getElementById("searchForm");
 
-async function fetchAndShowResults(mediaId, type) {
+async function fetchAndShowResults(mediaType, mediaId) {
   try {
-    const response = await fetch(`info/${type}/${mediaId}`);
+    const response = await fetch(`/info/${mediaType}/${mediaId}`);
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
     const data = await response.json();
-    console.log(data, type);
-    showResults(data, type);
+    console.log(data, mediaType);
+    showResults(data, mediaType);
   } catch (error) {
     console.error("Error fetching media details:", error);
   }
@@ -42,11 +42,11 @@ function showResults(item, mediaType) {
     const infoContent = createInfoPagePerson(item);
     infoSectionContainer.innerHTML = infoContent || "<p>No results found<p>";
     loader.classList.add("hide-element");
-  } else if (mediaType === "movie/credits") {
+  } else if (mediaType === "movie-credits") {
     const infoContent = createCreditsPageMovie(item);
     infoSectionContainer.innerHTML = infoContent || "<p>No results found<p>";
     loader.classList.add("hide-element");
-  } else if (mediaType === "tv/credits") {
+  } else if (mediaType === "tv-credits") {
     const infoContent = createCreditsPageTv(item);
     infoSectionContainer.innerHTML = infoContent || "<p>No results found<p>";
     loader.classList.add("hide-element");
@@ -54,30 +54,42 @@ function showResults(item, mediaType) {
 }
 
 //get media ID and mediaType from the url
-const urlParams = new URLSearchParams(window.location.search);
-const id = urlParams.get("id");
-const mediaType = urlParams.get("mediaType");
+// const urlParams = new URLSearchParams(window.location.search);
+// const id = urlParams.get("id");
+// const mediaType = urlParams.get("mediaType");
 
+// const splitUrl = window.location.pathname.split("/");
+// console.log(splitUrl);
+// const mediaType = splitUrl[2];
+// const id = splitUrl[3];
+// const infoUrl = "/" + mediaType + "/" + id;
+
+const testUrl = new URL(window.location.href);
+const splitUrl = testUrl.pathname.split("/");
+const mediaType = splitUrl[2];
+const id = splitUrl[3];
+console.log(splitUrl);
+console.log(testUrl);
+console.log(mediaType, id);
 //get info from api requests
 async function initInfoPage(mediaType, id) {
   if (mediaType === "tv") {
     const tvId = id;
-    await fetchAndShowResults(tvId, "tv");
+    await fetchAndShowResults(mediaType, tvId);
   } else if (mediaType === "movie") {
     const movieId = id;
-    await fetchAndShowResults(movieId, "movie");
+    await fetchAndShowResults(mediaType, movieId);
   } else if (mediaType === "person") {
     const personId = id;
-    await fetchAndShowResults(personId, "person");
+    await fetchAndShowResults(mediaType, personId);
   }
-
   //get full media credits for cast and crew
-  else if (mediaType === "movie/credits") {
+  else if (mediaType === "movie-credits") {
     const creditsId = id;
-    await fetchAndShowResults(creditsId, "movie/credits");
-  } else if (mediaType === "tv/credits") {
+    await fetchAndShowResults(mediaType, creditsId);
+  } else if (mediaType === "tv-credits") {
     const creditsId = id;
-    await fetchAndShowResults(creditsId, "tv/credits");
+    await fetchAndShowResults(mediaType, creditsId);
   }
   initYouTubeVideos();
 }
