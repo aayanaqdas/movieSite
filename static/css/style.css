@@ -3,10 +3,12 @@
 :root {
   --background: #060d17;
   --black: #000;
-  --black-opacity: #000000a7;
+  --black-opacity: #00000088;
   --white: #fff;
   --yellow: #ffae00;
+  --yellow-hover: #ffae00aa;
   --grey: #999c9f;
+  --light-grey: #CCCCCC;
   --input-background: #131a22;
   --footer-background:#161e27;
   --skeleton-background: #161e27;
@@ -80,6 +82,44 @@ a {
   padding: 1px 15px;
   cursor: pointer;
 }
+
+
+/* The container <div> - needed to position the dropdown content */
+.user-settings {
+  position: relative;
+  display: inline-block;
+}
+
+/* Dropdown Content (Hidden by Default) */
+.user-settings-content {
+  display: none;
+  position: absolute;
+  right: 0;
+  background-color: var(--white);
+  color: var(--black);
+  min-width: 150px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+
+  z-index: 1000;
+}
+
+
+/* Links inside the dropdown */
+.user-settings-content a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+/* Change color of dropdown links on hover */
+.user-settings-content a:hover {background-color: var(--light-grey);}
+
+/* Show the dropdown menu on hover */
+.user-settings:hover .user-settings-content {
+  display: block;
+}
+
 
 .searchbar {
   margin: 0 auto;

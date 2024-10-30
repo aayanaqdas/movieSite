@@ -19,6 +19,15 @@ function toggleSearchBar() {
   };
 }
 
+function toggleSettingsMenu(){
+  const userSettingsIcon = document.getElementById("userSettingsIcon");
+  const settingsMenu = document.getElementById("settingsMenu");
+  userSettingsIcon.onclick = function (){
+    settingsMenu.classList.toggle("hide-element");
+  }
+}
+
+//Function to show a video thumbnail and only loading the video when clicked. 
 function initYouTubeVideos() {
   var playerElements = document.querySelectorAll(".youtube-player");
   for (var n = 0; n < playerElements.length; n++) {
@@ -28,6 +37,7 @@ function initYouTubeVideos() {
     div.setAttribute("data-id", videoId);
     div.setAttribute("data-name", videoName);
     var thumbNode = document.createElement("img");
+    //Get the thumbnail images
     thumbNode.src = "//i.ytimg.com/vi/ID/hqdefault.jpg".replace("ID", videoId);
     div.appendChild(thumbNode);
     var playButton = document.createElement("div");
@@ -35,6 +45,7 @@ function initYouTubeVideos() {
     div.appendChild(playButton);
     div.onclick = function () {
       //Make the modal appear and play video when clicking on the video thumbnail
+      //Function is in pageCreators.js
       createVideoModal(this);
     };
     playerElements[n].appendChild(div);
@@ -42,4 +53,4 @@ function initYouTubeVideos() {
 }
 // document.addEventListener('DOMContentLoaded', initYouTubeVideos);
 
-export { initYouTubeVideos, toggleSearchBar };
+export { initYouTubeVideos, toggleSearchBar, toggleSettingsMenu };

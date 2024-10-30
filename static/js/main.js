@@ -1,5 +1,6 @@
 
 import { apiKey, fetchData } from "./api.js";
+import { toggleSearchBar, toggleSettingsMenu } from "./eventHandlers.js";
 import { createMovieCard, createTvCard } from "./pageCreators.js";
 import { handleSearch } from "./search.js";
 
@@ -61,3 +62,4 @@ async function init() {
 form.addEventListener("submit", handleSearch);
 
 init();
+toggleSettingsMenu();

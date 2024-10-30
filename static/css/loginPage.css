@@ -1,0 +1,76 @@
+.login-page-container {
+    display: flex;
+    flex-direction: column;
+    max-width: 1500px;
+    height: 100vh;
+  }
+
+.login-form-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    width: 100%;
+    height: 100%;
+}
+#login-form{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+.login-inputs{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 100%;
+    max-width: 300px;
+}
+
+.username-input, .password-input{
+    display: flex;
+    flex-direction: column;
+}
+.username-input input, .password-input input{
+    background-color: transparent;
+    color: var(--light-grey);
+    width: 100%;
+    padding: 15px 0px;
+    outline: none;
+    border: none;
+    border-bottom: 3px solid var(--light-grey);
+}
+
+.login-actions{
+    display: flex;
+    justify-content: center;
+    width: 100%;
+
+}
+
+.login-button{
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: 6px;
+    background-color: var(--yellow);
+    color: var(--background);
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.login-button:hover{
+    background-color: var(--yellow-hover);
+}
+
+.signup-link{
+    color: var(--light-grey);
+    font-size: 14px;
+}
+
+.signup-link a{
+    color: var(--yellow);
+}
