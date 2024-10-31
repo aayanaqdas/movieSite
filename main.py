@@ -11,14 +11,14 @@ def search():
     return render_template('search.html')
 
 @main.route('/info.html/<path:mediaType>/<mediaId>')
-def renderInfoPage(mediaType, mediaId):
+def render_info_page(mediaType, mediaId):
     return render_template('info.html')
 
 @main.route('/login')
-def loginPage():
+def login_page():
     return render_template('login.html')
 
 @main.route('/signup')
-def signupPage():
+def signup_page():
     return render_template('signup.html')
 

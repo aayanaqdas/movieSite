@@ -21,10 +21,6 @@
   height: 49px;
 }
 
-.site-name {
-  color: var(--yellow);
-  cursor: pointer;
-}
 
 a {
   text-decoration: none;

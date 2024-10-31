@@ -7,6 +7,7 @@
   --white: #fff;
   --yellow: #ffae00;
   --yellow-hover: #ffae00aa;
+  --blue: #0051ff;
   --grey: #999c9f;
   --light-grey: #CCCCCC;
   --input-background: #131a22;
@@ -71,6 +72,7 @@ body {
   color: var(--yellow);
   cursor: pointer;
 }
+
 
 a {
   text-decoration: none;
