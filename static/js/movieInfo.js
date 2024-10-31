@@ -6,7 +6,7 @@ import {
   createCreditsPageMovie,
   createCreditsPageTv,
 } from "./pageCreators.js";
-import { initYouTubeVideos, toggleSearchBar } from "./eventHandlers.js";
+import { initYouTubeVideos, toggleSearchBar, toggleSettingsMenu } from "./eventHandlers.js";
 import { handleSearch } from "./search.js";
 
 const infoSectionContainer = document.getElementById("info-section-container");
@@ -20,10 +20,13 @@ async function fetchAndShowResults(mediaType, mediaId) {
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
-    const data = await response.json();
-    console.log(data, mediaType);
-    showResults(data, mediaType);
+      const data = await response.json();
+      console.log(data, mediaType);
+      showResults(data, mediaType);
+
   } catch (error) {
+    loader.classList.add("hide-element");
+    infoSectionContainer.innerHTML = "<p>Media not found<p>";
     console.error("Error fetching media details:", error);
   }
 }
@@ -53,24 +56,11 @@ function showResults(item, mediaType) {
   }
 }
 
-//get media ID and mediaType from the url
-// const urlParams = new URLSearchParams(window.location.search);
-// const id = urlParams.get("id");
-// const mediaType = urlParams.get("mediaType");
-
-// const splitUrl = window.location.pathname.split("/");
-// console.log(splitUrl);
-// const mediaType = splitUrl[2];
-// const id = splitUrl[3];
-// const infoUrl = "/" + mediaType + "/" + id;
-
-const testUrl = new URL(window.location.href);
-const splitUrl = testUrl.pathname.split("/");
+const windowUrl = new URL(window.location.href);
+const splitUrl = windowUrl.pathname.split("/");
 const mediaType = splitUrl[2];
 const id = splitUrl[3];
-console.log(splitUrl);
-console.log(testUrl);
-console.log(mediaType, id);
+
 //get info from api requests
 async function initInfoPage(mediaType, id) {
   if (mediaType === "tv") {
@@ -94,6 +84,7 @@ async function initInfoPage(mediaType, id) {
   initYouTubeVideos();
 }
 toggleSearchBar();
+toggleSettingsMenu();
 initInfoPage(mediaType, id);
 
 form.addEventListener("submit", handleSearch);

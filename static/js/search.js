@@ -5,6 +5,8 @@ import {
   createSearchCardPerson,
 } from "./pageCreators.js";
 
+import { toggleSettingsMenu } from "./eventHandlers.js";
+
 const form = document.getElementById("searchForm");
 const query = document.getElementById("searchInput");
 
@@ -290,4 +292,5 @@ async function initSearch() {
     totalResultsText.innerText = `(Results: ${totalResults})`;
   }
 }
+toggleSettingsMenu();
 initSearch();

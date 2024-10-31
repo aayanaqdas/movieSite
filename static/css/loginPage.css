@@ -1,11 +1,11 @@
-.login-page-container {
+.login-page-container, .signup-page-container {
     display: flex;
     flex-direction: column;
     max-width: 1500px;
     height: 100vh;
   }
 
-.login-form-container {
+.login-form-container, .signup-form-container {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -14,14 +14,14 @@
     width: 100%;
     height: 100%;
 }
-#login-form{
+#login-form, #signup-form {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     width: 100%;
 }
-.login-inputs{
+.login-inputs, .signup-inputs{
     display: flex;
     flex-direction: column;
     gap: 20px;
@@ -34,23 +34,25 @@
     flex-direction: column;
 }
 .username-input input, .password-input input{
-    background-color: transparent;
-    color: var(--light-grey);
+    background-color: var(--background);
+    color: var(--grey);
     width: 100%;
-    padding: 15px 0px;
+    height: 40px;
+    font-size: 16px;
     outline: none;
     border: none;
     border-bottom: 3px solid var(--light-grey);
+    border-radius: 0px
 }
 
-.login-actions{
+.login-actions, .signup-actions{
     display: flex;
     justify-content: center;
     width: 100%;
 
 }
 
-.login-button{
+.login-button, .signup-button{
     width: 100%;
     padding: 10px;
     border: none;
@@ -62,7 +64,7 @@
     cursor: pointer;
 }
 
-.login-button:hover{
+.login-button:hover, .signup-button:hover{
     background-color: var(--yellow-hover);
 }
 
@@ -73,4 +75,6 @@
 
 .signup-link a{
     color: var(--yellow);
+    text-decoration: underline;
+    
 }
