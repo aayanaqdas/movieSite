@@ -16,9 +16,13 @@
           <div class="user-settings">
             <i id="userSettingsIcon" class="nav-icon fa-solid fa-user"></i>
             <div id="settingsMenu" class="user-settings-content hide-element">
+              <div id="loggedInUser" class="hide-element">
+                <p id="loggedInUserText"></p>
+              </div>
               <a href="">Watchlist</a>
               <a href="/">Link 2</a>
-              <a href="/login">Login</a>
+              <a href="/login" id="settingsLoginLink" class="hide-element">Login</a>
+              <a href="#" id="settingsLogoutLink" class="hide-element">Log Out</a>
             </div>
           </div>
         </div>
@@ -81,6 +85,7 @@
 
 
     <script type="module" src="/static/js/main.js"></script>
+    <script type="module" src="/static/js/auth.js"></script>
     <script
       src="https://kit.fontawesome.com/c385798621.js"
       crossorigin="anonymous"
