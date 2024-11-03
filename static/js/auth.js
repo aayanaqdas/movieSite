@@ -65,10 +65,8 @@ document.addEventListener("DOMContentLoaded", () => {
 function updateUIForLoggedInUser() {
     const loginBtn = document.getElementById('settingsLoginLink');
     const logoutBtn = document.getElementById('settingsLogoutLink');
-    const loggedInUserEL = document.getElementById('loggedInUser');
     const loggedInUserTxtEL = document.getElementById('loggedInUserText');
     const username = localStorage.getItem('username');
-    loggedInUserEL.classList.remove('hide-element');
     loggedInUserTxtEL.textContent = `${username}`;
     loginBtn.classList.add('hide-element');
     logoutBtn.classList.remove('hide-element');
@@ -83,6 +81,10 @@ if(localStorage.getItem('loggedIn') === 'true') {
         window.location.href = '/';
     }
 }
+
+
+
+
 
 
 // localStorage.clear();

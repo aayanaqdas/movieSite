@@ -224,11 +224,13 @@ a {
   max-width: 130px;
   position: relative;
   cursor: pointer;
+
 }
 
 .card img {
   width: 100%;
   border-radius: 10px;
+
 }
 
 
@@ -260,4 +262,28 @@ a {
 .footer-container img{
   width: 100%;
   max-width: 100px;
+}
+
+
+.save-media-btn{
+  position: absolute;
+  left: 0px;
+  top: 5px;
+  color: var(--grey);
+  padding: 2px 7px;
+  font-size: 20px;
+  border: none;
+  background: transparent;
+}
+
+/* #saveMediaBtn:hover{
+  color: var(--yellow);
+} */
+
+.save-media-btn.active{
+  color: var(--yellow);
+}
+
+.add-to-watchlist-text{
+  color: var(--grey);
 }

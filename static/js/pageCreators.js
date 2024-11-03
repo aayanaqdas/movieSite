@@ -15,11 +15,12 @@ function createMovieCard(movie) {
     : "/static/images/no_image.svg";
 
   const cardTemplate = `
-  <a href="/info.html/movie/${id}">
-          <div class="movie-card card" data-id="${id}">
+    <div class="movie-card card" data-id="${id}">
+        <button class="save-media-btn" data-id="${id}" data-poster="${imagePath}" data-type="movie"><i class="fa-solid fa-bookmark"></i></button>
+        <a href="/info.html/movie/${id}"> 
             <img src="${imagePath}" alt="${name}" />
-        </div>
-    </a>
+        </a>
+    </div>
   
       `;
     
@@ -39,13 +40,13 @@ function createTvCard(tv) {
     : "/static/images/no_image.svg";
 
   const cardTemplate = `
-  <a href="/info.html/tv/${id}">
-          <div class="tv-card card" data-id="${id}">
+    <div class="tv-card card" data-id="${id}">
+        <button class="save-media-btn" data-id="${id}" data-poster="${imagePath}" data-type="tv"><i class="fa-solid fa-bookmark"></i></button>
+        <a href="/info.html/tv/${id}"> 
             <span class="tv-label">TV</span>
             <img src="${imagePath}" alt="${original_name}" />
-  
-          </div>
-    </a>
+        </a>
+    </div>
       `;
 
   return cardTemplate;

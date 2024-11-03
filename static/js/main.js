@@ -2,6 +2,7 @@
 import { apiKey, fetchData } from "./api.js";
 import { toggleSearchBar, toggleSettingsMenu } from "./eventHandlers.js";
 import { createMovieCard, createTvCard } from "./pageCreators.js";
+import { updateWatchList, createWatchlistCards } from "./watchlist.js";
 import { handleSearch } from "./search.js";
 
 const form = document.getElementById("searchForm");
@@ -51,15 +52,20 @@ function showResults(items, type) {
     newContent = items.map(createMovieCard).join("");
     upcomingMoviesResult.innerHTML = newContent || "<p>No results found.</p>";
   }
+
 }
+
 async function init() {
   await fetchDetails("trendingData");
   await fetchDetails("popularMoviesData");
   await fetchDetails("topRatedTvData");
   await fetchDetails("upcomingMoviesData");
+  updateWatchList();
+  createWatchlistCards();
 }
 
 form.addEventListener("submit", handleSearch);
 
 init();
 toggleSettingsMenu();
+
