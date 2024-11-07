@@ -2,7 +2,7 @@
 import { apiKey, fetchData } from "./api.js";
 import { toggleSearchBar, toggleSettingsMenu } from "./eventHandlers.js";
 import { createMovieCard, createTvCard } from "./pageCreators.js";
-import { updateWatchList, createWatchlistCards } from "./watchlist.js";
+import { initWatchlist } from "./watchlist.js";
 import { handleSearch } from "./search.js";
 
 const form = document.getElementById("searchForm");
@@ -60,8 +60,7 @@ async function init() {
   await fetchDetails("popularMoviesData");
   await fetchDetails("topRatedTvData");
   await fetchDetails("upcomingMoviesData");
-  updateWatchList();
-  createWatchlistCards();
+  initWatchlist();
 }
 
 form.addEventListener("submit", handleSearch);

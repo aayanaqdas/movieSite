@@ -170,8 +170,8 @@
   position: absolute;
   display: flex;
   align-items: center;
-  z-index: -1;
-  backdrop-filter: blur(1px);
+  /* z-index: -1;
+  backdrop-filter: blur(1px); */
 }
 .info-poster {
   display: flex;
@@ -237,6 +237,25 @@
 } 
 .total-stars{
   font-size: 13px;
+}
+
+.info-list-btn{
+  height: 2rem;
+  width: 2rem;
+  margin: 0 10px;
+  border: none;
+  border-radius: 50%;
+  background-color: var(--input-background);
+  color: var(--grey);
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1rem;
+}
+
+.info-list-btn.active{
+  color: var(--yellow);
 }
   
 .info-content{

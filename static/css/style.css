@@ -10,6 +10,7 @@
   --blue: #0051ff;
   --grey: #999c9f;
   --light-grey: #CCCCCC;
+  --grey-opacity: #999c9f88;
   --input-background: #131a22;
   --footer-background:#161e27;
   --skeleton-background: #161e27;
@@ -265,25 +266,37 @@ a {
 }
 
 
-.save-media-btn{
+.list-btn{
   position: absolute;
   left: 0px;
-  top: 5px;
+  top: -1px;
   color: var(--grey);
-  padding: 2px 7px;
-  font-size: 20px;
+  opacity: .7;
+  padding: 0px 7px;
+  font-size: 27px;
   border: none;
   background: transparent;
+  cursor: pointer;
 }
 
 /* #saveMediaBtn:hover{
   color: var(--yellow);
 } */
 
-.save-media-btn.active{
+.list-btn.active{
   color: var(--yellow);
+  opacity: 1;
 }
 
 .add-to-watchlist-text{
   color: var(--grey);
+}
+
+.login-message{
+  height: 300px;
+  position: absolute;
+  z-index: 10;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

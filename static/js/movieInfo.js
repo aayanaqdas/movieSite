@@ -7,6 +7,7 @@ import {
   createCreditsPageTv,
 } from "./pageCreators.js";
 import { initYouTubeVideos, toggleSearchBar, toggleSettingsMenu } from "./eventHandlers.js";
+import { initWatchlist } from "./watchlist.js";
 import { handleSearch } from "./search.js";
 
 const infoSectionContainer = document.getElementById("info-section-container");
@@ -82,6 +83,7 @@ async function initInfoPage(mediaType, id) {
     await fetchAndShowResults(mediaType, creditsId);
   }
   initYouTubeVideos();
+  initWatchlist();
 }
 toggleSearchBar();
 toggleSettingsMenu();
