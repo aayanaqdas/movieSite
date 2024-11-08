@@ -1,3 +1,5 @@
+const userInfo = JSON.parse(localStorage.getItem('userInfo'));
+
 document.addEventListener("DOMContentLoaded", () => {
     const loginForm = document.getElementById('login-form');
     const signupForm = document.getElementById('signup-form');
@@ -17,8 +19,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
             const result = await response.json();
             if (result.status === 'success') {
-                localStorage.setItem('loggedIn', 'true');
-                localStorage.setItem('username', username);
+                userInfo.loggedIn = true;
+                userInfo.username = username;
+                localStorage.setItem('userInfo', JSON.stringify(userInfo));
                 window.location.href = '/';
             } else {
                 console.log(result.message);
@@ -41,8 +44,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
             const result = await response.json();
             if (result.status === 'success') {
-                localStorage.setItem('loggedIn', 'true');
-                localStorage.setItem('username', username);
+                userInfo.loggedIn = true;
+                userInfo.username = username;
+                localStorage.setItem('userInfo', JSON.stringify(userInfo));
                 window.location.href = '/';
             } else {
                 console.log(result.message);
@@ -51,8 +55,8 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
     // Check login state on page load
-    const loggedIn = localStorage.getItem('loggedIn');
-    if (loggedIn === 'true') {
+    const loggedIn = userInfo.loggedIn;
+    if (loggedIn === true) {
         updateUIForLoggedInUser();
     }
     else {
@@ -66,18 +70,19 @@ function updateUIForLoggedInUser() {
     const loginBtn = document.getElementById('settingsLoginLink');
     const logoutBtn = document.getElementById('settingsLogoutLink');
     const loggedInUserTxtEL = document.getElementById('loggedInUserText');
-    const username = localStorage.getItem('username');
+    const username = userInfo.username;
     loggedInUserTxtEL.textContent = `${username}`;
     loginBtn.classList.add('hide-element');
     logoutBtn.classList.remove('hide-element');
 };
 
 //logout handler
-if(localStorage.getItem('loggedIn') === 'true') {
+if(userInfo.loggedIn === true) {
     const logoutBtn = document.getElementById('settingsLogoutLink');
     logoutBtn.onclick = function logout() {
-        localStorage.removeItem('loggedIn');
-        localStorage.removeItem('username');
+        userInfo.loggedIn = false;
+        userInfo.username = '';
+        localStorage.setItem('userInfo', JSON.stringify(userInfo));
         window.location.href = '/';
     }
 }

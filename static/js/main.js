@@ -5,6 +5,18 @@ import { createMovieCard, createTvCard } from "./pageCreators.js";
 import { initWatchlist } from "./watchlist.js";
 import { handleSearch } from "./search.js";
 
+if (!localStorage.getItem("userInfo")){
+  const userInfoObj = {
+    username: "",
+    loggedIn: false,
+    watchlist: []
+  }
+  localStorage.setItem("userInfo", JSON.stringify(userInfoObj));
+}
+
+const userInfo = JSON.parse(localStorage.getItem("userInfo"));
+
+
 const form = document.getElementById("searchForm");
 
 const trendingResult = document.getElementById("trendingSection");

@@ -1,12 +1,10 @@
 const watchlistSectionEl = document.getElementById("watchlistSection");
-const contentContainer = document.querySelector(".content");
-const userLoggedIn = localStorage.getItem("loggedIn") || false;
+
+const userInfo = JSON.parse(localStorage.getItem("userInfo"))
 // localStorage.clear();
 
 function updateWatchList() {
-  const watchlistArray = localStorage.getItem("watchlist")
-    ? JSON.parse(localStorage.getItem("watchlist"))
-    : [];
+  const watchlistArray = userInfo.watchlist || [];
   const addToListBtns = document.querySelectorAll(".list-btn, .info-list-btn");
 
   // Remove existing event listeners
@@ -36,7 +34,8 @@ function updateWatchList() {
           poster: mediaPoster,
           mediaType: mediaType,
         });
-        localStorage.setItem("watchlist", JSON.stringify(watchlistArray));
+        userInfo.watchlist = watchlistArray;
+        localStorage.setItem("userInfo", JSON.stringify(userInfo));
         createWatchlistCards();
       }
     });
@@ -48,16 +47,16 @@ function updateWatchList() {
 }
 
 function createWatchlistCards() {
+    
   if (window.location.pathname === "/") {
-    const watchlistArray = localStorage.getItem("watchlist")
-      ? JSON.parse(localStorage.getItem("watchlist"))
-      : [];
+    const watchlistArray = userInfo.watchlist || [];
+    
     watchlistSectionEl.innerHTML = "";
     if (watchlistArray.length === 0) {
       watchlistSectionEl.innerHTML =
         '<p class="add-to-watchlist-text">Your watchlist is empty</p>';
     }
-    const reversedWatchlist = watchlistArray.reverse(); // Reverse watchlist array so it shows the newly added first
+    const reversedWatchlist = [...watchlistArray].reverse(); // Reverse watchlist array so it shows the newly added first
     reversedWatchlist.forEach((media) => {
       const tvCardTemplate = `
             <div class="tv-card card" data-id="${media.id}">
@@ -84,6 +83,7 @@ function createWatchlistCards() {
       }
       updateWatchList();
     });
+    
   }
 }
 
@@ -93,22 +93,27 @@ function removeMediaFromWatchlist(mediaId) {
       btn.classList.remove("active");
     }
   });
-  const watchlistArray = JSON.parse(localStorage.getItem("watchlist"));
+  const watchlistArray = userInfo.watchlist || [];
   const updatedWatchlistArray = watchlistArray.filter(
     (media) => media.id !== mediaId
   );
-  localStorage.setItem("watchlist", JSON.stringify(updatedWatchlistArray));
+  userInfo.watchlist = updatedWatchlistArray;
+  localStorage.setItem("userInfo", JSON.stringify(userInfo));
   createWatchlistCards();
   updateWatchList();
 }
 
 function initWatchlist() {
- 
-        createWatchlistCards();
-        updateWatchList();
-   
+    const loggedIn = userInfo.loggedIn;
+    if(loggedIn){
+    createWatchlistCards();
+    updateWatchList();        
+    }
+    else{
+        watchlistSectionEl.innerHTML = '<p class="add-to-watchlist-text">Please login to view your watchlist</p>';
+        console.log("Login to use watchlist feature");
+    }
 
 }
 
-initWatchlist();
 export { initWatchlist };
