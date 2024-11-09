@@ -219,6 +219,7 @@ function detectEnd() {
 form.addEventListener("submit", handleSearch);
 
 // loadMoreBtn.addEventListener("click", loadMoreResults)
+document.addEventListener("DOMContentLoaded", () => {
 if (window.location.pathname === "/search.html") {
   window.addEventListener("scroll", detectEnd);
   
@@ -246,6 +247,7 @@ if (window.location.pathname === "/search.html") {
     fetchAndShowSearchPerson(searchUrlPerson + searchTerm);
   });
 }
+});
 
 // Initiate search when page loads if query is in url
 async function initSearch() {
