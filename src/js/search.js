@@ -220,33 +220,52 @@ form.addEventListener("submit", handleSearch);
 
 // loadMoreBtn.addEventListener("click", loadMoreResults)
 document.addEventListener("DOMContentLoaded", () => {
-if (window.location.pathname.includes("/search.html")) {
-  window.addEventListener("scroll", detectEnd);
-  
-  loadMovieBtn.addEventListener("click", () => {
-    loadMovieBtn.classList.add("active");
-    loadTvBtn.classList.remove("active");
-    loadPersonBtn.classList.remove("active");
-    clearResults();
-    fetchAndShowSearchMovie(searchUrlMovie + searchTerm);
-  });
+  console.log("DOM fully loaded and parsed");
 
-  loadTvBtn.addEventListener("click", () => {
-    loadTvBtn.classList.add("active");
-    loadMovieBtn.classList.remove("active");
-    loadPersonBtn.classList.remove("active");
-    clearResults();
-    fetchAndShowSearchTv(searchUrlTv + searchTerm);
-  });
+  if (window.location.pathname.toLowerCase().includes("/search.html")) {
+    console.log("Search page detected");
 
-  loadPersonBtn.addEventListener("click", () => {
-    loadPersonBtn.classList.add("active");
-    loadMovieBtn.classList.remove("active");
-    loadTvBtn.classList.remove("active");
-    clearResults();
-    fetchAndShowSearchPerson(searchUrlPerson + searchTerm);
-  });
-}
+    const loadMovieBtn = document.getElementById("loadMovieBtn");
+    const loadTvBtn = document.getElementById("loadTvBtn");
+    const loadPersonBtn = document.getElementById("loadPersonBtn");
+
+    if (loadMovieBtn && loadTvBtn && loadPersonBtn) {
+      console.log("Buttons found");
+
+      window.addEventListener("scroll", detectEnd);
+
+      loadMovieBtn.addEventListener("click", () => {
+        console.log("Movie button clicked");
+        loadMovieBtn.classList.add("active");
+        loadTvBtn.classList.remove("active");
+        loadPersonBtn.classList.remove("active");
+        clearResults();
+        fetchAndShowSearchMovie(searchUrlMovie + searchTerm);
+      });
+
+      loadTvBtn.addEventListener("click", () => {
+        console.log("TV button clicked");
+        loadTvBtn.classList.add("active");
+        loadMovieBtn.classList.remove("active");
+        loadPersonBtn.classList.remove("active");
+        clearResults();
+        fetchAndShowSearchTv(searchUrlTv + searchTerm);
+      });
+
+      loadPersonBtn.addEventListener("click", () => {
+        console.log("Person button clicked");
+        loadPersonBtn.classList.add("active");
+        loadMovieBtn.classList.remove("active");
+        loadTvBtn.classList.remove("active");
+        clearResults();
+        fetchAndShowSearchPerson(searchUrlPerson + searchTerm);
+      });
+    } else {
+      console.error("Buttons not found");
+    }
+  } else {
+    console.log("Not on search page");
+  }
 });
 
 // Initiate search when page loads if query is in url
