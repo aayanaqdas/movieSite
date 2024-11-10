@@ -220,7 +220,7 @@ form.addEventListener("submit", handleSearch);
 
 // loadMoreBtn.addEventListener("click", loadMoreResults)
 document.addEventListener("DOMContentLoaded", () => {
-if (window.location.pathname === "/search.html") {
+if (window.location.pathname.includes("/search.html")) {
   window.addEventListener("scroll", detectEnd);
   
   loadMovieBtn.addEventListener("click", () => {
