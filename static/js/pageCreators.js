@@ -16,7 +16,7 @@ function createMovieCard(movie) {
 
   const cardTemplate = `
     <div class="movie-card card" data-id="${id}">
-        <button class="list-btn" data-id="${id}" data-poster="${imagePath}" data-type="movie"><i class="fa-solid fa-bookmark"></i></button>
+        <button class="list-btn" data-id="${id}" data-name="${name}" data-poster="${imagePath}" data-type="movie"><i class="fa-solid fa-bookmark"></i></button>
         <a href="/info.html/movie/${id}"> 
             <img src="${imagePath}" alt="${name}" />
         </a>
@@ -41,7 +41,7 @@ function createTvCard(tv) {
 
   const cardTemplate = `
     <div class="tv-card card" data-id="${id}">
-        <button class="list-btn" data-id="${id}" data-poster="${imagePath}" data-type="tv"><i class="fa-solid fa-bookmark"></i></button>
+        <button class="list-btn" data-id="${id}" data-name="${original_name}" data-poster="${imagePath}" data-type="tv"><i class="fa-solid fa-bookmark"></i></button>
         <a href="/info.html/tv/${id}"> 
             <span class="tv-label">TV</span>
             <img src="${imagePath}" alt="${original_name}" />
@@ -286,7 +286,7 @@ function createInfoPageMovie(movie) {
         : "/static/images/no_image.svg";
       return `
         <div class="movie-card card" data-id="${media.id}">
-                <button class="list-btn" data-id="${media.id}" data-poster="${poster}" data-type="movie"><i class="fa-solid fa-bookmark"></i></button>
+                <button class="list-btn" data-id="${media.id}" data-name="${title}" data-poster="${poster}" data-type="movie"><i class="fa-solid fa-bookmark"></i></button>
             <a href="/info.html/movie/${media.id}">
                 <img src="${poster}" alt="${media.name}" />
             </a>
@@ -320,7 +320,7 @@ function createInfoPageMovie(movie) {
                   <p class="star">
                     <i class="fa-solid fa-star" style="color: #ffd43b"></i> 
                     <span class="rating-number">${rating}</span><span class="total-stars">/10 (${voteCount})</span></p>
-                    <button class="info-list-btn" data-id="${id}" data-poster="${poster}" data-type="movie"><i class="fa-solid fa-bookmark"></i></button>
+                    <button class="info-list-btn" data-id="${id}" data-name="${title}" data-poster="${poster}" data-type="movie"><i class="fa-solid fa-bookmark"></i></button>
                   </div>
               </div>
             </div>              
@@ -472,7 +472,7 @@ function createInfoPageTv(tv) {
         : "/static/images/no_image.svg";
       return `
             <div class="tv-card card" data-id="${media.id}">
-                <button class="list-btn" data-id="${media.id}" data-poster="${poster}" data-type="tv"><i class="fa-solid fa-bookmark"></i></button>
+                <button class="list-btn" data-id="${media.id}" data-name="${media.name}" data-poster="${poster}" data-type="tv"><i class="fa-solid fa-bookmark"></i></button>
                 <a href="/info.html/tv/${media.id}">
                     <span class="tv-label">TV</span>
                     <img src="${poster}" alt=${media.name}" />
@@ -508,7 +508,7 @@ function createInfoPageTv(tv) {
                   <p class="star">
                     <i class="fa-solid fa-star" style="color: #ffd43b"></i
                     > <span class="rating-number">${rating}</span><span class="total-stars">/10 (${voteCount || 0})</span></p>
-                  <button class="info-list-btn" data-id="${id}" data-poster="${poster}" data-type="movie"><i class="fa-solid fa-bookmark"></i></button>
+                  <button class="info-list-btn" data-id="${id}" data-name="${name}" data-poster="${poster}" data-type="movie"><i class="fa-solid fa-bookmark"></i></button>
                 </div>
               </div>
             </div>              

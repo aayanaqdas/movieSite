@@ -82,6 +82,7 @@ if(userInfo.loggedIn === true) {
     logoutBtn.onclick = function logout() {
         userInfo.loggedIn = false;
         userInfo.username = '';
+        userInfo.watchlist = [];
         localStorage.setItem('userInfo', JSON.stringify(userInfo));
         window.location.href = '/';
     }
