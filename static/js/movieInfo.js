@@ -1,4 +1,3 @@
-import { apiKey, fetchData } from "./api.js";
 import {
   createInfoPageMovie,
   createInfoPageTv,

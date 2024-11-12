@@ -1,5 +1,8 @@
-import { imgApiPerson, imgApi } from "./api.js";
 import { movieGenres, tvGenres } from "./genres.js";
+
+const imgApi = "https://image.tmdb.org/t/p/w1280";
+const imgApiPerson = "https://image.tmdb.org/t/p/w235_and_h235_face";
+
 
 /**********Landing page cards*******/
 // Create movie card html template

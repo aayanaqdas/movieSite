@@ -1,5 +1,4 @@
 
-import { apiKey, fetchData } from "./api.js";
 import { toggleSearchBar, toggleSettingsMenu } from "./eventHandlers.js";
 import { createMovieCard, createTvCard } from "./pageCreators.js";
 import { initWatchlist } from "./watchlist.js";
