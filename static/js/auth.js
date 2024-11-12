@@ -20,7 +20,7 @@ document.addEventListener("DOMContentLoaded", () => {
             const result = await response.json();
             if (result.status === 'success') {
                 userInfo.loggedIn = true;
-                userInfo.username = username;
+                userInfo.username = result.username;
                 localStorage.setItem('userInfo', JSON.stringify(userInfo));
                 window.location.href = '/';
             } else {
@@ -45,7 +45,7 @@ document.addEventListener("DOMContentLoaded", () => {
             const result = await response.json();
             if (result.status === 'success') {
                 userInfo.loggedIn = true;
-                userInfo.username = username;
+                userInfo.username = result.username;
                 localStorage.setItem('userInfo', JSON.stringify(userInfo));
                 window.location.href = '/';
             } else {
