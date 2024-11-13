@@ -1,0 +1,10 @@
+# Backend dependencies for the Flask application
+
+Flask==2.0.2
+pip install Flask
+
+Flask-SQLAlchemy==2.5.1
+pip install Flask-SQLAlchemy
+
+requests==2.26.0
+pip install requests
