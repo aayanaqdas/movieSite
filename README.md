@@ -1,15 +1,18 @@
 # MovieWorld
-MovieWorld is a web application that allows users to search for movies, TV shows, and people, view detailed information about them, and manage a personal watchlist.  
+
+MovieWorld is a web application that allows users to search for movies, TV shows, and people, view detailed information about them, and manage a watchlist.  
 The application uses the TMDb API to fetch data.  
-The application uses Python Flask as backend to serve data to javascript.  
+The application uses Python Flask as backend to serve data to javascript with endpoints.
 
 ## Features
-Search for movies, TV shows, and people.  
-View detailed information about movies, TV shows, and people.  
-Manage a personal watchlist.  
-User authentication (login and signup).  
+
+- Search for movies, TV shows, and people.
+- View detailed information about movies, TV shows, and people.
+- Manage a watchlist.
+- User authentication (login and signup).
 
 ## Project Structure
+
 ```
 movieSite/
 ├── static/
@@ -34,41 +37,49 @@ movieSite/
 │   ├── login.html
 │   ├── search.html
 │   └── signup.html
-├── api.py
-├── app.py
-├── auth.py
-├── config.py
-├── init_db.py
-├── main.py
-├── models.py
+├── app/
+│   ├── __init__.py
+│   ├── api.py
+│   ├── auth.py
+│   ├── config.py
+│   ├── models.py
+│   └── routes.py
+├── run.py
 ├── requirements.txt
-└── run.py
+└── README.md
 ```
+
 #### 1. Installation
+
 **Clone the repository:**  
-`git clone https://github.com/aayanaqdas/movieSite.git`  
+`git clone https://github.com/aayanaqdas/movieSite.git`
 
 **Change directory to movieSite**  
 `cd movieSite`
 
 #### 2. Create a virtual environment and activate it:
+
 `python -m venv venv`  
 `source venv/bin/activate`  
 On Windows use `venv\Scripts\activate`
 
 #### 3. Install the dependencies:
+
 `pip install -r requirements.txt`
 
 #### 4. Initialize the database:
+
 `python init_db.py`
 
 #### 5. Run the application:
+
 `python run.py`  
 Open your browser and navigate to `http://localhost:5000`
 
 ## Configuration
+
 The application configuration is stored in `config.py`.  
-You can modify the database URI and other settings as needed.
+You can modify the database URI and other settings if you need to.
 
 ## API Endpoints:
 
@@ -103,9 +114,6 @@ Adds an item to the user's watchlist in the Database.
 Removes an item from the user's watchlist in the Database.
 
 ### Acknowledgements
+
 This application uses the TMDb API but is not endorsed or certified by TMDb.  
 Icons by FontAwesome.
-
-
-
-
