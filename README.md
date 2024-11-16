@@ -67,11 +67,7 @@ On Windows use `venv\Scripts\activate`
 
 `pip install -r requirements.txt`
 
-#### 4. Initialize the database:
-
-`python init_db.py`
-
-#### 5. Run the application:
+#### 4. Run the application:
 
 `python run.py`  
 Open your browser and navigate to `http://localhost:5000`
