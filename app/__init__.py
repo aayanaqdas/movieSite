@@ -1,16 +1,15 @@
 from flask import Flask
-from flask_sqlalchemy import SQLAlchemy
+from app.auth import auth as auth_blueprint
+from app.routes import main as main_blueprint
+from app.api import api as api_blueprint
+from app.models import db
 
-db = SQLAlchemy()
 
 def create_app():
-    app = Flask(__name__)
+    app = Flask(__name__, template_folder='../templates', static_folder='../static')
+
     app.config.from_pyfile('config.py')
     db.init_app(app)
-
-    from auth import auth as auth_blueprint
-    from main import main as main_blueprint
-    from api import api as api_blueprint
 
     app.register_blueprint(auth_blueprint)
     app.register_blueprint(main_blueprint)

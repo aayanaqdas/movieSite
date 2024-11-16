@@ -4,7 +4,7 @@ from flask import Blueprint, jsonify, request, render_template
 
 api = Blueprint('api', __name__)
 
-# TMDB API Key (kept in server-side code)
+# TMDB API Key
 API_KEY = '37d7e055234a0531d45416a1d56745eb'
 PAGE = 1
 LANGUAGE = 'en-US'

@@ -1,8 +1,8 @@
 # auth.py
-from flask import Blueprint, request, jsonify
 import json
-from app import db
-from models import User
+from flask import Blueprint, request, jsonify
+from app.models import db
+from app.models import User
 
 auth = Blueprint('auth', __name__)
 
