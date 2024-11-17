@@ -107,6 +107,5 @@ Fetches the user's watchlist.
 Adds an item to the user's watchlist in the Database.
 
 `/watchlist/remove`  
-Removes an item from the user's watchlist in the Database.
-
+Removes an item from the user's watchlist in the Database
 
