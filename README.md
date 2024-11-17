@@ -109,7 +109,4 @@ Adds an item to the user's watchlist in the Database.
 `/watchlist/remove`  
 Removes an item from the user's watchlist in the Database.
 
-### Acknowledgements
 
-This application uses the TMDb API but is not endorsed or certified by TMDb.  
-Icons by FontAwesome.

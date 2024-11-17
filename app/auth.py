@@ -1,6 +1,6 @@
 # auth.py
-import json
-from flask import Blueprint, request, jsonify
+import json #provides functions for converting (dumps) and parsing (loads) JSON data
+from flask import Blueprint, request, jsonify # jsonify is specifically used in Flask to create JSON response objects for HTTP requests.
 from app.models import db
 from app.models import User
 
