@@ -2,7 +2,8 @@
 
 MovieWorld is a web application that allows users to search for movies, TV shows, and people, view detailed information about them, and manage a watchlist.  
 The application uses the TMDb API to fetch data.  
-The application uses Python Flask as backend to serve data to javascript with endpoints.
+The application uses Python Flask as backend to serve data to javascript with endpoints.  
+Languages and tools used: Python Flask, MariaDB, SQL, HTML, CSS.
 
 ## Features
 
@@ -42,40 +43,70 @@ movieSite/
 │   ├── api.py
 │   ├── auth.py
 │   ├── config.py
-│   ├── models.py
 │   └── routes.py
 ├── run.py
-├── requirements.txt
-└── README.md
+├── movieSite.wsgi 
+├── .gitignore 
+├── requirements.txt 
+├── README.md 
+└── setup_db.sql
 ```
+
+
+## Setup Instructions
 
 #### 1. Installation
 
-**Clone the repository:**  
-`git clone https://github.com/aayanaqdas/movieSite.git`
-
+**Clone the repository:**
+```sh
+git clone -b flask_backend https://github.com/aayanaqdas/movieSite.git
+```
 **Change directory to movieSite**  
-`cd movieSite`
-
+```sh
+cd movieSite
+```
 #### 2. Create a virtual environment and activate it:
-
-`python -m venv venv`  
-`source venv/bin/activate`  
-On Windows use `venv\Scripts\activate`
-
+```sh
+python -m venv venv
+source venv/bin/activate 
+#On Windows use 
+venv\Scripts\activate
+```
 #### 3. Install the dependencies:
 
-`pip install -r requirements.txt`
+```sh
+pip install -r requirements.txt
+```
 
-#### 4. Run the application:
+### Database Setup:
 
-`python run.py`  
+1. **Install MariaDB on your Raspberry Pi:**
+   ```sh
+   sudo apt update
+   sudo apt install mariadb-server
+2. **Start MariaDB Service:**
+    ```sh
+    sudo systemctl start mariadb
+    sudo systemctl enable mariadb
+3. **Secure MariaDB Installation:**
+    ```sh
+    sudo mysql_secure_installation
+4. **Run the SQL Script**
+    ```sh
+    sudo mysql -u root -p < setup_db.sql
+
+#### Run the application:
+```sh
+python run.py
+```
 Open your browser and navigate to `http://localhost:5000`
 
 ## Configuration
 
-The application configuration is stored in `config.py`.  
-You can modify the database URI and other settings if you need to.
+The database configuration is stored in `config.py`.  
+You can modify the database configuration for your own need.  
+The database SQL commands are stored in `setup_db.sql`  
+Configuration for WSGI wevserver is stored in `movieSite.wsgi`
 
 ## API Endpoints:
 
