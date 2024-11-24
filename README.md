@@ -59,7 +59,7 @@ movieSite/
 
 **Clone the repository:**
 ```sh
-git clone -b flask_backend https://github.com/aayanaqdas/movieSite.git
+git clone https://github.com/aayanaqdas/movieSite.git
 ```
 **Change directory to movieSite**  
 ```sh
