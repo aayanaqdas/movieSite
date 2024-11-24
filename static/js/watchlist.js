@@ -11,12 +11,13 @@ function getWatchlistFromDb(){
   .then(response => response.json())
   .then(result => {
     if (result.status === 'success') {
+      console.log(result.message);
       userInfo.watchlist = result.watchlist;
       localStorage.setItem("userInfo", JSON.stringify(userInfo));
       createWatchlistCards();
     } else {
       console.log(result.message);
-    }
+    }   
   });
 }
 
@@ -164,18 +165,3 @@ function initWatchlist() {
 
 export { initWatchlist };
 
-// function removeMediaFromWatchlist(mediaId) {
-//   document.querySelectorAll(".list-btn, .info-list-btn").forEach((btn) => {
-//     if (btn.dataset.id === mediaId) {
-//       btn.classList.remove("active");
-//     }
-//   });
-//   const watchlistArray = userInfo.watchlist || [];
-//   const updatedWatchlistArray = watchlistArray.filter(
-//     (media) => media.id !== mediaId
-//   );
-//   userInfo.watchlist = updatedWatchlistArray;
-//   localStorage.setItem("userInfo", JSON.stringify(userInfo));
-//   createWatchlistCards();
-//   updateWatchList();
-// }

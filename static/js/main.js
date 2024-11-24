@@ -13,9 +13,6 @@ if (!localStorage.getItem("userInfo")){
   localStorage.setItem("userInfo", JSON.stringify(userInfoObj));
 }
 
-const userInfo = JSON.parse(localStorage.getItem("userInfo"));
-
-
 const form = document.getElementById("searchForm");
 
 const trendingResult = document.getElementById("trendingSection");

@@ -22,7 +22,11 @@ document.addEventListener("DOMContentLoaded", () => {
                 userInfo.loggedIn = true;
                 userInfo.username = result.username;
                 localStorage.setItem('userInfo', JSON.stringify(userInfo));
-                window.location.href = '/';
+                console.log(result.message);
+                setTimeout(() => {
+                 window.location.href = '/';   
+                },2000);
+                
             } else {
                 console.log(result.message);
                 // document.getElementById('loginMessage').textContent = result.message;
@@ -47,7 +51,10 @@ document.addEventListener("DOMContentLoaded", () => {
                 userInfo.loggedIn = true;
                 userInfo.username = result.username;
                 localStorage.setItem('userInfo', JSON.stringify(userInfo));
-                window.location.href = '/';
+                console.log(result.message);
+                setTimeout(() => {
+                 window.location.href = '/';   
+                },2000);
             } else {
                 console.log(result.message);
                 // document.getElementById('signupMessage').textContent = result.message;
