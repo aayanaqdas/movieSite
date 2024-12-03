@@ -1,11 +1,16 @@
 from datetime import date
 import requests
 from flask import Blueprint, jsonify, request, render_template
+from dotenv import load_dotenv
+import os
+
+# Load environment variables from .env file
+load_dotenv()
 
 api = Blueprint('api', __name__)
 
 # TMDB API Key
-API_KEY = '37d7e055234a0531d45416a1d56745eb'
+API_KEY = os.getenv('API_KEY') #replace with your own TMDB API key
 PAGE = 1
 LANGUAGE = 'en-US'
 DATE_TODAY = date.today()
