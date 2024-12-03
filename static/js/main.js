@@ -1,9 +1,10 @@
 
-import { toggleSearchBar, toggleSettingsMenu } from "./eventHandlers.js";
+import { toggleSettingsMenu } from "./eventHandlers.js";
 import { createMovieCard, createTvCard } from "./pageCreators.js";
 import { initWatchlist } from "./watchlist.js";
 import { handleSearch } from "./search.js";
 
+// Check if userInfo exists in local storage
 if (!localStorage.getItem("userInfo")){
   const userInfoObj = {
     username: "",
@@ -27,7 +28,7 @@ const region = navigator.languages[0].substring(3);
 
 async function fetchDetails(type) {
   try {
-    const response = await fetch(`landingPage/${type}`);
+    const response = await fetch(`home/${type}`);
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
@@ -75,4 +76,3 @@ form.addEventListener("submit", handleSearch);
 
 init();
 toggleSettingsMenu();
-

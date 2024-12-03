@@ -1,6 +1,10 @@
-const watchlistSectionEl = document.getElementById("watchlistSection");
 
+const watchlistSectionEl = document.getElementById("watchlistSection");
 const userInfo = JSON.parse(localStorage.getItem("userInfo"));
+
+
+
+
 
 function getWatchlistFromDb(){
   fetch('/watchlist', {
@@ -47,10 +51,9 @@ async function updateWatchList() {
         mediaType: mediaType,
       };
 
-      // Check if the media is already in the watchlist based on the ID
+      // Check media id and check if its in the watchlist. If it is, remove it, else add it
       if (watchlistArray.map((media) => media.id).includes(mediaId)) {
         await removeMediaFromWatchlistDb(mediaId);
-        console.log("This media is already in your watchlist");
       } else {
         btn.classList.add("active");
         console.log(
@@ -81,10 +84,13 @@ async function addMediaToWatchlistDb(mediaItem) {
   if (result.status === 'success') {
     userInfo.watchlist = result.watchlist;
     localStorage.setItem("userInfo", JSON.stringify(userInfo));
+    console.log(result);
   } else {
     console.log(result.message);
   }
+  statusPopup(mediaItem, result.message);
 }
+
 
 async function removeMediaFromWatchlistDb(mediaId) {
   const response = await fetch('/watchlist/remove', {
@@ -106,6 +112,7 @@ async function removeMediaFromWatchlistDb(mediaId) {
   } else {
     console.log(result.message);
   }
+  statusPopup(mediaId, result.message);
 }
 
 function createWatchlistCards() {
@@ -147,6 +154,19 @@ function createWatchlistCards() {
   }
 }
 
+// Show a popup on the card if a media is successfully added or removed from the watchlist
+function statusPopup(media, message){
+    document.querySelectorAll(".card").forEach((card) => {
+      if (card.dataset.id === media.id || card.dataset.id === media) {
+        const popupMsg = card.querySelector("#popupMsg");
+        popupMsg.textContent = message;
+        card.querySelector("#popup").classList.add("show-popup");
+        setTimeout(() => {
+          card.querySelector("#popup").classList.remove("show-popup");
+        }, 1200);
+      }
+    });
+}
 
 function initWatchlist() {
   const loggedIn = userInfo.loggedIn;

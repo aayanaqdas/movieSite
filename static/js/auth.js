@@ -1,4 +1,17 @@
+import { handleSearch } from "./search.js";
 const userInfo = JSON.parse(localStorage.getItem('userInfo'));
+const form = document.getElementById("searchForm");
+
+// Check if userInfo exists in local storage
+if (!localStorage.getItem("userInfo")){
+    const userInfoObj = {
+        username: "",
+        loggedIn: false,
+        watchlist: []
+    }
+    localStorage.setItem("userInfo", JSON.stringify(userInfoObj));
+      }
+
 
 document.addEventListener("DOMContentLoaded", () => {
     const loginForm = document.getElementById('login-form');
@@ -23,13 +36,14 @@ document.addEventListener("DOMContentLoaded", () => {
                 userInfo.username = result.username;
                 localStorage.setItem('userInfo', JSON.stringify(userInfo));
                 console.log(result.message);
+                statusPopup(result.status, result.message);
                 setTimeout(() => {
-                 window.location.href = '/';   
-                },2000);
+                 window.location.href = '/';
+                },1000);
                 
             } else {
+                statusPopup("auth", result.status, result.message);
                 console.log(result.message);
-                // document.getElementById('loginMessage').textContent = result.message;
             }
         });
     }
@@ -52,12 +66,14 @@ document.addEventListener("DOMContentLoaded", () => {
                 userInfo.username = result.username;
                 localStorage.setItem('userInfo', JSON.stringify(userInfo));
                 console.log(result.message);
+                statusPopup( "auth", result.status, result.message);
                 setTimeout(() => {
                  window.location.href = '/';   
                 },2000);
             } else {
+                statusPopup(result.status, result.message);
                 console.log(result.message);
-                // document.getElementById('signupMessage').textContent = result.message;
+
             }
         });
     }
@@ -83,6 +99,26 @@ function updateUIForLoggedInUser() {
     logoutBtn.classList.remove('hide-element');
 };
 
+function statusPopup(status, message) {
+    const authPopupEl = document.getElementById('authStatusPopupEl');
+    const authMsg = document.getElementById('authMessage');
+
+    if(status === "success"){
+        authPopupEl.classList.remove('hide-element');
+        authPopupEl.classList.remove('error');
+        authPopupEl.classList.add('success');
+        authMsg.textContent = message;
+    }
+    else if(status === "error"){
+        authPopupEl.classList.remove('hide-element');
+        authPopupEl.classList.remove('success');
+        authPopupEl.classList.add('error');
+        authMsg.textContent = message;
+    }
+};
+
+
+
 //logout handler
 if(userInfo.loggedIn === true) {
     const logoutBtn = document.getElementById('settingsLogoutLink');
@@ -95,8 +131,8 @@ if(userInfo.loggedIn === true) {
     }
 }
 
-
-
+//Allows search on login/signup pages
+form.addEventListener("submit", handleSearch);
 
 
 

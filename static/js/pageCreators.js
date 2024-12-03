@@ -22,7 +22,11 @@ function createMovieCard(movie) {
         <button class="list-btn" data-id="${id}" data-name="${name}" data-poster="${imagePath}" data-type="movie"><i class="fa-solid fa-bookmark"></i></button>
         <a href="/info.html/movie/${id}"> 
             <img src="${imagePath}" alt="${name}" />
+              <div id="popup">
+                <p id="popupMsg"></p>
+              </div>            
         </a>
+        
     </div>
   
       `;
@@ -48,6 +52,9 @@ function createTvCard(tv) {
         <a href="/info.html/tv/${id}"> 
             <span class="tv-label">TV</span>
             <img src="${imagePath}" alt="${original_name}" />
+              <div id="popup">
+                <p id="popupMsg"></p>
+              </div>               
         </a>
     </div>
       `;

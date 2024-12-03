@@ -103,7 +103,7 @@ def add_to_watchlist():
         cursor.execute("UPDATE users SET watchlist=%s WHERE username=%s", (json.dumps(watchlist), username))
         db.commit()
 
-        return jsonify({'status': 'success', 'message': 'Media added to watchlist!', 'watchlist': watchlist})
+        return jsonify({'status': 'success', 'message': 'Added to watchlist!', 'watchlist': watchlist})
     else:
         return jsonify({'status': 'error', 'message': 'Database error.'})
 
@@ -125,6 +125,6 @@ def remove_from_watchlist():
         watchlist = [item for item in watchlist if item['id'] != media_id]
         cursor.execute("UPDATE users SET watchlist=%s WHERE username=%s", (json.dumps(watchlist), username))
         db.commit()
-        return jsonify({'status': 'success', 'message': 'Item removed from watchlist!', 'watchlist': watchlist})
+        return jsonify({'status': 'success', 'message': 'Removed from watchlist!', 'watchlist': watchlist})
     else:
         return jsonify({'status': 'error', 'message': 'Database error.'})

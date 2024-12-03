@@ -10,7 +10,7 @@ PAGE = 1
 LANGUAGE = 'en-US'
 DATE_TODAY = date.today()
 
-@api.route('/landingPage/<dataType>', methods=['GET'])
+@api.route('/home/<dataType>', methods=['GET'])
 def get_movie_details(dataType):
     # Set the correct endpoint depending on media type (movie or TV show)
     if dataType == 'trendingData':
