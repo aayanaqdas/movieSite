@@ -3,7 +3,7 @@
 MovieWorld is a web application that allows users to search for movies, TV shows, and people, view detailed information about them, and manage a watchlist.  
 The application uses the TMDb API to fetch data.  
 The application uses Python Flask as backend to serve data to javascript with endpoints.  
-Languages and tools used: Python Flask, MariaDB, SQL, HTML, CSS.
+Languages and tools used: Python Flask, JavaScript, MariaDB, SQL, HTML and CSS.
 
 ## Features
 
@@ -110,7 +110,7 @@ Configuration for WSGI wevserver is stored in `movieSite.wsgi`
 
 ## API Endpoints:
 
-`/landingPage/<dataType>`  
+`/home/<dataType>`  
 Fetches data for the landing page based on the data type (trending, popular movies, top-rated TV shows, upcoming movies).
 
 `/search/movie`  
