@@ -10,5 +10,5 @@ DATABASE_CONFIG = {
     'user': 'flaskuser',
     'password': 'password',
     'host': os.getenv('DB_host_ip'),  # Replace with the IP address of your server 
-    'database': 'moviesite'
+    'database': 'movieWorld'
 }

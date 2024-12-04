@@ -13,10 +13,28 @@ if (!localStorage.getItem("userInfo")){
       }
 
 
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", async() => {
     const loginForm = document.getElementById('login-form');
     const signupForm = document.getElementById('signup-form');
 
+    // Check if user is already logged in
+    const userInfo = JSON.parse(localStorage.getItem('userInfo'));
+    if (userInfo && userInfo.loggedIn) {
+        const response = await fetch('/check_session', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ username: userInfo.username })
+        });
+
+        const result = await response.json();
+        if (result.status === 'success') {
+            console.log('User is already logged in');
+            updateUIForLoggedInUser();
+        } else {
+            console.log('Session expired or invalid');
+            localStorage.removeItem('userInfo');
+        }
+    }
 
     if (loginForm) {
         loginForm.addEventListener('submit', async (e) => {
@@ -36,15 +54,14 @@ document.addEventListener("DOMContentLoaded", () => {
                 userInfo.username = result.username;
                 localStorage.setItem('userInfo', JSON.stringify(userInfo));
                 console.log(result.message);
-                statusPopup(result.status, result.message);
                 setTimeout(() => {
                  window.location.href = '/';
                 },1000);
                 
             } else {
-                statusPopup("auth", result.status, result.message);
                 console.log(result.message);
             }
+            statusPopup(result.status, result.message);
         });
     }
 
@@ -66,15 +83,14 @@ document.addEventListener("DOMContentLoaded", () => {
                 userInfo.username = result.username;
                 localStorage.setItem('userInfo', JSON.stringify(userInfo));
                 console.log(result.message);
-                statusPopup( "auth", result.status, result.message);
                 setTimeout(() => {
                  window.location.href = '/';   
                 },2000);
             } else {
-                statusPopup(result.status, result.message);
                 console.log(result.message);
 
             }
+            statusPopup(result.status, result.message);
         });
     }
     // Check login state on page load

@@ -106,7 +106,7 @@ Open your browser and navigate to `http://localhost:5000`
 The database configuration is stored in `config.py`.  
 You can modify the database configuration for your own need.  
 The database SQL commands are stored in `setup_db.sql`  
-Configuration for WSGI wevserver is stored in `movieWorld.wsgi`
+Configuration for WSGI webserver is stored in `movieWorld.wsgi`
 
 ## API Endpoints:
 
@@ -130,6 +130,9 @@ Handles user login.
 
 `/signup`  
 Handles user signup.
+
+`/check_session`  
+Checks if user still exists
 
 `/watchlist`  
 Fetches the user's watchlist.

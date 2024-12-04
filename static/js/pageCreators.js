@@ -10,7 +10,7 @@ function createMovieCard(movie) {
   const {
     poster_path,
     id,
-    name
+    title
   } = movie;
 
   const imagePath = poster_path
@@ -19,9 +19,9 @@ function createMovieCard(movie) {
 
   const cardTemplate = `
     <div class="movie-card card" data-id="${id}">
-        <button class="list-btn" data-id="${id}" data-name="${name}" data-poster="${imagePath}" data-type="movie"><i class="fa-solid fa-bookmark"></i></button>
+        <button class="list-btn" data-id="${id}" data-name="${title}" data-poster="${imagePath}" data-type="movie"><i class="fa-solid fa-bookmark"></i></button>
         <a href="/info.html/movie/${id}"> 
-            <img src="${imagePath}" alt="${name}" />
+            <img src="${imagePath}" alt="${title}" />
               <div id="popup">
                 <p id="popupMsg"></p>
               </div>            
@@ -38,7 +38,7 @@ function createMovieCard(movie) {
 function createTvCard(tv) {
   const {
     poster_path,
-    original_name,
+    name,
     id,
   } = tv;
 
@@ -48,10 +48,10 @@ function createTvCard(tv) {
 
   const cardTemplate = `
     <div class="tv-card card" data-id="${id}">
-        <button class="list-btn" data-id="${id}" data-name="${original_name}" data-poster="${imagePath}" data-type="tv"><i class="fa-solid fa-bookmark"></i></button>
+        <button class="list-btn" data-id="${id}" data-name="${name}" data-poster="${imagePath}" data-type="tv"><i class="fa-solid fa-bookmark"></i></button>
         <a href="/info.html/tv/${id}"> 
             <span class="tv-label">TV</span>
-            <img src="${imagePath}" alt="${original_name}" />
+            <img src="${imagePath}" alt="${name}" />
               <div id="popup">
                 <p id="popupMsg"></p>
               </div>               

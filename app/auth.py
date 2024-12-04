@@ -1,8 +1,8 @@
 # auth.py
 import json #provides functions for converting (dumps) and parsing (loads) JSON data
+import bcrypt #Password hashing
 from flask import Blueprint, request, jsonify, current_app # jsonify is specifically used in Flask to create JSON response objects for HTTP requests.
-# from app.models import db
-# from app.models import User
+
 auth = Blueprint('auth', __name__)
 
 def validate_user(username, password):
@@ -15,7 +15,7 @@ def validate_user(username, password):
     result = cursor.fetchone()
     if result:
         db_password = result['password']
-        if password == db_password:
+        if bcrypt.checkpw(password.encode('utf-8'), db_password.encode('utf-8')):
             return True
         else:
             return False
@@ -61,10 +61,21 @@ def signup():
     if user_exists(username):
         return jsonify({'status': 'error', 'message': 'Username taken.'})
     else:
-        cursor.execute("INSERT INTO users (username, password, watchlist) VALUES (%s, %s, %s)", (username, password, json.dumps([])))
+        hashed_password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
+        cursor.execute("INSERT INTO users (username, password, watchlist) VALUES (%s, %s, %s)", (username, hashed_password, json.dumps([])))
         db.commit()
         return jsonify({'status': 'success', 'message': 'Signup successful!', 'username': username})
     
+
+@auth.route('/check_session', methods=['POST'])
+def check_session():
+    data = request.get_json()
+    username = data.get('username').lower()
+
+    if user_exists(username):
+        return jsonify({'status': 'success', 'message': 'User session is valid.'})
+    else:
+        return jsonify({'status': 'error', 'message': 'Invalid session.'})
 
 
 @auth.route('/watchlist', methods=['POST'])
