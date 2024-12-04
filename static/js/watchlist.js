@@ -27,7 +27,6 @@ function getWatchlistFromDb(){
 
 
 async function updateWatchList() {
-  const watchlistArray = userInfo.watchlist;
   const addToListBtns = document.querySelectorAll(".list-btn, .info-list-btn");
 
   // Remove existing event listeners
@@ -51,23 +50,23 @@ async function updateWatchList() {
         mediaType: mediaType,
       };
 
-      // Check media id and check if its in the watchlist. If it is, remove it, else add it
-      if (watchlistArray.map((media) => media.id).includes(mediaId)) {
+      // Check if the media item is in the watchlist
+      const isInWatchlist = userInfo.watchlist.some((media) => media.id === mediaId);
+      if (isInWatchlist) {
         await removeMediaFromWatchlistDb(mediaId);
       } else {
         btn.classList.add("active");
         console.log(
           `Save button clicked for ${mediaPoster} with ID ${mediaId}`
         );
-        watchlistArray.push(mediaItem);
-        userInfo.watchlist = watchlistArray;
+        userInfo.watchlist.push(mediaItem);
         localStorage.setItem("userInfo", JSON.stringify(userInfo));
         await addMediaToWatchlistDb(mediaItem);
         createWatchlistCards();
       }
     });
 
-    if (watchlistArray.map((media) => media.id).includes(btn.dataset.id)) {
+    if (userInfo.watchlist.map((media) => media.id).includes(btn.dataset.id)) {
       btn.classList.add("active");
     }
   });
@@ -111,6 +110,7 @@ async function removeMediaFromWatchlistDb(mediaId) {
     createWatchlistCards();
   } else {
     console.log(result.message);
+    statusPopup(mediaId, result.message);
   }
   statusPopup(mediaId, result.message);
 }

@@ -304,7 +304,7 @@ a {
 }
 
 .show-popup{ 
-   animation: slideIn 0.5s forwards, slideOut 0.5s 1s forwards;
+   animation: slideIn 0.2s forwards, slideOut 0.2s 1s forwards;
 }
 
 /* Slide-in animation */
