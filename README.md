@@ -15,7 +15,7 @@ Languages and tools used: Python Flask, JavaScript, MariaDB, SQL, HTML and CSS.
 ## Project Structure
 
 ```
-movieSite/
+movieWorld/
 ├── static/
 │   ├── css/
 │   │   ├── infoPage.css
@@ -45,7 +45,7 @@ movieSite/
 │   ├── config.py
 │   └── routes.py
 ├── run.py
-├── movieSite.wsgi 
+├── movieWorld.wsgi 
 ├── .gitignore 
 ├── requirements.txt 
 ├── README.md 
@@ -59,11 +59,11 @@ movieSite/
 
 **Clone the repository:**
 ```sh
-git clone https://github.com/aayanaqdas/movieSite.git
+git clone https://github.com/aayanaqdas/movieWorld.git
 ```
 **Change directory to movieSite**  
 ```sh
-cd movieSite
+cd movieWorld
 ```
 #### 2. Create a virtual environment and activate it:
 ```sh
@@ -106,7 +106,7 @@ Open your browser and navigate to `http://localhost:5000`
 The database configuration is stored in `config.py`.  
 You can modify the database configuration for your own need.  
 The database SQL commands are stored in `setup_db.sql`  
-Configuration for WSGI wevserver is stored in `movieSite.wsgi`
+Configuration for WSGI wevserver is stored in `movieWorld.wsgi`
 
 ## API Endpoints:
 

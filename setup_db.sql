@@ -1,16 +1,16 @@
 -- setup_db.sql
 
 -- Create database
-CREATE DATABASE IF NOT EXISTS moviesite;
+CREATE DATABASE IF NOT EXISTS movieWorld;
 
 -- Use the new database
-USE moviesite;
+USE movieWorld;
 
 -- Create user
 CREATE USER IF NOT EXISTS 'flaskuser'@'%' IDENTIFIED BY 'password';
 
 -- Grant privileges
-GRANT ALL PRIVILEGES ON moviesite.* TO 'flaskuser'@'%';
+GRANT ALL PRIVILEGES ON movieWorld.* TO 'flaskuser'@'%';
 FLUSH PRIVILEGES;
 
 -- Create users table
