@@ -22,3 +22,6 @@ def login_page():
 def signup_page():
     return render_template('signup.html')
 
+@main.route('/delete_account')
+def delete_form():
+    return render_template('delete_form.html')

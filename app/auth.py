@@ -37,35 +37,61 @@ def user_exists(username):
 
 @auth.route('/login', methods=['POST'])
 def login():
+    try:
+        data = request.get_json()
+        username = data.get('username').lower()
+        password = data.get('password')
+
+        if validate_user(username, password):
+            return jsonify({'status': 'success', 'message': 'Login successful!', 'username': username})
+        else:
+            return jsonify({'status': 'error', 'message': 'Invalid username or password.'})
+    except Exception as e:
+        return jsonify({'status': 'error', 'message': 'An error occurred during login.', 'error': str(e)})
+
+
+@auth.route('/signup', methods=['POST'])
+def signup():
+    try:
+        data = request.get_json()
+        username = data.get('username').lower()
+        password = data.get('password')
+
+        db = current_app.config['db']
+        cursor = db.cursor(dictionary=True)
+
+        user_exists(username)
+
+        if user_exists(username):
+            return jsonify({'status': 'error', 'message': 'Username taken.'})
+        else:
+            hashed_password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
+            cursor.execute("INSERT INTO users (username, password, watchlist) VALUES (%s, %s, %s)", (username, hashed_password, json.dumps([])))
+            db.commit()
+            
+            return jsonify({'status': 'success', 'message': 'Signup successful!', 'username': username})
+    except Exception as e:
+        return jsonify({'status': 'error', 'message': 'An error occurred during signup.', 'error': str(e)})
+
+
+@auth.route('/delete_account', methods=['POST'])
+def delete_account():
     data = request.get_json()
     username = data.get('username').lower()
     password = data.get('password')
 
     if validate_user(username, password):
-        return jsonify({'status': 'success', 'message': 'Login successful!', 'username': username})
+        db = current_app.config['db']
+        cursor = db.cursor(dictionary=True)
+
+        query = "DELETE FROM users WHERE username=%s"
+        cursor.execute(query, (username,))
+
+        db.commit()
+        return jsonify({'status': 'success', 'message': 'Account deleted!'})
     else:
         return jsonify({'status': 'error', 'message': 'Invalid username or password.'})
-    
 
-@auth.route('/signup', methods=['POST'])
-def signup():
-    data = request.get_json()
-    username = data.get('username').lower()
-    password = data.get('password')
-
-    db = current_app.config['db']
-    cursor = db.cursor(dictionary=True)
-
-    user_exists(username)
-
-    if user_exists(username):
-        return jsonify({'status': 'error', 'message': 'Username taken.'})
-    else:
-        hashed_password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
-        cursor.execute("INSERT INTO users (username, password, watchlist) VALUES (%s, %s, %s)", (username, hashed_password, json.dumps([])))
-        db.commit()
-        return jsonify({'status': 'success', 'message': 'Signup successful!', 'username': username})
-    
 
 @auth.route('/check_session', methods=['POST'])
 def check_session():
@@ -93,7 +119,7 @@ def get_watchlist():
         watchlist = json.loads(user['watchlist'] or '[]')
         return jsonify({'status': 'success', 'message': 'watchlist found', 'watchlist': watchlist})
     else:
-        return jsonify({'status': 'error', 'message': 'Database error.'})
+        return jsonify({'status': 'error', 'message': 'Database error, watchlist not found.'})
     
 
 
@@ -116,7 +142,7 @@ def add_to_watchlist():
 
         return jsonify({'status': 'success', 'message': 'Added to watchlist!', 'watchlist': watchlist})
     else:
-        return jsonify({'status': 'error', 'message': 'Database error.'})
+        return jsonify({'status': 'error', 'message': 'An error occured.'})
 
 
 @auth.route('/watchlist/remove', methods=['POST'])
@@ -138,4 +164,4 @@ def remove_from_watchlist():
         db.commit()
         return jsonify({'status': 'success', 'message': 'Removed from watchlist!', 'watchlist': watchlist})
     else:
-        return jsonify({'status': 'error', 'message': 'Database error.'})
+        return jsonify({'status': 'error', 'message': 'An error occured.'})

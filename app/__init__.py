@@ -10,9 +10,6 @@ from app.config import DATABASE_CONFIG
 def create_app():
     app = Flask(__name__, template_folder='../templates', static_folder='../static')
 
-    # app.config.from_pyfile('config.py')
-    # db.init_app(app)
-
     app.config['db'] = mysql.connector.connect(**DATABASE_CONFIG)
 
     app.register_blueprint(auth_blueprint)

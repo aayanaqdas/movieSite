@@ -54,6 +54,7 @@ async function updateWatchList() {
       const isInWatchlist = userInfo.watchlist.some((media) => media.id === mediaId);
       if (isInWatchlist) {
         await removeMediaFromWatchlistDb(mediaId);
+        getWatchlistFromDb();
       } else {
         btn.classList.add("active");
         console.log(
@@ -62,6 +63,7 @@ async function updateWatchList() {
         userInfo.watchlist.push(mediaItem);
         localStorage.setItem("userInfo", JSON.stringify(userInfo));
         await addMediaToWatchlistDb(mediaItem);
+        getWatchlistFromDb();
         createWatchlistCards();
       }
     });

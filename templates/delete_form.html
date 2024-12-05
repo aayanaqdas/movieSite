@@ -6,21 +6,24 @@
     <link rel="stylesheet" href="/static/css/loginPage.css">
     <link rel="stylesheet" href="/static/css/style.css" />
 
-    <title>Signup</title>
+    <title>Delete Account</title>
   </head>
   <body>
-    <div class="signup-page-container">
+    <div class="delete-page-container">
       <nav class="navbar-container">
         <div class="nav_sitename">
           <i class="nav-icon fa-solid fa-bars"></i>
           <a href="/"><h2 class="site-name">MovieWorld</h2></a>
           <div class="user-settings">
             <i id="userSettingsIcon" class="nav-icon fa-solid fa-user"></i>
-            <div class="user-settings-content">
+            <div id="settingsMenu" class="user-settings-content hide-element">
+              <div id="loggedInUser">
+                <p id="loggedInUserText">Not logged in</p>
+              </div>
               <a href="">Watchlist</a>
-              <a href="/">Link 2</a>
-              <a href="/login" id="settingsLoginLink">Login</a>
+              <a href="/login" id="settingsLoginLink" class="hide-element">Login</a>
               <a href="#" id="settingsLogoutLink" class="hide-element">Log Out</a>
+              <a href="/delete_account" id="settingsDeleteLink">Delete account</a>
             </div>
           </div>
         </div>
@@ -32,12 +35,12 @@
         </form>
       </nav>
 
-      <div class="signup-form-container">
-        <div class="signup-h1">
-          <h1>Sign Up</h1>
+      <div class="delete-form-container">
+        <div class="delete-h1">
+          <h1>Delete Account</h1>
       </div>
-        <form id="signup-form">
-            <div class="signup-inputs">
+        <form id="delete-form">
+            <div class="delete-inputs">
                 <div class="username-input">
                     <input type="text" id="username" name="username" placeholder="Username:">
                 </div>
@@ -53,14 +56,11 @@
                   </div>        
                 </div>
 
-                <div class="signup-actions">
-                    <button type="submit" class="signup-button">Sign Up</button>
+                <div class="delete-actions">
+                    <button type="submit" id="deleteAccountBtn" class="delete-button">Delete account</button>
                 </div>
             </div>
         </form>
-        <div class="signup-link">
-            <p>Already have an account? <a href="/login">Login here</a></p>
-        </div>
     </div>
 
       <footer class="footer-container">

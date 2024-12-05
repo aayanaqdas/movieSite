@@ -16,8 +16,9 @@ if (!localStorage.getItem("userInfo")){
 document.addEventListener("DOMContentLoaded", async() => {
     const loginForm = document.getElementById('login-form');
     const signupForm = document.getElementById('signup-form');
+    const deleteForm = document.getElementById('delete-form');
 
-    // Check if user is already logged in
+    // Check if user logged in has a valid account if not logout
     const userInfo = JSON.parse(localStorage.getItem('userInfo'));
     if (userInfo && userInfo.loggedIn) {
         const response = await fetch('/check_session', {
@@ -30,9 +31,9 @@ document.addEventListener("DOMContentLoaded", async() => {
         if (result.status === 'success') {
             console.log('User is already logged in');
             updateUIForLoggedInUser();
-        } else {
+        } else if(result.status === 'error') {
             console.log('Session expired or invalid');
-            localStorage.removeItem('userInfo');
+            logout();
         }
     }
 
@@ -92,7 +93,39 @@ document.addEventListener("DOMContentLoaded", async() => {
             }
             statusPopup(result.status, result.message);
         });
+
     }
+
+    if (deleteForm) {
+        deleteForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('pwd').value;
+
+            try {
+                const response = await fetch('/delete_account', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username, password })
+                });
+
+                const result = await response.json();
+                console.log(result);
+                if (result.status === 'success') {
+                    console.log(result.message);
+                    setTimeout(() => {
+                        logout();
+                    }, 2000);
+                } else {
+                    console.log(result.message);
+                }
+                statusPopup(result.status, result.message);
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        });
+    }
+
     // Check login state on page load
     const loggedIn = userInfo.loggedIn;
     if (loggedIn === true) {
@@ -136,16 +169,15 @@ function statusPopup(status, message) {
 
 
 //logout handler
-if(userInfo.loggedIn === true) {
-    const logoutBtn = document.getElementById('settingsLogoutLink');
-    logoutBtn.onclick = function logout() {
+function logout(){
         userInfo.loggedIn = false;
         userInfo.username = '';
         userInfo.watchlist = [];
         localStorage.setItem('userInfo', JSON.stringify(userInfo));
         window.location.href = '/';
-    }
 }
+const logoutBtn = document.getElementById('settingsLogoutLink');
+logoutBtn.addEventListener('click', logout);
 
 //Allows search on login/signup pages
 form.addEventListener("submit", handleSearch);
