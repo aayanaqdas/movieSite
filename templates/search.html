@@ -14,18 +14,7 @@
         <div class="nav_sitename">
           <i class="nav-icon fa-solid fa-bars"></i>
           <a href="/"><h2 class="site-name">MovieWorld</h2></a>
-          <div class="user-settings">
-            <i id="userSettingsIcon" class="nav-icon fa-solid fa-user"></i>
-            <div id="settingsMenu" class="user-settings-content hide-element">
-              <div id="loggedInUser">
-                <p id="loggedInUserText">Not logged in</p>
-              </div>
-              <a href="">Watchlist</a>
-              <a href="/">Link 2</a>
-              <a href="/login" id="settingsLoginLink" class="hide-element">Login</a>
-              <a href="#" id="settingsLogoutLink" class="hide-element">Log Out</a>
-            </div>
-          </div>
+          <i id="userSettingsIcon" class="nav-icon fa-solid fa-user"></i>
         </div>
         <form id="searchForm">
           <div class="searchbar">
@@ -33,6 +22,23 @@
             <input type="text" id="searchInput" placeholder="Search"  />
           </div>
         </form>
+        <div id="settingsMenu" class="hide-element">
+          <i class="fa-solid fa-x" id="closeSettingsIcon"></i>
+          <div class="menu-options">
+            <ul>
+              <li><a href="/">Home</a></li>
+              <li><a href="#">Watchlist</a></li>
+              <li><a href="/delete_account" id="settingsDeleteLink" class="hide-element">Delete account</a></li>
+            </ul>
+          </div>
+          <div class="user">
+            <div id="loggedInUser">
+              <p class="logged-in-as">Logged in as:</p>
+              <p id="loggedInUserText">Not logged in</p>
+            </div>
+            <button id="logOutBtn">Log In</button>
+          </div>
+        </div>
       </nav>
 
       <section class="content-container">

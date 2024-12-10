@@ -15,30 +15,31 @@
         <div class="nav_sitename">
           <i class="nav-icon fa-solid fa-bars"></i>
           <a href="/"><h2 class="site-name">Movie<span class="sitename-blue">World</span></h2></a>
-          <div class="user-icon_searchAndX-icon nav-icon">
-            <i class="fa-solid fa-magnifying-glass" id="searchIcon"></i>
-            <i class="fa-solid fa-x hide-element" id="xIcon"></i>
-            <div class="user-settings">
-              <i id="userSettingsIcon" class="fa-solid fa-user"></i>
-              <div id="settingsMenu" class="user-settings-content hide-element">
-                <div id="loggedInUser">
-                  <p id="loggedInUserText">Not logged in</p>
-                </div>
-                <a href="">Watchlist</a>
-                <a href="/">Link 2</a>
-                <a href="/login" id="settingsLoginLink" class="hide-element">Login</a>
-                <a href="#" id="settingsLogoutLink" class="hide-element">Log Out</a>
-              </div>
-            </div>
-          </div>
+          <i id="userSettingsIcon" class="nav-icon fa-solid fa-user"></i>
         </div>
-
-        <form id="searchForm" class="hide-element">
+        <form id="searchForm">
           <div class="searchbar">
             <i class="fa-solid fa-magnifying-glass" id="inputSearchIcon"></i>
             <input type="text" id="searchInput" placeholder="Search" />
           </div>
         </form>
+        <div id="settingsMenu" class="hide-element">
+          <i class="fa-solid fa-x" id="closeSettingsIcon"></i>
+          <div class="menu-options">
+            <ul>
+              <li><a href="/">Home</a></li>
+              <li><a href="#">Watchlist</a></li>
+              <li><a href="/delete_account" id="settingsDeleteLink" class="hide-element">Delete account</a></li>
+            </ul>
+          </div>
+          <div class="user">
+            <div id="loggedInUser">
+              <p class="logged-in-as">Logged in as:</p>
+              <p id="loggedInUserText">Not logged in</p>
+            </div>
+            <button id="logOutBtn">Log In</button>
+          </div>
+        </div>
       </nav>
 
       <div id="loader">

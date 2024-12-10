@@ -69,8 +69,19 @@
     cursor: pointer;
 }
 
+.delete-button{
+    background-color: #e50000;
+    color: white;
+}
+
 .login-button:hover, .signup-button:hover, .delete-button:hover{
     background-color: var(--yellow-hover);
+}
+
+.delete-button:hover{
+    background-color: transparent;
+    border: 1px solid #e50000;
+    color: #e50000;
 }
 
 .signup-link{

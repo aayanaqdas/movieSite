@@ -1,29 +1,18 @@
 import { createVideoModal } from "./pageCreators.js";
 
-function toggleSearchBar() {
-  //reveal searchbar in infopage so its possible to search
-  const searchIcon = document.getElementById("searchIcon");
-  const xIcon = document.getElementById("xIcon");
-  const searchBar = document.getElementById("searchForm");
 
-  searchIcon.onclick = function () {
-    searchIcon.classList.add("hide-element");
-    xIcon.classList.remove("hide-element");
-    searchBar.classList.remove("hide-element");
-  };
-
-  xIcon.onclick = function () {
-    searchIcon.classList.remove("hide-element");
-    xIcon.classList.add("hide-element");
-    searchBar.classList.add("hide-element");
-  };
-}
 
 function toggleSettingsMenu(){
   const userSettingsIcon = document.getElementById("userSettingsIcon");
+  const xIcon = document.getElementById("closeSettingsIcon");
   const settingsMenu = document.getElementById("settingsMenu");
   userSettingsIcon.onclick = function (){
     settingsMenu.classList.toggle("hide-element");
+    document.body.classList.toggle("lock-scroll")
+  }
+  xIcon.onclick = function (){
+    settingsMenu.classList.toggle("hide-element");
+    document.body.classList.toggle("lock-scroll")
   }
 }
 
@@ -53,4 +42,4 @@ function initYouTubeVideos() {
 }
 // document.addEventListener('DOMContentLoaded', initYouTubeVideos);
 
-export { initYouTubeVideos, toggleSearchBar, toggleSettingsMenu };
+export { initYouTubeVideos, toggleSettingsMenu };

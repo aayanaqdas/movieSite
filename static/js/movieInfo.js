@@ -5,7 +5,7 @@ import {
   createCreditsPageMovie,
   createCreditsPageTv,
 } from "./pageCreators.js";
-import { initYouTubeVideos, toggleSearchBar, toggleSettingsMenu } from "./eventHandlers.js";
+import { initYouTubeVideos, toggleSettingsMenu } from "./eventHandlers.js";
 import { initWatchlist } from "./watchlist.js";
 import { handleSearch } from "./search.js";
 
@@ -84,7 +84,6 @@ async function initInfoPage(mediaType, id) {
   initYouTubeVideos();
   initWatchlist();
 }
-toggleSearchBar();
 toggleSettingsMenu();
 initInfoPage(mediaType, id);
 
