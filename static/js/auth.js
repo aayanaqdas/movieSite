@@ -131,7 +131,6 @@ document.addEventListener("DOMContentLoaded", async () => {
 
 //update ui for logged in user
 function updateUIForLoggedInUser() {
-  if (window.location.pathname !== "/delete_account") {
     const logoutBtn = document.getElementById("logOutBtn");
     const deleteAccountBtn = document.getElementById("settingsDeleteLink");
     const loggedInUserTxtEL = document.getElementById("loggedInUserText");
@@ -139,7 +138,6 @@ function updateUIForLoggedInUser() {
     loggedInUserTxtEL.textContent = `${username}`;
     logoutBtn.textContent = "Log Out";    
     deleteAccountBtn.classList.remove("hide-element");
-  }
 }
 
 function statusPopup(status, message) {

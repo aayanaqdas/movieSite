@@ -93,6 +93,51 @@ a {
   cursor: pointer;
 }
 
+.menu{
+  display: flex;
+  justify-content: flex-end;
+}
+
+#settingsMenu{
+  width: 100%;
+  max-width: 500px;
+  height: 100vh;
+  position: absolute;
+  top: 0;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--input-background);
+  z-index: 1000;
+}
+
+.show-menu{ 
+  animation: menuSlideIn 0.2s forwards;
+}
+
+.hide-menu{
+  animation: menuSlideOut 0.2s forwards;
+}
+
+/* Slide-in animation */
+@keyframes menuSlideIn {
+ from {
+   right: -100%;
+ }
+ to {
+   right: 0;
+ }
+}
+
+/* Slide-out animation */
+@keyframes menuSlideOut {
+ from {
+   right: 0;
+ }
+ to {
+   right: -100%;
+ }
+}
+
 #closeSettingsIcon{
   width: 5px;
   font-size: 20px;
@@ -107,19 +152,6 @@ a {
 #closeSettingsIcon:hover{
   color: var(--yellow);
 }
-
-#settingsMenu{
-  width: 100%;
-  height: 100vh;
-  position: absolute;
-  top: 0;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  background-color: var(--input-background);
-  z-index: 1000;
-}
-
 .menu-options{
   width: 100%;
   height: 100vh;
@@ -160,10 +192,9 @@ a {
   display: flex;
   align-items: center;
   background-color: var(--background);
-  position:fixed;
+  position:absolute;
   bottom: 0;
-  width: 100%;
-  z-index: 1000;
+  width: inherit;
 }
 
 #loggedInUser{

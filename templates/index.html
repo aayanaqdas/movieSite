@@ -21,21 +21,23 @@
             <input type="text" id="searchInput" placeholder="Search" />
           </div>
         </form>
-        <div id="settingsMenu" class="hide-element">
-          <i class="fa-solid fa-x" id="closeSettingsIcon"></i>
-          <div class="menu-options">
-            <ul>
-              <li><a href="/">Home</a></li>
-              <li><a href="#">Watchlist</a></li>
-              <li><a href="/delete_account" id="settingsDeleteLink" class="hide-element">Delete account</a></li>
-            </ul>
-          </div>
-          <div class="user">
-            <div id="loggedInUser">
-              <p class="logged-in-as">Logged in as:</p>
-              <p id="loggedInUserText">Not logged in</p>
+        <div class="menu">
+          <div id="settingsMenu" class="hide-element">
+            <i class="fa-solid fa-x" id="closeSettingsIcon"></i>
+            <div class="menu-options">
+              <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="#">Watchlist</a></li>
+                <li><a href="/delete_account" id="settingsDeleteLink" class="hide-element">Delete account</a></li>
+              </ul>
             </div>
-            <button id="logOutBtn">Log In</button>
+            <div class="user">
+              <div id="loggedInUser">
+                <p class="logged-in-as">Logged in as:</p>
+                <p id="loggedInUserText">Not logged in</p>
+              </div>
+              <button id="logOutBtn">Log In</button>
+            </div>
           </div>
         </div>
       </nav>
