@@ -299,6 +299,9 @@ function createInfoPageMovie(movie) {
                 <button class="list-btn" data-id="${media.id}" data-name="${title}" data-poster="${poster}" data-type="movie"><i class="fa-solid fa-bookmark"></i></button>
             <a href="/info.html/movie/${media.id}">
                 <img src="${poster}" alt="${media.name}" />
+                  <div id="popup">
+                    <p id="popupMsg"></p>
+                  </div>                  
             </a>
         </div>
         `;
@@ -486,6 +489,9 @@ function createInfoPageTv(tv) {
                 <a href="/info.html/tv/${media.id}">
                     <span class="tv-label">TV</span>
                     <img src="${poster}" alt=${media.name}" />
+                    <div id="popup">
+                      <p id="popupMsg"></p>
+                    </div>                  
                 </a>
             </div>
         `;
@@ -518,7 +524,7 @@ function createInfoPageTv(tv) {
                   <p class="star">
                     <i class="fa-solid fa-star" style="color: #ffd43b"></i
                     > <span class="rating-number">${rating}</span><span class="total-stars">/10 (${voteCount || 0})</span></p>
-                  <button class="info-list-btn" data-id="${id}" data-name="${name}" data-poster="${poster}" data-type="movie"><i class="fa-solid fa-bookmark"></i></button>
+                  <button class="info-list-btn" data-id="${id}" data-name="${name}" data-poster="${poster}" data-type="tv"><i class="fa-solid fa-bookmark"></i></button>
                 </div>
               </div>
             </div>              
