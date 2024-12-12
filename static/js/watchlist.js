@@ -3,9 +3,6 @@ const watchlistSectionEl = document.getElementById("watchlistSection");
 const userInfo = JSON.parse(localStorage.getItem("userInfo"));
 
 
-
-
-
 function getWatchlistFromDb(){
   fetch('/watchlist', {
     method: 'POST',
@@ -184,6 +181,10 @@ function initWatchlist() {
     console.log("Login to use watchlist feature");
   }
 }
+
+if(window.location.pathname === "/watchlist"){
+  initWatchlist();
+};
 
 export { initWatchlist };
 

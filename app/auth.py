@@ -1,9 +1,14 @@
 # auth.py
 import json #provides functions for converting (dumps) and parsing (loads) JSON data
 import bcrypt #Password hashing
+import logging
 from flask import Blueprint, request, jsonify, current_app # jsonify is specifically used in Flask to create JSON response objects for HTTP requests.
 
 auth = Blueprint('auth', __name__)
+
+# Configure logging
+logging.basicConfig(level=logging.ERROR)
+
 
 def validate_user(username, password):
     try:
@@ -20,7 +25,7 @@ def validate_user(username, password):
                 return True
         return False
     except Exception as e:
-        print(f"Error validating user: {e}")
+        logging.error(f"Error validating user: {e}")
         return False
     
 def user_exists(username):
@@ -33,7 +38,7 @@ def user_exists(username):
         result = cursor.fetchone()
         return result is not None
     except Exception as e:
-        print(f"Error checking if user exists: {e}")
+        logging.error(f"Error checking if user exists: {e}")
         return False
     
 
@@ -45,12 +50,12 @@ def login():
         password = data.get('password')
 
         if validate_user(username, password):
-            return jsonify({'status': 'success', 'message': 'Login successful!', 'username': username})
+            return jsonify({'status': 'success', 'message': 'Login successful!', 'username': username}), 200
         else:
-            return jsonify({'status': 'error', 'message': 'Invalid username or password.'})
+            return jsonify({'status': 'error', 'message': 'Invalid username or password.', 'code': 'INVALID_CREDENTIALS'}), 401
     except Exception as e:
-        return jsonify({'status': 'error', 'message': 'An error occurred during login.', 'error': str(e)})
-
+        logging.error(f"Error during login: {e}")
+        return jsonify({'status': 'error', 'message': 'An error occurred during login.', 'code': 'LOGIN_ERROR'}), 500
 
 @auth.route('/signup', methods=['POST'])
 def signup():
@@ -60,16 +65,17 @@ def signup():
         password = data.get('password')
 
         if user_exists(username):
-            return jsonify({'status': 'error', 'message': 'Username taken.'})
+            return jsonify({'status': 'error', 'message': 'Username taken.', 'code': 'USERNAME_TAKEN'}), 400
         else:
             db = current_app.config['db']
             cursor = db.cursor(dictionary=True)
             hashed_password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
             cursor.execute("INSERT INTO users (username, password, watchlist) VALUES (%s, %s, %s)", (username, hashed_password, json.dumps([])))
             db.commit()
-            return jsonify({'status': 'success', 'message': 'Signup successful!', 'username': username})
+            return jsonify({'status': 'success', 'message': 'Signup successful!', 'username': username}), 201
     except Exception as e:
-        return jsonify({'status': 'error', 'message': 'An error occurred during signup.', 'error': str(e)})
+        logging.error(f"Error during signup: {e}")
+        return jsonify({'status': 'error', 'message': 'An error occurred during signup.', 'code': 'SIGNUP_ERROR'}), 500
 
 
 @auth.route('/delete_account', methods=['POST'])
@@ -86,11 +92,12 @@ def delete_account():
             query = "DELETE FROM users WHERE username=%s"
             cursor.execute(query, (username,))
             db.commit()
-            return jsonify({'status': 'success', 'message': 'Account deleted!'})
+            return jsonify({'status': 'success', 'message': 'Account deleted!'}), 200
         else:
-            return jsonify({'status': 'error', 'message': 'Invalid username or password.'})
+            return jsonify({'status': 'error', 'message': 'Invalid username or password.', 'code': 'INVALID_CREDENTIALS'}), 401
     except Exception as e:
-        return jsonify({'status': 'error', 'message': 'An error occurred during account deletion.', 'error': str(e)})
+        logging.error(f"Error during account deletion: {e}")
+        return jsonify({'status': 'error', 'message': 'An error occurred during account deletion.', 'code': 'DELETE_ACCOUNT_ERROR'}), 500
 
 
 @auth.route('/check_session', methods=['POST'])
@@ -100,11 +107,12 @@ def check_session():
         username = data.get('username').lower()
 
         if user_exists(username):
-            return jsonify({'status': 'success', 'message': 'User session is valid.'})
+            return jsonify({'status': 'success', 'message': 'User session is valid.'}), 200
         else:
-            return jsonify({'status': 'error', 'message': 'Invalid session.'})
+            return jsonify({'status': 'error', 'message': 'Invalid session.', 'code': 'INVALID_SESSION'}), 401
     except Exception as e:
-        return jsonify({'status': 'error', 'message': 'An error occurred during session check.', 'error': str(e)})
+        logging.error(f"Error during session check: {e}")
+        return jsonify({'status': 'error', 'message': 'An error occurred during session check.', 'code': 'SESSION_CHECK_ERROR'}), 500
 
 
 @auth.route('/watchlist', methods=['POST'])
@@ -121,11 +129,12 @@ def get_watchlist():
 
         if user:
             watchlist = json.loads(user['watchlist'] or '[]')
-            return jsonify({'status': 'success', 'message': 'Watchlist found', 'watchlist': watchlist})
+            return jsonify({'status': 'success', 'message': 'Watchlist found', 'watchlist': watchlist}), 200
         else:
-            return jsonify({'status': 'error', 'message': 'Database error, watchlist not found.'})
+            return jsonify({'status': 'error', 'message': 'Database error, watchlist not found.'}), 404
     except Exception as e:
-        return jsonify({'status': 'error', 'message': 'An error occurred during watchlist retrieval.', 'error': str(e)})
+        logging.error(f"Error during watchlist retrieval: {e}")
+        return jsonify({'status': 'error', 'message': 'An error occurred during watchlist retrieval.', 'code': 'WATCHLIST_RETRIEVAL_ERROR'}), 500
 
 
 
@@ -146,11 +155,12 @@ def add_to_watchlist():
             watchlist.append(media_item)
             cursor.execute("UPDATE users SET watchlist=%s WHERE username=%s", (json.dumps(watchlist), username))
             db.commit()
-            return jsonify({'status': 'success', 'message': 'Added to watchlist!', 'watchlist': watchlist})
+            return jsonify({'status': 'success', 'message': 'Added to watchlist!', 'watchlist': watchlist}), 201
         else:
-            return jsonify({'status': 'error', 'message': 'An error occurred.'})
+            return jsonify({'status': 'error', 'message': 'An error occurred.'}), 404
     except Exception as e:
-        return jsonify({'status': 'error', 'message': 'An error occurred during watchlist update.', 'error': str(e)})
+        logging.error(f"Error during watchlist update: {e}")
+        return jsonify({'status': 'error', 'message': 'An error occurred during watchlist update.', 'code': 'WATCHLIST_UPDATE_ERROR'}), 500
 
 
 @auth.route('/watchlist/remove', methods=['POST'])
@@ -171,8 +181,9 @@ def remove_from_watchlist():
             watchlist = [item for item in watchlist if item['id'] != media_id]
             cursor.execute("UPDATE users SET watchlist=%s WHERE username=%s", (json.dumps(watchlist), username))
             db.commit()
-            return jsonify({'status': 'success', 'message': 'Removed from watchlist!', 'watchlist': watchlist})
+            return jsonify({'status': 'success', 'message': 'Removed from watchlist!', 'watchlist': watchlist}), 200
         else:
-            return jsonify({'status': 'error', 'message': 'An error occurred.'})
+            return jsonify({'status': 'error', 'message': 'An error occurred.'}), 404
     except Exception as e:
-        return jsonify({'status': 'error', 'message': 'An error occurred', 'error': str(e)})
+        logging.error(f"Error during watchlist removal: {e}")
+        return jsonify({'status': 'error', 'message': 'An error occurred during watchlist removal.', 'code': 'WATCHLIST_REMOVAL_ERROR'}), 500

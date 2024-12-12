@@ -25,3 +25,4 @@ def signup_page():
 @main.route('/delete_account')
 def delete_form():
     return render_template('delete_form.html')
+

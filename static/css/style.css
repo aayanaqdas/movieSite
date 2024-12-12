@@ -52,7 +52,7 @@ body {
 }
 
 .lock-scroll {
-  overflow: hidden;
+  overflow: hidden !important;
 }
 
 .landing-page-container {
@@ -192,15 +192,16 @@ a {
   display: flex;
   align-items: center;
   background-color: var(--background);
-  position:absolute;
+  position:fixed;
   bottom: 0;
-  width: inherit;
+  width: 100%;
+  max-width: 500px;
 }
 
 #loggedInUser{
   color: var(--white);
-  width: 100%;
   padding: 20px 0px;
+  width: 100%;
 }
 
 .logged-in-as{
@@ -229,53 +230,6 @@ a {
 #logOutBtn:hover{
   background-color: var(--yellow-hover);
 }
-
-/* The container <div> - needed to position the dropdown content */
-/* .user-settings {
-  position: relative;
-  display: inline-block;
-} */
-
-/* Dropdown Content (Hidden by Default) */
-/* .user-settings-content {
-  display: none;
-  position: absolute;
-  right: 0;
-  background-color: var(--white);
-  color: var(--black);
-  min-width: 150px;
-  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
-
-  z-index: 1000;
-} */
-
-/* Links inside the dropdown */
-/* .user-settings-content a {
-  color: black;
-  padding: 12px 16px;
-  text-decoration: none;
-  display: block;
-} */
-
-/* Change color of dropdown links on hover */
-/* .user-settings-content a:hover {
-  background-color: var(--light-grey);
-} */
-
-/* Show the dropdown menu on hover */
-/* .user-settings:hover .user-settings-content {
-  display: block;
-} */
-/* 
-#loggedInUser {
-  padding: 12px 16px;
-  border-bottom: 3px solid var(--grey);
-}
-
-#loggedInUserText {
-  font-weight: bold;
-  font-size: 20px;
-} */
 
 .searchbar {
   margin: 0 auto;
