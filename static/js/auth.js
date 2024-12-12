@@ -95,9 +95,8 @@ document.addEventListener("DOMContentLoaded", async () => {
   if (deleteForm) {
     deleteForm.addEventListener("submit", async (e) => {
       e.preventDefault();
-      const username = document.getElementById("username").value;
+      const username = userInfo.username;
       const password = document.getElementById("pwd").value;
-
       try {
         const response = await fetch("/delete_account", {
           method: "POST",

@@ -73,6 +73,6 @@ async function init() {
 }
 
 form.addEventListener("submit", handleSearch);
-
-init();
 toggleSettingsMenu();
+init();
+

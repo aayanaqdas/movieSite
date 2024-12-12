@@ -7,15 +7,17 @@ function toggleSettingsMenu(){
   const xIcon = document.getElementById("closeSettingsIcon");
   const settingsMenu = document.getElementById("settingsMenu");
   userSettingsIcon.onclick = function (){
+    document.body.classList.toggle("lock-scroll")    
     settingsMenu.classList.toggle("hide-element");
     settingsMenu.classList.toggle("show-menu");    
-    document.body.classList.toggle("lock-scroll")
+
 
   }
   xIcon.onclick = function (){
+    document.body.classList.toggle("lock-scroll")    
     settingsMenu.classList.toggle("hide-element");
     settingsMenu.classList.toggle("show-menu");    
-    document.body.classList.toggle("lock-scroll")
+
 
   }
 }

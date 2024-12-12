@@ -52,7 +52,8 @@ body {
 }
 
 .lock-scroll {
-  overflow: hidden !important;
+  overflow-y: hidden !important;
+  overflow-x: hidden !important;
 }
 
 .landing-page-container {
