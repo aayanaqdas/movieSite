@@ -37,7 +37,8 @@ movieWorld/
 │   ├── info.html
 │   ├── login.html
 │   ├── search.html
-│   └── signup.html
+│   ├── signup.html
+│   └── delete_form.html
 ├── app/
 │   ├── __init__.py
 │   ├── api.py
@@ -130,6 +131,9 @@ Handles user login.
 
 `/signup`  
 Handles user signup.
+
+`/delete_account`  
+Handles account deletion.
 
 `/check_session`  
 Checks if user still exists
