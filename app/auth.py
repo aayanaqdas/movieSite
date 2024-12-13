@@ -2,17 +2,20 @@
 import json #provides functions for converting (dumps) and parsing (loads) JSON data
 import bcrypt #Password hashing
 import logging
-from flask import Blueprint, request, jsonify, current_app # jsonify is specifically used in Flask to create JSON response objects for HTTP requests.
+from flask import Blueprint, request, jsonify, current_app, g # jsonify is specifically used in Flask to create JSON response objects for HTTP requests.
 
 auth = Blueprint('auth', __name__)
 
 # Configure logging
 logging.basicConfig(level=logging.ERROR)
 
+def get_db():
+    return current_app.get_db()
 
 def validate_user(username, password):
     try:
-        db = current_app.config['db']
+        # db = current_app.config['db']
+        db = get_db()
         cursor = db.cursor(dictionary=True)
 
         query = "SELECT password FROM users WHERE username=%s"
@@ -30,7 +33,8 @@ def validate_user(username, password):
     
 def user_exists(username):
     try:
-        db = current_app.config['db']
+        # db = current_app.config['db']
+        db = get_db()
         cursor = db.cursor(dictionary=True)
 
         query = "SELECT username FROM users WHERE username=%s"
@@ -67,7 +71,8 @@ def signup():
         if user_exists(username):
             return jsonify({'status': 'error', 'message': 'Username taken.', 'code': 'USERNAME_TAKEN'}), 400
         else:
-            db = current_app.config['db']
+            # db = current_app.config['db']
+            db = get_db()
             cursor = db.cursor(dictionary=True)
             hashed_password = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
             cursor.execute("INSERT INTO users (username, password, watchlist) VALUES (%s, %s, %s)", (username, hashed_password, json.dumps([])))
@@ -86,7 +91,8 @@ def delete_account():
         password = data.get('password')
 
         if validate_user(username, password):
-            db = current_app.config['db']
+            # db = current_app.config['db']
+            db = get_db()
             cursor = db.cursor(dictionary=True)
 
             query = "DELETE FROM users WHERE username=%s"
@@ -121,7 +127,8 @@ def get_watchlist():
         data = request.get_json()
         username = data.get('username').lower()
 
-        db = current_app.config['db']
+        # db = current_app.config['db']
+        db = get_db()
         cursor = db.cursor(dictionary=True)
 
         cursor.execute("SELECT watchlist FROM users WHERE username=%s", (username,))
@@ -145,7 +152,8 @@ def add_to_watchlist():
         username = data.get('username').lower()
         media_item = data.get('media_item')
 
-        db = current_app.config['db']
+        # db = current_app.config['db']
+        db = get_db()
         cursor = db.cursor(dictionary=True)
 
         cursor.execute("SELECT watchlist FROM users WHERE username=%s", (username,))
@@ -170,7 +178,8 @@ def remove_from_watchlist():
         username = data.get('username').lower()
         media_id = data.get('media_id')
 
-        db = current_app.config['db']
+        # db = current_app.config['db']
+        db = get_db()
         cursor = db.cursor(dictionary=True)
 
         cursor.execute("SELECT watchlist FROM users WHERE username=%s", (username,))
