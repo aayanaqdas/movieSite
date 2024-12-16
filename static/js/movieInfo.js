@@ -14,6 +14,7 @@ const loader = document.getElementById("loader");
 
 const form = document.getElementById("searchForm");
 
+// Function to fetch and display media details based on media type (movie or tv) and ID
 async function fetchAndShowResults(mediaType, mediaId) {
   try {
     const response = await fetch(`/info/${mediaType}/${mediaId}`);
@@ -31,7 +32,7 @@ async function fetchAndShowResults(mediaType, mediaId) {
   }
 }
 
-//Create the correct page based on the mediaType
+//Create the correct page based on the mediaType. item is the fetched data containing the details.
 function showResults(item, mediaType) {
   if (mediaType === "movie") {
     const infoContent = createInfoPageMovie(item);
@@ -61,7 +62,7 @@ const splitUrl = windowUrl.pathname.split("/");
 const mediaType = splitUrl[2];
 const id = splitUrl[3];
 
-//get info from api requests
+// initialize the page by sending a fetch request to the server with the mediaType and id
 async function initInfoPage(mediaType, id) {
   if (mediaType === "tv") {
     const tvId = id;
@@ -81,11 +82,17 @@ async function initInfoPage(mediaType, id) {
     const creditsId = id;
     await fetchAndShowResults(mediaType, creditsId);
   }
+  // Initialize the YouTube videos and watchlist
   initYouTubeVideos();
-  initWatchlist();
+  initWatchlist(); // need it for knowing if the media is in the watchlist and to add/remove it
 }
+
+// Initialize the settings menu toggle functionality
 toggleSettingsMenu();
+
+// Initialize the info page
 initInfoPage(mediaType, id);
 
+// Add event listener to the search form
 form.addEventListener("submit", handleSearch);
 

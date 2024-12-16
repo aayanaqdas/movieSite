@@ -36,6 +36,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
   }
 
+  // Handle login form submission
   if (loginForm) {
     loginForm.addEventListener("submit", async (e) => {
       e.preventDefault();
@@ -64,6 +65,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     });
   }
 
+  // Handle signup form submission
   if (signupForm) {
     signupForm.addEventListener("submit", async (e) => {
       e.preventDefault();
@@ -92,6 +94,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     });
   }
 
+  // Handle delete account form submission
   if (deleteForm) {
     deleteForm.addEventListener("submit", async (e) => {
       e.preventDefault();
@@ -139,6 +142,7 @@ function updateUIForLoggedInUser() {
     deleteAccountBtn.classList.remove("hide-element");
 }
 
+//show status popup with message from database like invalid username or password
 function statusPopup(status, message) {
   const authPopupEl = document.getElementById("authStatusPopupEl");
   const authMsg = document.getElementById("authMessage");
@@ -164,6 +168,8 @@ function logout() {
   localStorage.setItem("userInfo", JSON.stringify(userInfo));
   window.location.href = "/";
 }
+
+// add event listener to logout button
 const logoutBtn = document.getElementById("logOutBtn");
 if (userInfo.loggedIn == true && userInfo.username != ""){
 logoutBtn.addEventListener("click", logout);  

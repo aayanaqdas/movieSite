@@ -74,7 +74,7 @@ async function fetchAndShowSearchMovie(url) {
   
       loadMovieBtn.innerText = `Movies: ${totalResultsMovie}`;
       console.log("current results for movie: " + currentResultsMovie);
-      generateSkeletons(10); // Generate skeletons based on current results length
+      generateSkeletons(10); 
     }
   } catch (error) {
     console.error("Error fetching movie details:", error);
@@ -99,7 +99,7 @@ async function fetchAndShowSearchTv(url) {
   
       loadTvBtn.innerText = `TV Shows: ${totalResultsTv}`;
       console.log("Total results for tv: " + totalResultsTv);
-      generateSkeletons(10); // Generate skeletons based on current results length
+      generateSkeletons(10); 
     }
   } catch (error) {
     console.error("Error fetching movie details:", error);
@@ -124,13 +124,14 @@ async function fetchAndShowSearchPerson(url) {
   
       loadPersonBtn.innerText = `People: ${totalResultsPerson}`;
       console.log("Total results for people: " + totalResultsPerson);
-      generateSkeletons(10); // Generate skeletons based on current results length
+      generateSkeletons(10); 
     }
   } catch (error) {
     console.error("Error fetching movie details:", error);
   }
 }
 
+// Function to show search results based on media type
 function showSearchResults(item, mediaType) {
   const searchContent = item
     .map((media) => {
@@ -166,7 +167,7 @@ function clearResults() {
   currentResultsPerson = 0;
 }
 
-// Handle search
+// Handle search from search form
 async function handleSearch(e) {
   e.preventDefault();
   const searchTermInput = query.value.trim();
@@ -181,7 +182,7 @@ async function handleSearch(e) {
 
 export { handleSearch };
 
-// Load more results
+// Load more results by increasing page count and sending new request
 function loadMoreResults() {
   const urlParams = new URLSearchParams(window.location.search);
   const urlQuery = urlParams.get("query");
@@ -207,12 +208,14 @@ function loadMoreResults() {
 
 // Detect end of page and load more results
 function detectEnd() {
-  //if results that are loaded in is not the same as the results available from api
+  // Check if results loaded in are less than the total results available from API
   if (
     loadMovieBtn.classList.contains("active") &&
     currentResultsMovie < totalResultsMovie
   ) {
+      // Get the current scroll position and document height
     const { scrollTop, clientHeight, scrollHeight } = document.documentElement;
+      // Check if the user has scrolled to within 200 pixels of the bottom of the page
     if (scrollTop + clientHeight >= scrollHeight - 200) {
       loadMoreResults();
     }
@@ -238,8 +241,9 @@ function detectEnd() {
 // Event listeners
 form.addEventListener("submit", handleSearch);
 
-// loadMoreBtn.addEventListener("click", loadMoreResults)
+// Add event listeners for loading results based on button you clicked
 if (window.location.pathname === "/search.html") {
+  // Add event listener for scrolling to detect end of page
   window.addEventListener("scroll", detectEnd);
 
   loadMovieBtn.addEventListener("click", () => {
@@ -276,7 +280,7 @@ async function initSearch() {
     searchTerm = urlQuery;
     clearResults();
     skeletonContainer.classList.remove("hide-element");
-    generateSkeletons(10); // Generate 10 skeletons initially
+    generateSkeletons(10); 
 
     const newUrlMovie = `/search/movie?query=${searchTerm}&page=${page}`;
     const newUrlTv = `/search/tv?query=${searchTerm}&page=${page}`;
@@ -292,5 +296,9 @@ async function initSearch() {
     totalResultsText.innerText = `(Results: ${totalResults})`;
   }
 }
+
+// Initialize the settings menu toggle functionality
 toggleSettingsMenu();
+
+// Initialize the search functionality
 initSearch();

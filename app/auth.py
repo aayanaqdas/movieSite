@@ -2,13 +2,15 @@
 import json #provides functions for converting (dumps) and parsing (loads) JSON data
 import bcrypt #Password hashing
 import logging
-from flask import Blueprint, request, jsonify, current_app, g # jsonify is specifically used in Flask to create JSON response objects for HTTP requests.
+from flask import Blueprint, request, jsonify, current_app # jsonify is specifically used in Flask to create JSON response objects for HTTP requests.
 
+# Create a Blueprint for authentication routes
 auth = Blueprint('auth', __name__)
 
 # Configure logging
 logging.basicConfig(level=logging.ERROR)
 
+# Function to get the database connection from the current app context
 def get_db():
     return current_app.get_db()
 
@@ -24,6 +26,7 @@ def validate_user(username, password):
         result = cursor.fetchone()
         if result:
             db_password = result['password']
+            # Check if the provided password matches the hashed password in the database
             if bcrypt.checkpw(password.encode('utf-8'), db_password.encode('utf-8')):
                 return True
         return False

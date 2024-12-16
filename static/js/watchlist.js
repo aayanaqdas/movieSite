@@ -3,6 +3,7 @@ const watchlistSectionEl = document.getElementById("watchlistSection");
 const userInfo = JSON.parse(localStorage.getItem("userInfo"));
 
 
+// fetch watchlist associated with the username from the database and add it to localstorage
 function getWatchlistFromDb(){
   fetch('/watchlist', {
     method: 'POST',
@@ -22,17 +23,17 @@ function getWatchlistFromDb(){
   });
 }
 
-
+// Update the watchlist by adding or removing media items
 async function updateWatchList() {
   const addToListBtns = document.querySelectorAll(".list-btn, .info-list-btn");
 
-  // Remove existing event listeners
+  // Remove existing event listeners by cloning and replacing each button
   addToListBtns.forEach((btn) => {
     const newBtn = btn.cloneNode(true);
     btn.parentNode.replaceChild(newBtn, btn);
   });
 
-  // Add new event listeners
+  // Add new event listeners to the buttons
   document.querySelectorAll(".list-btn, .info-list-btn").forEach((btn) => {
     btn.addEventListener("click", async () => {
       const mediaId = btn.dataset.id;
@@ -47,12 +48,14 @@ async function updateWatchList() {
         mediaType: mediaType,
       };
 
-      // Check if the media item is in the watchlist
+      // Check if the media item is already in the watchlist
       const isInWatchlist = userInfo.watchlist.some((media) => media.id === mediaId);
+      // If the media item is in the watchlist, remove it and fetch updated database
       if (isInWatchlist) {
         await removeMediaFromWatchlistDb(mediaId);
         getWatchlistFromDb();
       } else {
+        // If the item is not in the watchlist, add it to the watchlist and update the database
         btn.classList.add("active");
         console.log(
           `Save button clicked for ${mediaPoster} with ID ${mediaId}`
@@ -65,12 +68,13 @@ async function updateWatchList() {
       }
     });
 
+      // Mark the button as active if the media item is already in the watchlist
     if (userInfo.watchlist.map((media) => media.id).includes(btn.dataset.id)) {
       btn.classList.add("active");
     }
   });
 }
-
+// Add a media item to the watchlist in the database. mediaitem is an object containing the media id, title, poster and mediaType
 async function addMediaToWatchlistDb(mediaItem) {
   const response = await fetch('/watchlist/add', {
     method: 'POST',
@@ -90,6 +94,7 @@ async function addMediaToWatchlistDb(mediaItem) {
 }
 
 
+// remove a media from the watchlist in the database based on the id
 async function removeMediaFromWatchlistDb(mediaId) {
   const response = await fetch('/watchlist/remove', {
     method: 'POST',
@@ -114,6 +119,7 @@ async function removeMediaFromWatchlistDb(mediaId) {
   statusPopup(mediaId, result.message);
 }
 
+// Create watchlist cards based on the media items in the watchlist
 function createWatchlistCards() {
   if (window.location.pathname === "/") {
     const watchlistArray = userInfo.watchlist || [];
@@ -123,7 +129,7 @@ function createWatchlistCards() {
       watchlistSectionEl.innerHTML =
         '<p class="add-to-watchlist-text">Your watchlist is empty</p>';
     }
-    const reversedWatchlist = [...watchlistArray].reverse(); // Reverse watchlist array so it shows the newly added first
+    const reversedWatchlist = [...watchlistArray].reverse(); // makes a copy of the watchlist array and reverses it and shows the latest added media first
     reversedWatchlist.forEach((media) => {
       const tvCardTemplate = `
             <div class="tv-card card" data-id="${media.id}">
@@ -167,6 +173,7 @@ function statusPopup(media, message){
     });
 }
 
+// Initialize the watchlist by fetching data and updating the UI
 function initWatchlist() {
   const loggedIn = userInfo.loggedIn;
   if (loggedIn) {
@@ -182,6 +189,7 @@ function initWatchlist() {
   }
 }
 
+// Initialize the watchlist if the user is on the watchlist page
 if(window.location.pathname === "/watchlist"){
   initWatchlist();
 };
